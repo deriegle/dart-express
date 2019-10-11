@@ -4,8 +4,6 @@ main() {
   var app = express();
 
   app.get('/', (req, res, next) {
-    print('next');
-
     next();
   });
 
@@ -27,5 +25,5 @@ main() {
     res.close();
   });
 
-  app.listen(3000, (port) => print('Listening on port $port'));
+  app.listen(5000, (port) => print('Listening on port $port'));
 }

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/layer.dart';
+import 'package:dart_express/src/middleware/init.dart';
+
 class RouterOptions {
   final bool caseSensitive;
   final bool mergeParams;
@@ -29,7 +31,7 @@ class Router {
   }
 
   Router use(Function cb) {
-    var layer = Layer('/', handle: cb);
+    var layer = Layer('/', handle: cb, name: Middleware.name);
 
     this.stack.add(layer);
 
@@ -40,7 +42,6 @@ class Router {
     var self = this;
     var stack = self.stack;
     var index = 0;
-
 
     next() {
       var path = req.requestedUri.path;

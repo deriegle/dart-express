@@ -1,12 +1,17 @@
-import 'package:http/http.dart' as http;
+import 'dart:io';
 import 'package:dart_express/src/app.dart';
 
 class Middleware {
-  init(App app) {
-    return (http.Request req, http.Response res, Function next) {
+  static final String name = 'EXPRESS_INIT';
+
+  static init(App app) {
+    return (HttpRequest req, HttpResponse res, Function next) {
+      print('MIDDLE WARE');
+
       next();
     };
   }
+
 }
 
 var middleware = Middleware();

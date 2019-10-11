@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'middleware/init.dart';
 import 'package:dart_express/src/route.dart';
 
 class Layer {
@@ -6,16 +7,22 @@ class Layer {
   String method;
   RouteMethod handle;
   Route route;
+  String name;
 
-  String get name => '<anonymous>';
   String get path => this._path ?? this.route.path;
 
-  Layer(this._path, { this.method, this.handle, this.route });
+  Layer(this._path, { this.method, this.handle, this.route, this.name }) {
+    this.name = this.name ?? '<anonymous>';
+  }
 
   match(path) {
-    if (this.route == null) { return false; }
+    if (this.route != null && this.route.path == path) {
+      return true;
+    } else if (this.name == Middleware.name) {
+      return true;
+    }
 
-    return this.route.path == path;
+    return false;
   }
 
   handleRequest(HttpRequest req, HttpResponse res, Next next) {

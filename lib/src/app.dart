@@ -52,8 +52,8 @@ class App {
   lazyRouter() {
     if (this._router == null) {
       this._router = Router();
-
-      this._router.use(middleware.init(this));
     }
+
+    this._router.use(Middleware.init(this));
   }
 }
