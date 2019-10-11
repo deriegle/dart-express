@@ -7,7 +7,6 @@ App express() {
 }
 
 class App {
-  int listeningPort;
   HttpServer _server;
   Map cache;
   Map settings;
@@ -20,7 +19,7 @@ class App {
     this.engines,
   });
 
-  delete(String path, RouteMethod cb) {
+  delete(String path, Function cb) {
     this.lazyRouter();
 
     var route = this._router.route(path, 'delete');
@@ -82,8 +81,6 @@ class App {
   }
 
   listen(int port, [Function(int) cb]) async {
-    this.listeningPort = port;
-
     this._server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
 
     this._server.listen((HttpRequest req) {
