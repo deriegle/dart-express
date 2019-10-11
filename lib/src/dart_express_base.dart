@@ -98,7 +98,7 @@ class App {
   }
 
   handle(HttpRequest req, HttpResponse res, { Next next }) {
-    this._router.handle(req, res, next: next);
+    this._router.handle(req, res);
   }
 
   lazyRouter() {

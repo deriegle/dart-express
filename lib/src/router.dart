@@ -30,32 +30,33 @@ class Router {
     return route;
   }
 
-  handle(HttpRequest req, HttpResponse res, { Next next }) {
-    var path = req.requestedUri.path;
-
-    bool match = false;
-    Layer layer;
-    Route route;
+  handle(HttpRequest req, HttpResponse res) {
+    var self = this;
+    var stack = self.stack;
     var index = 0;
 
-    while(match != true && index < this.stack.length) {
-      layer = this.stack[index++];
-      match = matchLayer(layer, path);
-      route = layer.route;
 
-      if (match != true || route == null) {
-        continue;
-      }
+    next() {
+      var path = req.requestedUri.path;
 
-      if (layer != null) {
-        layer = route.stack.firstWhere((l) => l.method.toUpperCase() == req.method.toUpperCase());
+      bool match = false;
+      Layer layer;
+      Route route;
 
-        return layer.handleRequest(req, res, next: next);
+      while(match != true && index < stack.length) {
+        layer = stack[index++];
+        match = matchLayer(layer, path);
+        route = layer.route;
+
+        if (match != true || route == null) {
+          continue;
+        }
+
+        route.stack.first.handleRequest(req, res, next);
       }
     }
 
-    res.statusCode = 404;
-    res.close();
+    next();
   }
 
   matchLayer(Layer layer, String path) {

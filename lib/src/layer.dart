@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:dart_express/src/route.dart';
 
 class Layer {
   String method;
-  Function handle;
+  RouteMethod handle;
   Route route;
 
   String get name => '<anonymous>';
@@ -17,7 +16,7 @@ class Layer {
     return this.route.path == path;
   }
 
-  handleRequest(HttpRequest req, HttpResponse res, { Next next }) {
+  handleRequest(HttpRequest req, HttpResponse res, Next next) {
     try {
       this.handle(req, res, next);
     } catch (err) {
