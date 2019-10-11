@@ -45,7 +45,6 @@ class Router {
 
     next() {
       var path = req.requestedUri.path;
-
       bool match = false;
       Layer layer;
       Route route;
@@ -55,11 +54,15 @@ class Router {
         match = matchLayer(layer, path);
         route = layer.route;
 
-        if (match != true || route == null) {
-          continue;
-        }
+        if (match != true) { continue; }
+        if (route == null) { continue; }
 
         route.stack.first.handleRequest(req, res, next);
+      }
+
+      if (match) {
+        print('how many times does this fall through');
+        layer.handleRequest(req, res, next);
       }
     }
 

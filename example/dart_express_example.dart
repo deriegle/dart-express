@@ -3,10 +3,6 @@ import 'package:dart_express/dart_express.dart';
 main() {
   var app = express();
 
-  app.get('/', (req, res, next) {
-    next();
-  });
-
   app.get('/', (req, res, _)  {
     res.statusCode = 200;
     res.write('Hello, world');

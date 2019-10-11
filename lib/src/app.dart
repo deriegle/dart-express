@@ -51,9 +51,9 @@ class App {
 
   lazyRouter() {
     if (this._router == null) {
-      this._router = Router();
-    }
+      print('how many times is this called?');
 
-    this._router.use(Middleware.init(this));
+      this._router = Router().use(Middleware.init);
+    }
   }
 }
