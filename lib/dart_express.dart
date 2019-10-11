@@ -4,5 +4,6 @@
 library dart_express;
 
 export 'src/dart_express_base.dart';
+export 'src/route.dart';
 
 // TODO: Export any libraries intended for clients of this package.

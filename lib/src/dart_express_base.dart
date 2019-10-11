@@ -1,6 +1,109 @@
-// TODO: Put public facing types in this file.
+import 'package:dart_express/src/router.dart';
+import 'package:dart_express/src/route.dart';
+import 'dart:io';
 
-/// Checks if you are awesome. Spoiler: you are.
-class Awesome {
-  bool get isAwesome => true;
+App express() {
+  return App();
+}
+
+class App {
+  int listeningPort;
+  HttpServer _server;
+  Map cache;
+  Map settings;
+  Map engines;
+  Router _router;
+
+  App({
+    this.cache,
+    this.settings,
+    this.engines,
+  });
+
+  delete(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.delete(cb);
+    return route;
+  }
+
+  get(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.get(cb);
+
+    return route;
+  }
+
+  head(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.head(cb);
+    return route;
+  }
+
+  patch(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.patch(cb);
+
+    return route;
+  }
+
+  post(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.post(cb);
+
+    return route;
+  }
+
+  put(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.put(cb);
+
+    return route;
+  }
+
+  read(String path, RouteMethod cb) {
+    this.lazyRouter();
+
+    var route = this._router.route(path);
+    route.read(cb);
+
+    return route;
+  }
+
+  listen(int port, [Function(int) cb]) async {
+    this.listeningPort = port;
+
+    this._server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
+
+    this._server.listen((HttpRequest req) {
+      this.handle(req, req.response);
+    });
+
+    print("Address: ${this._server.address}");
+
+    if (cb != null) {
+      cb(this._server.port);
+    }
+  }
+
+  handle(HttpRequest req, HttpResponse res, { Next next }) {
+    this._router.handle(req, res, next: next);
+  }
+
+  lazyRouter() {
+    if (this._router == null) {
+      this._router = Router();
+    }
+  }
 }
