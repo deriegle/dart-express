@@ -20,11 +20,9 @@ class Layer {
       return true;
     }
 
-    if (this.route != null && this.route.path == pathToCheck) {
-      return true;
-    }
+    if (this.route == null) { return false; }
 
-    return false;
+    return this.route.path == pathToCheck;
   }
 
   handleRequest(HttpRequest req, HttpResponse res, Next next) {

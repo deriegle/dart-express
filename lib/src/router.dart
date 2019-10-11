@@ -60,8 +60,8 @@ class Router {
         route.stack.first.handleRequest(req, res, next);
       }
 
+      // TODO: Fix multiple fall throughs calling middleware twice
       if (match) {
-        print('how many times does this fall through');
         layer.handleRequest(req, res, next);
       }
     }
