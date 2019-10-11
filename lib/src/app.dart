@@ -17,17 +17,11 @@ class App {
   });
 
   Route delete(String path, Function cb) => buildRoute(path, cb, 'delete');
-
   Route get(String path, RouteMethod cb) => buildRoute(path, cb, 'get');
-
   Route head(String path, RouteMethod cb) => buildRoute(path, cb, 'head');
-
   Route patch(String path, RouteMethod cb) => buildRoute(path, cb, 'patch');
-
   Route post(String path, RouteMethod cb) => buildRoute(path, cb, 'post');
-
   Route put(String path, RouteMethod cb) => buildRoute(path, cb, 'put');
-
   Route read(String path, RouteMethod cb) => buildRoute(path, cb, 'read');
 
   listen(int port, [Function(int) cb]) async {
