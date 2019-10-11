@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:dart_express/src/route.dart';
 
 class Layer {
+  String method;
   Function handle;
   Route route;
 
   String get name => '<anonymous>';
 
-  Layer({ this.handle, this.route });
+  Layer({ this.method, this.handle, this.route });
 
   match(path) {
     if (this.route == null) { return false; }

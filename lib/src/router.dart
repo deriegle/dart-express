@@ -21,9 +21,9 @@ class Router {
 
   Router({this.options = const RouterOptions()});
 
-  Route route(String path) {
+  Route route(String path, String method) {
     var route = Route(path);
-    var layer = Layer(handle: route.dispatch, route: route);
+    var layer = Layer(method: method, handle: route.dispatch, route: route);
 
     this.stack.add(layer);
 
@@ -47,10 +47,15 @@ class Router {
         continue;
       }
 
-      route.stack.first.handleRequest(req, res, next: next);
+      if (layer != null) {
+        layer = route.stack.firstWhere((l) => l.method.toUpperCase() == req.method.toUpperCase());
+
+        return layer.handleRequest(req, res, next: next);
+      }
     }
 
-    this.stack.first.route.stack.first.handleRequest(req, res, next: next);
+    res.statusCode = 404;
+    res.close();
   }
 
   matchLayer(Layer layer, String path) {

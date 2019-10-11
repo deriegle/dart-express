@@ -23,7 +23,7 @@ class App {
   delete(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'delete');
     route.delete(cb);
     return route;
   }
@@ -31,7 +31,7 @@ class App {
   get(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'get');
     route.get(cb);
 
     return route;
@@ -40,7 +40,7 @@ class App {
   head(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'head');
     route.head(cb);
     return route;
   }
@@ -48,7 +48,7 @@ class App {
   patch(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'patch');
     route.patch(cb);
 
     return route;
@@ -57,7 +57,7 @@ class App {
   post(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'post');
     route.post(cb);
 
     return route;
@@ -66,7 +66,7 @@ class App {
   put(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'put');
     route.put(cb);
 
     return route;
@@ -75,7 +75,7 @@ class App {
   read(String path, RouteMethod cb) {
     this.lazyRouter();
 
-    var route = this._router.route(path);
+    var route = this._router.route(path, 'read');
     route.read(cb);
 
     return route;
