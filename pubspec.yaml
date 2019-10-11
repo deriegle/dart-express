@@ -1,11 +1,11 @@
 name: dart_express
-description: A starting point for Dart libraries or applications.
-# version: 1.0.0
-# homepage: https://www.example.com
-# author: Devin Riegle <riegledevin@gmail.com>
+description: A express-like HTTP framework built in Dart
+version: 1.0.0
+homepage: https://www.example.com
+author: Devin Riegle <riegledevin@gmail.com>
 
 environment:
-  sdk: '>=2.5.0 <3.0.0'
+  sdk: '>=2.3.0 <3.0.0'
 
 dependencies:
   http: any
