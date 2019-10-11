@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dart_express/src/middleware/init.dart';
 import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/router.dart';
 
@@ -57,6 +58,8 @@ class App {
   lazyRouter() {
     if (this._router == null) {
       this._router = Router();
+
+      this._router.use(middleware.init(this));
     }
   }
 }

@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/layer.dart';
-
 class RouterOptions {
   final bool caseSensitive;
   final bool mergeParams;
@@ -23,11 +21,19 @@ class Router {
 
   Route route(String path, String method) {
     var route = Route(path);
-    var layer = Layer(method: method, handle: route.dispatch, route: route);
+    var layer = Layer(path, method: method, handle: route.dispatch, route: route);
 
     this.stack.add(layer);
 
     return route;
+  }
+
+  Router use(Function cb) {
+    var layer = Layer('/', handle: cb);
+
+    this.stack.add(layer);
+
+    return this;
   }
 
   handle(HttpRequest req, HttpResponse res) {
