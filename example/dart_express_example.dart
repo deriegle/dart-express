@@ -28,7 +28,13 @@ main() {
   });
 
   app.get('/2', (req, res, _) {
-    res.html('<h1>Hello, world</h1><p>Hi there. I am testing the sending of HTML from my dart express server</p><h2>Here is the second heading</h2>');
+    res.render('index');
+  });
+
+  app.get('/3', (req, res, _) {
+    res.render('about', {
+      'first_name': 'Devin Riegle',
+    });
   });
 
   app.post('/post',(Request req, Response res, _) async {

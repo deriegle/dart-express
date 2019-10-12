@@ -1,3 +1,5 @@
+import "package:path/path.dart" show dirname, join;
+import 'package:mustache4dart/mustache4dart.dart' as mustache;
 import 'dart:convert' as convert;
 import 'dart:io';
 
@@ -20,6 +22,14 @@ class Response extends HttpResponse {
     }
 
     return this;
+  }
+
+  render(String templateName, [Map<String, dynamic> locals]) {
+    var currentDirectory = join(dirname(Platform.script.path), 'views/$templateName.html');
+
+    File.fromUri(Uri.file(currentDirectory, windows: false)).readAsString().then((str) {
+      this.html(mustache.render(str, locals));
+    }).catchError((e) => print(e));
   }
 
   Response html(String html) {

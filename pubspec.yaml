@@ -8,6 +8,7 @@ environment:
   sdk: '>=2.3.0 <3.0.0'
 
 dependencies:
+  path: any
   http: any
   meta: any
   mustache4dart: any
