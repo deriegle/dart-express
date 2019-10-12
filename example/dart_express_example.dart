@@ -28,7 +28,7 @@ main() {
   });
 
   app.get('/2', (req, res, _) {
-    res.set('Content-Type', 'application/html').send('<h1>Hello, world</h1>');
+    res.html('<h1>Hello, world</h1><p>Hi there. I am testing the sending of HTML from my dart express server</p><h2>Here is the second heading</h2>');
   });
 
   app.post('/post',(Request req, Response res, _) async {

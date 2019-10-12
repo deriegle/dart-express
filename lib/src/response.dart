@@ -11,7 +11,7 @@ class Response extends HttpResponse {
       this.json(body);
     } else if (body is String) {
       if (headers.contentType == null) {
-        this.headers.contentType = ContentType.text;
+        this.headers.add('Content-Type', 'text/plain');
       }
 
       this.encoding = convert.Encoding.getByName('utf-8');
@@ -19,6 +19,12 @@ class Response extends HttpResponse {
       this.close();
     }
 
+    return this;
+  }
+
+  Response html(String html) {
+    this.headers.contentType = ContentType.html;
+    this.send(html);
     return this;
   }
 
