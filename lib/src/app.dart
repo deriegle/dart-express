@@ -4,31 +4,12 @@ import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/router.dart';
 import 'package:dart_express/src/response.dart';
 import 'package:dart_express/src/request.dart';
+import 'package:dart_express/src/http_methods.dart';
 
 class AppSettings {
   String viewsPath;
 
   AppSettings({this.viewsPath = './views'});
-}
-
-class HTTPMethods {
-  static String GET = 'get';
-  static String POST = 'post';
-  static String DELETE = 'delete';
-  static String HEAD = 'head';
-  static String PATCH = 'patch';
-  static String PUT = 'put';
-  static String READ = 'read';
-
-  static List<String> ALL = [
-    GET,
-    POST,
-    DELETE,
-    HEAD,
-    PATCH,
-    PUT,
-    READ
-  ];
 }
 
 class App {
@@ -57,7 +38,7 @@ class App {
   Route read(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.READ);
 
   List<Route> all(String path, RouteMethod cb) {
-    var routes = [];
+    List<Route> routes = [];
 
     HTTPMethods.ALL.forEach((method) {
       routes.add(buildRoute(path, cb, method));

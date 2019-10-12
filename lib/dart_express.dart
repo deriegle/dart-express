@@ -9,5 +9,6 @@ export 'src/app.dart';
 export 'src/request.dart';
 export 'src/response.dart';
 export 'src/middleware/body_parser.dart';
+export 'src/http_methods.dart';
 
 // TODO: Export any libraries intended for clients of this package.

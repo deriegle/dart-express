@@ -45,6 +45,7 @@ class Router {
 
     next() {
       String path = req.requestedUri.path;
+      String method = req.method;
 
       // find next matching layer
       Layer layer;
@@ -53,7 +54,7 @@ class Router {
 
       while (match != true && index < stack.length) {
         layer = stack[index++];
-        match = matchLayer(layer,path);
+        match = matchLayer(layer, path, method);
         route = layer.route;
 
         if (match != true) {
@@ -67,6 +68,7 @@ class Router {
         route.stack.first.handleRequest(req, res, next);
       }
 
+      // Matched without a route (Initial Middleware)
       if(match && route == null) {
         layer.handleRequest(req, res, next);
       }
@@ -75,9 +77,9 @@ class Router {
     next();
   }
 
-  matchLayer(Layer layer, String path) {
+  matchLayer(Layer layer, String path, String methodToCheck) {
     try {
-      return layer.match(path);
+      return layer.match(path, methodToCheck);
     } catch(err) {
       return err;
     }

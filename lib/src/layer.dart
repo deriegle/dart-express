@@ -15,8 +15,8 @@ class Layer {
     this.name = this.name ?? '<anonymous>';
   }
 
-  match(pathToCheck) {
-    if (this.route != null && this.route.path == pathToCheck) {
+  match(pathToCheck, methodToCheck) {
+    if (this.route != null && this.route.path == pathToCheck && methodToCheck == this.method) {
       return true;
     } else if (this.name == Middleware.name) {
       return true;
