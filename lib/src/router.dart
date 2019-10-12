@@ -45,7 +45,6 @@ class Router {
 
     next() {
       String path = req.requestedUri.path;
-      String method = req.method;
 
       // find next matching layer
       Layer layer;
@@ -54,7 +53,7 @@ class Router {
 
       while (match != true && index < stack.length) {
         layer = stack[index++];
-        match = matchLayer(layer, path, method);
+        match = matchLayer(layer, path);
         route = layer.route;
 
         if (match != true) {
@@ -77,9 +76,9 @@ class Router {
     next();
   }
 
-  matchLayer(Layer layer, String path, String methodToCheck) {
+  matchLayer(Layer layer, String path) {
     try {
-      return layer.match(path, methodToCheck);
+      return layer.match(path);
     } catch(err) {
       return err;
     }
