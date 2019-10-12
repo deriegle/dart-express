@@ -25,6 +25,11 @@ class Response extends HttpResponse {
     return this.send(convert.json.encode(body));
   }
 
+  Response status(int code) {
+    this.statusCode = code;
+    return this;
+  }
+
   @override
   convert.Encoding encoding;
 
