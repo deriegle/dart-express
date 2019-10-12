@@ -10,6 +10,7 @@ environment:
 dependencies:
   http: any
   meta: any
+  mustache4dart: any
 
 dev_dependencies:
   pedantic: ^1.8.0
