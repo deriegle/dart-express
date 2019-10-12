@@ -5,18 +5,40 @@ import 'package:dart_express/src/router.dart';
 import 'package:dart_express/src/response.dart';
 import 'package:dart_express/src/request.dart';
 
+class AppSettings {
+  String viewsPath;
+
+  AppSettings({this.viewsPath = './views'});
+}
+
+class HTTPMethods {
+  static String GET = 'get';
+  static String POST = 'post';
+  static String DELETE = 'delete';
+  static String HEAD = 'head';
+  static String PATCH = 'patch';
+  static String PUT = 'put';
+  static String READ = 'read';
+
+  static List<String> ALL = [
+    GET,
+    POST,
+    DELETE,
+    HEAD,
+    PATCH,
+    PUT,
+    READ
+  ];
+}
+
 class App {
+  AppSettings settings;
   HttpServer _server;
-  Map cache;
-  Map settings;
-  Map engines;
   Router _router;
 
-  App({
-    this.cache,
-    this.settings,
-    this.engines,
-  });
+  App({this.settings}) {
+    this.settings = this.settings ?? AppSettings();
+  }
 
   use(Function cb) {
     this.lazyRouter();
@@ -26,14 +48,23 @@ class App {
     return this;
   }
 
-  Route delete(String path, Function cb) => buildRoute(path, cb, 'delete');
-  Route get(String path, RouteMethod cb) => buildRoute(path, cb, 'get');
-  Route head(String path, RouteMethod cb) => buildRoute(path, cb, 'head');
-  Route patch(String path, RouteMethod cb) => buildRoute(path, cb, 'patch');
-  Route post(String path, RouteMethod cb) => buildRoute(path, cb, 'post');
-  Route put(String path, RouteMethod cb) => buildRoute(path, cb, 'put');
-  Route read(String path, RouteMethod cb) => buildRoute(path, cb, 'read');
-  Route all(String path, RouteMethod cb) => buildRoute(path, cb, null);
+  Route delete(String path, Function cb) => buildRoute(path, cb, HTTPMethods.DELETE);
+  Route get(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.GET);
+  Route head(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.HEAD);
+  Route patch(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.PATCH);
+  Route post(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.POST);
+  Route put(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.PUT);
+  Route read(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.READ);
+
+  List<Route> all(String path, RouteMethod cb) {
+    var routes = [];
+
+    HTTPMethods.ALL.forEach((method) {
+      routes.add(buildRoute(path, cb, method));
+    });
+
+    return routes;
+  }
 
   listen(int port, [Function(int) cb]) async {
     this._server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
