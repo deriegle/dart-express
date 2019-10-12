@@ -25,6 +25,11 @@ class Response extends HttpResponse {
     return this.send(convert.json.encode(body));
   }
 
+  Response set(String headerName, dynamic headerContent) {
+    this.headers.add(headerName, headerContent);
+    return this;
+  }
+
   Response status(int code) {
     this.statusCode = code;
     return this;
