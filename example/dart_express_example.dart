@@ -28,7 +28,7 @@ main() {
   });
 
   app.get('/2', (req, res, _) {
-    res.send('Hello world from /2');
+    res.set('Content-Type', 'application/html').send('<h1>Hello, world</h1>');
   });
 
   app.post('/post',(Request req, Response res, _) async {

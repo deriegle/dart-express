@@ -10,7 +10,10 @@ class Response extends HttpResponse {
     if (body is Map) {
       this.json(body);
     } else if (body is String) {
-      this.headers.add('Content-Type', 'text/plain');
+      if (headers.contentType == null) {
+        this.headers.contentType = ContentType.text;
+      }
+
       this.encoding = convert.Encoding.getByName('utf-8');
       this.write(body);
       this.close();
@@ -20,7 +23,7 @@ class Response extends HttpResponse {
   }
 
   Response json(Map<String, dynamic> body) {
-    this.headers.add('Content-Type', 'application/json');
+    this.headers.contentType = ContentType.json;
 
     return this.send(convert.json.encode(body));
   }
