@@ -16,13 +16,13 @@ class Layer {
   }
 
   match(pathToCheck) {
-    if (this.name == Middleware.name) {
+    if (this.route != null && this.route.path == pathToCheck) {
+      return true;
+    } else if (this.name == Middleware.name) {
       return true;
     }
 
-    if (this.route == null) { return false; }
-
-    return this.route.path == pathToCheck;
+    return false;
   }
 
   handleRequest(HttpRequest req, HttpResponse res, Next next) {

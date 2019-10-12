@@ -36,7 +36,7 @@ class App {
     }
   }
 
-  handle(HttpRequest req, HttpResponse res, { Next next }) {
+  handle(HttpRequest req, HttpResponse res) {
     this._router.handle(req, res);
   }
 
@@ -51,8 +51,6 @@ class App {
 
   lazyRouter() {
     if (this._router == null) {
-      print('how many times is this called?');
-
       this._router = Router().use(Middleware.init);
     }
   }

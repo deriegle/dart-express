@@ -44,24 +44,30 @@ class Router {
     var index = 0;
 
     next() {
-      var path = req.requestedUri.path;
-      bool match = false;
+      String path = req.requestedUri.path;
+
+      // find next matching layer
       Layer layer;
+      bool match = false;
       Route route;
 
-      while(match != true && index < stack.length) {
+      while (match != true && index < stack.length) {
         layer = stack[index++];
-        match = matchLayer(layer, path);
+        match = matchLayer(layer,path);
         route = layer.route;
 
-        if (match != true) { continue; }
-        if (route == null) { continue; }
+        if (match != true) {
+            continue;
+        }
+
+        if (!(route is Route)) {
+            continue;
+        }
 
         route.stack.first.handleRequest(req, res, next);
       }
 
-      // TODO: Fix multiple fall throughs calling middleware twice
-      if (match) {
+      if(match && route == null) {
         layer.handleRequest(req, res, next);
       }
     }
