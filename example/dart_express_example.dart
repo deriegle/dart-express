@@ -1,25 +1,44 @@
+import 'dart:io';
 import 'package:dart_express/dart_express.dart';
+
+const int PORT = 5000;
 
 main() {
   var app = express();
 
+  app.use(BodyParser.json());
+
   app.get('/', (req, res, _)  {
-    res.statusCode = 200;
-    res.write('Hello, world');
-    res.close();
+    res.statusCode = HttpStatus.ok;
+
+    res.json({
+      'hello': 'world',
+      'age': 25,
+    });
+  });
+
+  app.all('/secret', (req, res, next) {
+    print('Accessing the secret section');
+
+    next();
+  });
+
+  app.get('/secret', (Request req, Response res, next) {
+    res.send('Secret Home Page');
   });
 
   app.get('/2', (req, res, _) {
-    res.statusCode = 200;
-    res.write('Hello world from /2');
-    res.close();
+    res.send('Hello world from /2');
   });
 
-  app.post('/post',(req, res, _) {
-    res.statusCode = 200;
-    res.write('Data from post :)');
-    res.close();
+  app.post('/post',(Request req, Response res, _) async {
+    print(req.body);
+
+    res.send('Data from post :)');
   });
 
-  app.listen(5000, (port) => print('Listening on port $port'));
+  app.listen(PORT, (int port) => print('Listening on port $port'));
 }
+
+
+// curl "http://localhost:5000/post" -H "Content-Type: application/json" -d '{"name": "Devin Riegle"}'
