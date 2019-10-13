@@ -57,5 +57,3 @@ main() {
 
   app.listen(PORT, (int port) => print('Listening on port $port'));
 }
-
-// curl "http://localhost:5000/post" -H "Content-Type: application/json" -d '{"name": "Devin Riegle"}'

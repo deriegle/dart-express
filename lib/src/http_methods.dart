@@ -1,11 +1,11 @@
 class HTTPMethods {
-  static String GET = 'get';
-  static String POST = 'post';
-  static String DELETE = 'delete';
-  static String HEAD = 'head';
-  static String PATCH = 'patch';
-  static String PUT = 'put';
-  static String READ = 'read';
+  static String GET = 'GET';
+  static String POST = 'POST';
+  static String DELETE = 'DELETE';
+  static String HEAD = 'HEAD';
+  static String PATCH = 'PATCH';
+  static String PUT = 'PUT';
+  static String READ = 'READ';
 
   static List<String> ALL = [
     GET,

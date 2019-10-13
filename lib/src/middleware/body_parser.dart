@@ -4,7 +4,9 @@ import 'package:dart_express/dart_express.dart';
 class BodyParser {
   static RouteMethod json() {
     return (Request req, Response res, Function next) {
-      if (req.method == 'POST' && req.headers.contentType.mimeType == 'application/json') {
+      var contentType = req.headers.contentType;
+
+      if (req.method == 'POST' && contentType != null && contentType.mimeType == 'application/json') {
         convertBodyToJson(req).then((Map<String, dynamic> json) {
           req.body = json;
 

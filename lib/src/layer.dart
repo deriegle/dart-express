@@ -15,12 +15,15 @@ class Layer {
     this.name = this.name ?? '<anonymous>';
   }
 
-  match(pathToCheck, methodToCheck) {
-    if (methodToCheck != this.method || this.method == null) {
-      return false;
-    }
+  match(String pathToCheck, String methodToCheck) {
+    print({
+      'pathToCheck': pathToCheck,
+      'methodToCheck': methodToCheck,
+      'path': this.path,
+      'method': this.method,
+    });
 
-    if (this.route != null && this.route.path == pathToCheck) {
+    if (this.route != null && this.route.path == pathToCheck && this.method != null && this.method.toUpperCase() == methodToCheck.toUpperCase()) {
       return true;
     } else if (this.name == Middleware.name) {
       return true;
