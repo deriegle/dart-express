@@ -1,4 +1,4 @@
-import "package:path/path.dart" show dirname, join;
+import "package:path/path.dart" as path;
 import 'package:mustache4dart/mustache4dart.dart' as mustache;
 import 'dart:convert' as convert;
 import 'dart:io';
@@ -25,11 +25,11 @@ class Response extends HttpResponse {
   }
 
   render(String templateName, [Map<String, dynamic> locals]) {
-    var currentDirectory = join(dirname(Platform.script.path), 'views/$templateName.html');
+    var file = File.fromUri(Uri.file(this._pathForRenderTemplate(templateName)));
 
-    File.fromUri(Uri.file(currentDirectory, windows: false)).readAsString().then((str) {
-      this.html(mustache.render(str, locals));
-    }).catchError((e) => print(e));
+    file.readAsString()
+       .then((str) => this.html(mustache.render(str, locals)))
+       .catchError(print);
   }
 
   Response html(String html) {
@@ -126,4 +126,11 @@ class Response extends HttpResponse {
   void writeln([Object obj = ""]) {
     return this.response.writeln(obj);
   }
+
+  String _pathForRenderTemplate(String templateName) {
+    String extensionName = path.extension(templateName) ?? 'html';
+
+    return path.join(path.dirname(Platform.script.path), 'views/$templateName.$extensionName');
+  }
+
 }
