@@ -24,7 +24,9 @@ class Layer {
   }
 
   match(String pathToCheck, String methodToCheck) {
-    if (this._doesPathMatch(pathToCheck) && this.method != null && this.method.toUpperCase() == methodToCheck.toUpperCase()) {
+    if (this._pathMatches(pathToCheck) &&
+        this.method != null &&
+        this.method.toUpperCase() == methodToCheck.toUpperCase()) {
       if (this.parameters.isNotEmpty) {
         final match = this.regExp.matchAsPrefix(pathToCheck);
         this.routeParams = extract(parameters, match);
@@ -47,7 +49,7 @@ class Layer {
     return 'Layer: { path: ${this.route.path} }';
   }
 
-  bool _doesPathMatch(String pathToCheck) {
+  bool _pathMatches(String pathToCheck) {
     if (this.route == null || this.path == null) {
       return false;
     }

@@ -58,26 +58,31 @@ void main() {
 
       expect(layer.match('/posts/1', method), isTrue);
       expect(layer.parameters, equals(['postId']));
-      expect(layer.routeParams, equals({
-        'postId': '1',
-      }));
+      expect(
+          layer.routeParams,
+          equals({
+            'postId': '1',
+          }));
 
       expect(layer.match('/users/1', method), isFalse);
     });
 
     test('matches advanced routes with params correctly', () {
       route = Route(null);
-      layer = Layer('/users/:userId/posts/:postId', route: route, method: method);
+      layer =
+          Layer('/users/:userId/posts/:postId', route: route, method: method);
 
       String userId = 'b33cb427-0619-479b-81bc-8c66eb5caff1';
       String postId = 'd11ab56e-f1d0-4d13-bfe0-788a3fddcebf';
 
       expect(layer.match('/users/$userId/posts/$postId', method), isTrue);
       expect(layer.parameters, equals(['userId', 'postId']));
-      expect(layer.routeParams, equals({
-        'userId': userId,
-        'postId': postId,
-      }));
+      expect(
+          layer.routeParams,
+          equals({
+            'userId': userId,
+            'postId': postId,
+          }));
 
       expect(layer.match('/users/1', method), isFalse);
     });

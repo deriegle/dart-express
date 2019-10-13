@@ -96,7 +96,7 @@ class Response {
 
   HttpHeaders get headers => this.response.headers;
 
-  Future redirect(String location, { int status = HttpStatus.movedTemporarily }) {
+  Future redirect(String location, {int status = HttpStatus.movedTemporarily}) {
     return this.response.redirect(Uri.tryParse(location), status: status);
   }
 
