@@ -1,6 +1,4 @@
-import "package:path/path.dart" as path;
 import 'package:dart_express/src/app.dart';
-import 'package:mustache4dart/mustache4dart.dart' as mustache;
 import 'dart:convert' as convert;
 import 'dart:io';
 
@@ -26,10 +24,14 @@ class Response extends HttpResponse {
     return this;
   }
 
-  render(String viewName, [Map<String, dynamic> locals, Function callback]) {
+  render(String viewName, [Map<String, dynamic> locals]) {
     this.app.render(viewName, locals, (err, data) {
       if (err != null) {
-        throw err;
+        print(err);
+
+        this.response.statusCode = HttpStatus.notFound;
+        this.response.close();
+        return;
       }
 
       this.html(data);
@@ -130,41 +132,4 @@ class Response extends HttpResponse {
   void writeln([Object obj = ""]) {
     return this.response.writeln(obj);
   }
-
-  String _pathForRenderTemplate(String templateName) {
-    String extensionName = path.extension(templateName);
-
-    if (extensionName.isEmpty) { extensionName = 'html'; }
-
-    return path.join(path.dirname(Platform.script.path), 'views/$templateName.$extensionName');
-  }
-
 }
-
-/*
-  res.render = function render(view, options, callback) {
-  var app = this.req.app;
-  var done = callback;
-  var opts = options || {};
-  var req = this.req;
-  var self = this;
-
-  // support callback function as second arg
-  if (typeof options === 'function') {
-    done = options;
-    opts = {};
-  }
-
-  // merge res.locals
-  opts._locals = self.locals;
-
-  // default callback to respond
-  done = done || function (err, str) {
-    if (err) return req.next(err);
-    self.send(str);
-  };
-
-  // render
-  app.render(view, opts, done);
-};
-*/

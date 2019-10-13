@@ -38,6 +38,12 @@ main() {
     });
   });
 
+  app.get('/4', (req, res, _) {
+    res.render('new_one', {
+      'first_name': req.params['first_name'],
+    });
+  });
+
   app.post('/post',(Request req, Response res, _) async {
     print(req.body);
 
