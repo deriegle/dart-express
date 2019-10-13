@@ -57,43 +57,42 @@ class View {
     this.filePath = this.lookup(fileName);
   }
 
-  lookup(fileName) {
+  render(Map<String, dynamic> options, Function callback) {
+    this.engine.handler(this.filePath, options, callback);
+  }
+
+  lookup(String fileName) {
     String finalPath;
-    List<String> roots = []..addAll(this.rootPath);
+    List<String> roots = this.rootPath is List ? this.rootPath : [this.rootPath];
+
+    print({
+      'fileName': fileName,
+      'roots': roots,
+    });
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
       var root = roots[i];
+      var loc = path.join(root, fileName);
 
-      var loc = path.join(root, name);
-      var dir = path.dirname(loc);
-      var file = path.basename(loc);
-
-      finalPath = this.resolve(dir, file);
+      finalPath = this.resolve(loc);
     }
 
     return finalPath;
   }
 
-  resolve(String dir, String file) {
-    var finalPath = path.join(dir, file);
-    var stat = this._tryStat(filePath);
-
-    if (stat != null && stat.type == FileSystemEntityType.file) {
-      return finalPath;
-    }
-  }
-
-  render(Map<String, dynamic> options, Function callback) {
-    this.engine.handler(this.filePath, options, callback);
-  }
-
-  _tryStat(filePath) {
-    try {
-      return FileStat.statSync(filePath);
-    } catch (e) {
-      print(e);
-
+  resolve(filePath) {
+    if (this._exists(filePath) && this._isFile(filePath)) {
+      return filePath;
+    } else {
       return null;
     }
+  }
+
+  bool _isFile(filePath) {
+    return File.fromUri(Uri.file(filePath)).statSync().type == FileSystemEntityType.file;
+  }
+
+  bool _exists(filePath) {
+    return File.fromUri(Uri.file(filePath)).existsSync();
   }
 }

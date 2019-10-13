@@ -26,11 +26,12 @@ class Layer {
   }
 
   handleRequest(HttpRequest req, HttpResponse res, Next next) {
-    try {
+    // try {
       this.handle(req, res, next);
-    } catch (err) {
-      print(err);
-    }
+    // } catch (err) {
+    //   print('failed');
+    //   print(err);
+    // }
   }
 
   @override

@@ -27,7 +27,13 @@ class Response extends HttpResponse {
   }
 
   render(String viewName, [Map<String, dynamic> locals, Function callback]) {
-    this.app.render(viewName, locals, callback);
+    this.app.render(viewName, locals, (err, data) {
+      if (err != null) {
+        throw err;
+      }
+
+      this.html(data);
+    });
   }
 
   Response html(String html) {
