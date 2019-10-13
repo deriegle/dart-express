@@ -1,4 +1,4 @@
-A library for Dart developers.
+An express-like web server framework for Dart developers.
 
 Created from templates made available by Stagehand under a BSD-style
 [license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
@@ -11,12 +11,66 @@ A simple usage example:
 import 'package:dart_express/dart_express.dart';
 
 main() {
-  var awesome = new Awesome();
+  var app = express();
+
+  app.get('/', (req, res, _) {
+    res.json({
+      'hello': 'world',
+      'test': true,
+    });
+  });
+
+  app.listen(3000, (port) => print('Listening on port $port');
 }
 ```
 
-## Features and bugs
+With Body parsing Middleware:
 
-Please file feature requests and bugs at the [issue tracker][tracker].
+```dart
+import 'package:dart_express/dart_express.dart';
 
-[tracker]: http://example.com/issues/replaceme
+main() {
+  var app = express();
+
+  app.use(BodyParser.json());
+
+  app.post('/post', (req, res, _) {
+    print(req.body);
+
+    res.send({
+      'request_body': req.body,
+    });
+  });
+
+  app.listen(3000, (port) => print('Listening on port $port');
+}
+```
+
+Using the mustache templating engine
+
+```dart
+import 'package:dart_express/dart_express.dart';
+
+main() {
+  var app = express();
+
+  app.use(BodyParser.json());
+  app.engine(MustacheEngine.use());
+
+  app.settings.viewsPath = 'custom_views_path';
+  app.settings.viewEngine = 'mustache';
+
+  app.get('/', (req, res, _) {
+    res.render('index', {
+      'app_name': 'My Test App',
+    });
+  });
+
+  app.listen(3000, (port) => print('Listening on port $port');
+}
+```
+
+### Currently supported View Engines
+- Basic HTML
+- Mustache
+- Jael
