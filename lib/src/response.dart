@@ -1,12 +1,14 @@
 import "package:path/path.dart" as path;
+import 'package:dart_express/src/app.dart';
 import 'package:mustache4dart/mustache4dart.dart' as mustache;
 import 'dart:convert' as convert;
 import 'dart:io';
 
 class Response extends HttpResponse {
   HttpResponse response;
+  App app;
 
-  Response(this.response);
+  Response(this.response, this.app);
 
   Response send(dynamic body) {
     if (body is Map) {
@@ -24,12 +26,8 @@ class Response extends HttpResponse {
     return this;
   }
 
-  render(String templateName, [Map<String, dynamic> locals]) {
-    var file = File.fromUri(Uri.file(this._pathForRenderTemplate(templateName)));
-
-    file.readAsString()
-       .then((str) => this.html(mustache.render(str, locals)))
-       .catchError(print);
+  render(String viewName, [Map<String, dynamic> locals, Function callback]) {
+    this.app.render(viewName, locals, callback);
   }
 
   Response html(String html) {
@@ -136,3 +134,31 @@ class Response extends HttpResponse {
   }
 
 }
+
+/*
+  res.render = function render(view, options, callback) {
+  var app = this.req.app;
+  var done = callback;
+  var opts = options || {};
+  var req = this.req;
+  var self = this;
+
+  // support callback function as second arg
+  if (typeof options === 'function') {
+    done = options;
+    opts = {};
+  }
+
+  // merge res.locals
+  opts._locals = self.locals;
+
+  // default callback to respond
+  done = done || function (err, str) {
+    if (err) return req.next(err);
+    self.send(str);
+  };
+
+  // render
+  app.render(view, opts, done);
+};
+*/
