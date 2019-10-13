@@ -1,6 +1,6 @@
 name: dart_express
 description: A express-like HTTP framework built in Dart
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/deriegle/dart-express
 author: Devin Riegle <riegledevin@gmail.com>
 
