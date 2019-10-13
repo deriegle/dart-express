@@ -8,6 +8,10 @@ main() {
 
   app.use(BodyParser.json());
 
+  app.engine(MustacheEngine.use());
+  app.engine(JaelEngine.use());
+  app.settings.viewEngine = 'mustache';
+
   app.get('/', (req, res, _)  {
     res.statusCode = HttpStatus.ok;
 

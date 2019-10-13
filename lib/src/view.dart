@@ -1,30 +1,11 @@
+import 'package:dart_express/src/engines/html.dart';
 import 'package:path/path.dart' as path;
 import 'dart:io';
-import 'package:dart_express/src/engine.dart';
-
-class ViewEngine {
-  final String _value;
-  const ViewEngine._internal(this._value);
-  toString() => _value;
-
-  static const MUSTACHE = ViewEngine._internal('mustache');
-  static const JAEL = ViewEngine._internal('.jl');
-}
-
-class ViewOptions {
-  ViewEngine defaultViewEngine;
-  List<Engine> engines;
-  String rootPath;
-
-  ViewOptions(
-      {this.defaultViewEngine = ViewEngine.MUSTACHE,
-      this.engines = const [],
-      this.rootPath = 'views'});
-}
+import 'package:dart_express/src/engines/engine.dart';
 
 class View {
   dynamic rootPath;
-  ViewEngine defaultEngine;
+  String defaultEngine;
   String filePath;
   String ext;
   String name;
@@ -41,24 +22,12 @@ class View {
     String fileName = name;
 
     if (this.ext == null || this.ext.isEmpty) {
-      this.ext = this.defaultEngine._value[0] == '.'
-          ? this.defaultEngine._value
-          : '.${this.defaultEngine._value}';
+      this.ext = this.defaultEngine[0] == '.' ? this.defaultEngine : '.${this.defaultEngine}';
 
       fileName += this.ext;
     }
 
-    if (engines[this.ext] == null) {
-      if (this.ext == '.mustache') {
-        engines[this.ext] = Engine.mustache();
-      }
-
-      if (this.ext == '.jl') {
-        engines[this.ext] = Engine.jael();
-      }
-    }
-
-    this.engine = engines[this.ext];
+    this.engine = engines[this.ext] ?? HtmlEngine.use();
     this.filePath = this.lookup(fileName);
   }
 

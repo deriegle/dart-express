@@ -30,6 +30,7 @@ class Response extends HttpResponse {
         print(err);
 
         this.response.close();
+        return;
       }
 
       this.html(data);

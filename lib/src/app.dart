@@ -1,22 +1,23 @@
 import 'dart:io';
+import 'package:dart_express/src/engines/html.dart';
 import 'package:dart_express/src/middleware/init.dart';
 import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/router.dart';
 import 'package:dart_express/src/response.dart';
 import 'package:dart_express/src/request.dart';
 import 'package:dart_express/src/http_methods.dart';
-import 'package:dart_express/src/engine.dart';
+import 'package:dart_express/src/engines/engine.dart';
 import 'package:dart_express/src/view.dart';
 
 class AppSettings {
   bool cache;
   String viewsPath;
-  ViewEngine viewEngine;
+  String viewEngine;
 
   AppSettings({
     this.cache = true,
     this.viewsPath = 'views',
-    this.viewEngine = ViewEngine.MUSTACHE,
+    this.viewEngine = 'html',
   });
 }
 
@@ -30,13 +31,29 @@ class App {
   App({this.settings}) {
     this.settings = this.settings ?? AppSettings();
     this.cache = {};
-    this._engines = {};
+    this._engines = {
+      'html': HtmlEngine.use(),
+    };
   }
 
   use(Function cb) {
     this.lazyRouter();
 
     this._router.use(cb);
+
+    return this;
+  }
+
+  App engine(Engine engine) {
+    if (engine.ext == null) {
+      throw Error.safeToString('Engine extension must be defined.');
+    }
+
+    if (this._engines[engine.ext] != null) {
+      throw Error.safeToString('A View engine for the ${engine.ext} extension has already defined.');
+    }
+
+    this._engines[engine.ext] = engine;
 
     return this;
   }
