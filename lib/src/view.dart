@@ -65,14 +65,9 @@ class View {
     String finalPath;
     List<String> roots = this.rootPath is List ? this.rootPath : [this.rootPath];
 
-    print({
-      'fileName': fileName,
-      'roots': roots,
-    });
-
     for (var i = 0; i < roots.length && finalPath == null; i++) {
       var root = roots[i];
-      var loc = path.join(root, fileName);
+      var loc = path.join(path.dirname(Platform.script.path), root, fileName);
 
       finalPath = this.resolve(loc);
     }
@@ -89,7 +84,13 @@ class View {
   }
 
   bool _isFile(filePath) {
-    return File.fromUri(Uri.file(filePath)).statSync().type == FileSystemEntityType.file;
+    try {
+      return File.fromUri(Uri.file(filePath)).statSync().type == FileSystemEntityType.file;
+    } catch(e) {
+      print('is file failed');
+
+      return null;
+    }
   }
 
   bool _exists(filePath) {
