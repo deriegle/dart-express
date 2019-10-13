@@ -41,6 +41,8 @@ class Layer {
   }
 
   handleRequest(Request req, Response res, Next next) {
+    req.params.addEntries(this.routeParams.entries);
+
     this.handle(req, res, next);
   }
 
