@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:dart_express/src/request.dart';
+import 'package:dart_express/src/response.dart';
 import 'middleware/init.dart';
 import 'package:dart_express/src/route.dart';
 
@@ -35,7 +36,7 @@ class Layer {
     return false;
   }
 
-  handleRequest(HttpRequest req, HttpResponse res, Next next) {
+  handleRequest(Request req, Response res, Next next) {
     this.handle(req, res, next);
   }
 

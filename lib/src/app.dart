@@ -99,7 +99,7 @@ class App {
     }
   }
 
-  handle(HttpRequest req, HttpResponse res) {
+  handle(Request req, Response res) {
     this._router.handle(req, res);
   }
 

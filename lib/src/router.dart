@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'package:dart_express/dart_express.dart';
+import 'package:dart_express/src/response.dart';
 import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/layer.dart';
 import 'package:dart_express/src/middleware/init.dart';
@@ -39,7 +40,7 @@ class Router {
     return this;
   }
 
-  handle(HttpRequest req, HttpResponse res) {
+  handle(Request req, Response res) {
     var self = this;
     var stack = self.stack;
     var index = 0;
