@@ -33,7 +33,8 @@ main() {
 
   app.get('/3', (req, res, _) {
     res.render('about', {
-      'first_name': 'Devin Riegle',
+      'first_name': req.params['first_name'] ?? 'Devin Riegle',
+      'person': req.params['person']
     });
   });
 

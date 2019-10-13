@@ -128,7 +128,9 @@ class Response extends HttpResponse {
   }
 
   String _pathForRenderTemplate(String templateName) {
-    String extensionName = path.extension(templateName) ?? 'html';
+    String extensionName = path.extension(templateName);
+
+    if (extensionName.isEmpty) { extensionName = 'html'; }
 
     return path.join(path.dirname(Platform.script.path), 'views/$templateName.$extensionName');
   }
