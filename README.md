@@ -74,3 +74,13 @@ main() {
 - Basic HTML
 - Mustache
 - Jael
+
+### Roadmap
+- [X] Basic Routing
+- [X] Easily build Middleware
+- [X] Add & use view engines easily
+- [] Add in-depth testing
+- [] Add support for routes with params like express supports. example: "/posts/:postId"
+- [] Clean up imports and extract middleware to separate packages
+- [] Add Dart "morgan" middleware package for logging HTTP requests
+- [] Add CORS middleware package
