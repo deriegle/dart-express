@@ -17,13 +17,6 @@ class Layer {
   }
 
   match(String pathToCheck, String methodToCheck) {
-    print({
-      'pathToCheck': pathToCheck,
-      'methodToCheck': methodToCheck,
-      'path': this.path,
-      'method': this.method,
-    });
-
     if (this.route != null &&
         this.route.path == pathToCheck &&
         this.method != null &&
