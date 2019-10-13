@@ -17,7 +17,9 @@ void main() {
       method = HTTPMethods.GET;
     });
 
-    test('unconditionally matches when the name of the handler is the same as the initial middleware', () {
+    test(
+        'unconditionally matches when the name of the handler is the same as the initial middleware',
+        () {
       layer = Layer('/', name: Middleware.name, method: method);
 
       expect(layer.match('/', method), isTrue);

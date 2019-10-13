@@ -22,7 +22,9 @@ class View {
     String fileName = name;
 
     if (this.ext == null || this.ext.isEmpty) {
-      this.ext = this.defaultEngine[0] == '.' ? this.defaultEngine : '.${this.defaultEngine}';
+      this.ext = this.defaultEngine[0] == '.'
+          ? this.defaultEngine
+          : '.${this.defaultEngine}';
 
       fileName += this.ext;
     }
@@ -37,7 +39,8 @@ class View {
 
   lookup(String fileName) {
     String finalPath;
-    List<String> roots = this.rootPath is List ? this.rootPath : [this.rootPath];
+    List<String> roots =
+        this.rootPath is List ? this.rootPath : [this.rootPath];
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
       var root = roots[i];
@@ -59,8 +62,9 @@ class View {
 
   bool _isFile(filePath) {
     try {
-      return File.fromUri(Uri.file(filePath)).statSync().type == FileSystemEntityType.file;
-    } catch(e) {
+      return File.fromUri(Uri.file(filePath)).statSync().type ==
+          FileSystemEntityType.file;
+    } catch (e) {
       print('is file failed');
 
       return null;

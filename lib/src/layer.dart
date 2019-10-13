@@ -11,7 +11,7 @@ class Layer {
 
   String get path => this._path ?? this.route.path;
 
-  Layer(this._path, { this.method, this.handle, this.route, this.name }) {
+  Layer(this._path, {this.method, this.handle, this.route, this.name}) {
     this.name = this.name ?? '<anonymous>';
   }
 
@@ -23,7 +23,10 @@ class Layer {
       'method': this.method,
     });
 
-    if (this.route != null && this.route.path == pathToCheck && this.method != null && this.method.toUpperCase() == methodToCheck.toUpperCase()) {
+    if (this.route != null &&
+        this.route.path == pathToCheck &&
+        this.method != null &&
+        this.method.toUpperCase() == methodToCheck.toUpperCase()) {
       return true;
     } else if (this.name == Middleware.name) {
       return true;

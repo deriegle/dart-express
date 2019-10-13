@@ -12,7 +12,7 @@ main() {
   app.engine(JaelEngine.use());
   app.settings.viewEngine = 'mustache';
 
-  app.get('/', (req, res, _)  {
+  app.get('/', (req, res, _) {
     res.statusCode = HttpStatus.ok;
 
     res.json({
@@ -43,13 +43,11 @@ main() {
   });
 
   app.get('/4', (req, res, _) {
-    res.render('test.jl', {
-      'template_engine': 'Jael',
-      'first_name': 'Thosakwe'
-    });
+    res.render(
+        'test.jl', {'template_engine': 'Jael', 'first_name': 'Thosakwe'});
   });
 
-  app.post('/post',(Request req, Response res, _) async {
+  app.post('/post', (Request req, Response res, _) async {
     print(req.body);
 
     res.send('Data from post :)');

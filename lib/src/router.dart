@@ -23,7 +23,8 @@ class Router {
 
   Route route(String path, String method) {
     var route = Route(path);
-    var layer = Layer(path, method: method, handle: route.dispatch, route: route);
+    var layer =
+        Layer(path, method: method, handle: route.dispatch, route: route);
 
     this.stack.add(layer);
 
@@ -58,18 +59,18 @@ class Router {
         route = layer.route;
 
         if (match != true) {
-            continue;
+          continue;
         }
 
         if (!(route is Route)) {
-            continue;
+          continue;
         }
 
         route.stack.first.handleRequest(req, res, next);
       }
 
       // Matched without a route (Initial Middleware)
-      if(match && route == null) {
+      if (match && route == null) {
         layer.handleRequest(req, res, next);
       }
     }
@@ -80,7 +81,7 @@ class Router {
   matchLayer(Layer layer, String path, String method) {
     try {
       return layer.match(path, method);
-    } catch(err) {
+    } catch (err) {
       return err;
     }
   }

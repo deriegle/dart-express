@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-
 class Request extends HttpRequest {
   HttpRequest request;
   Map<String, dynamic> _body;
@@ -20,8 +19,12 @@ class Request extends HttpRequest {
   }
 
   @override
-  Stream<Uint8List> asBroadcastStream({void Function(StreamSubscription<Uint8List> subscription) onListen, void Function(StreamSubscription<Uint8List> subscription) onCancel}) {
-    return this.request.asBroadcastStream(onCancel: onCancel, onListen: onListen);
+  Stream<Uint8List> asBroadcastStream(
+      {void Function(StreamSubscription<Uint8List> subscription) onListen,
+      void Function(StreamSubscription<Uint8List> subscription) onCancel}) {
+    return this
+        .request
+        .asBroadcastStream(onCancel: onCancel, onListen: onListen);
   }
 
   @override
@@ -57,7 +60,8 @@ class Request extends HttpRequest {
   List<Cookie> get cookies => this.request.cookies;
 
   @override
-  Stream<Uint8List> distinct([bool Function(Uint8List previous, Uint8List next) equals]) {
+  Stream<Uint8List> distinct(
+      [bool Function(Uint8List previous, Uint8List next) equals]) {
     return this.request.distinct(equals);
   }
 
@@ -85,12 +89,14 @@ class Request extends HttpRequest {
   Future<Uint8List> get first => this.request.first;
 
   @override
-  Future<Uint8List> firstWhere(bool Function(Uint8List element) test, {Uint8List Function() orElse}) {
+  Future<Uint8List> firstWhere(bool Function(Uint8List element) test,
+      {Uint8List Function() orElse}) {
     return this.request.firstWhere(test, orElse: orElse);
   }
 
   @override
-  Future<S> fold<S>(S initialValue, S Function(S previous, Uint8List element) combine) {
+  Future<S> fold<S>(
+      S initialValue, S Function(S previous, Uint8List element) combine) {
     return this.request.fold(initialValue, combine);
   }
 
@@ -100,7 +106,8 @@ class Request extends HttpRequest {
   }
 
   @override
-  Stream<Uint8List> handleError(Function onError, {bool Function(dynamic) test}) {
+  Stream<Uint8List> handleError(Function onError,
+      {bool Function(dynamic) test}) {
     return this.request.handleError(onError, test: test);
   }
 
@@ -122,7 +129,8 @@ class Request extends HttpRequest {
   Future<Uint8List> get last => this.request.last;
 
   @override
-  Future<Uint8List> lastWhere(bool Function(Uint8List element) test, {Uint8List Function() orElse}) {
+  Future<Uint8List> lastWhere(bool Function(Uint8List element) test,
+      {Uint8List Function() orElse}) {
     return this.request.lastWhere(test, orElse: orElse);
   }
 
@@ -130,8 +138,10 @@ class Request extends HttpRequest {
   Future<int> get length => this.request.length;
 
   @override
-  StreamSubscription<Uint8List> listen(void Function(Uint8List event) onData, {Function onError, void Function() onDone, bool cancelOnError}) {
-    return this.request.listen(onData,cancelOnError: cancelOnError, onDone: onDone, onError: onError);
+  StreamSubscription<Uint8List> listen(void Function(Uint8List event) onData,
+      {Function onError, void Function() onDone, bool cancelOnError}) {
+    return this.request.listen(onData,
+        cancelOnError: cancelOnError, onDone: onDone, onError: onError);
   }
 
   @override
@@ -154,7 +164,8 @@ class Request extends HttpRequest {
   String get protocolVersion => this.request.protocolVersion;
 
   @override
-  Future<Uint8List> reduce(Uint8List Function(Uint8List previous, Uint8List element) combine) {
+  Future<Uint8List> reduce(
+      Uint8List Function(Uint8List previous, Uint8List element) combine) {
     return this.request.reduce(combine);
   }
 
@@ -171,7 +182,8 @@ class Request extends HttpRequest {
   Future<Uint8List> get single => this.request.single;
 
   @override
-  Future<Uint8List> singleWhere(bool Function(Uint8List element) test, {Uint8List Function() orElse}) {
+  Future<Uint8List> singleWhere(bool Function(Uint8List element) test,
+      {Uint8List Function() orElse}) {
     return this.request.singleWhere(test, orElse: orElse);
   }
 
@@ -196,7 +208,8 @@ class Request extends HttpRequest {
   }
 
   @override
-  Stream<Uint8List> timeout(Duration timeLimit, {void Function(EventSink<Uint8List> sink) onTimeout}) {
+  Stream<Uint8List> timeout(Duration timeLimit,
+      {void Function(EventSink<Uint8List> sink) onTimeout}) {
     return this.request.timeout(timeLimit, onTimeout: onTimeout);
   }
 
@@ -222,5 +235,4 @@ class Request extends HttpRequest {
   Stream<Uint8List> where(bool Function(Uint8List event) test) {
     return this.request.where(test);
   }
-
 }

@@ -50,7 +50,8 @@ class App {
     }
 
     if (this._engines[engine.ext] != null) {
-      throw Error.safeToString('A View engine for the ${engine.ext} extension has already defined.');
+      throw Error.safeToString(
+          'A View engine for the ${engine.ext} extension has already defined.');
     }
 
     this._engines[engine.ext] = engine;

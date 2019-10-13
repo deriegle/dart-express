@@ -7,13 +7,5 @@ class HTTPMethods {
   static String PUT = 'PUT';
   static String READ = 'READ';
 
-  static List<String> ALL = [
-    GET,
-    POST,
-    DELETE,
-    HEAD,
-    PATCH,
-    PUT,
-    READ
-  ];
+  static List<String> ALL = [GET, POST, DELETE, HEAD, PATCH, PUT, READ];
 }

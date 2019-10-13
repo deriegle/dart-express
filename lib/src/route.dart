@@ -43,12 +43,7 @@ class Route {
   }
 
   _setLayer(String method, RouteMethod cb) {
-    var layer = Layer(
-      null,
-      method: method,
-      handle: cb,
-      route: this
-    );
+    var layer = Layer(null, method: method, handle: cb, route: this);
 
     this.methods[method] = true;
 
