@@ -29,9 +29,7 @@ class Response extends HttpResponse {
       if (err != null) {
         print(err);
 
-        this.response.statusCode = HttpStatus.notFound;
         this.response.close();
-        return;
       }
 
       this.html(data);

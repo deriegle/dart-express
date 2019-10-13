@@ -11,6 +11,7 @@ dependencies:
   path: any
   http: any
   meta: any
+  jael: any
   mustache4dart: any
 
 dev_dependencies:

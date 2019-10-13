@@ -39,8 +39,9 @@ main() {
   });
 
   app.get('/4', (req, res, _) {
-    res.render('new_one', {
-      'first_name': req.params['first_name'],
+    res.render('test.jl', {
+      'template_engine': 'Jael',
+      'first_name': 'Thosakwe'
     });
   });
 

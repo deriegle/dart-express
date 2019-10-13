@@ -8,6 +8,7 @@ class ViewEngine {
   toString() => _value;
 
   static const MUSTACHE = ViewEngine._internal('mustache');
+  static const JAEL = ViewEngine._internal('.jl');
 }
 
 class ViewOptions {
@@ -50,6 +51,10 @@ class View {
     if (engines[this.ext] == null) {
       if (this.ext == '.mustache') {
         engines[this.ext] = Engine.mustache();
+      }
+
+      if (this.ext == '.jl') {
+        engines[this.ext] = Engine.jael();
       }
     }
 
