@@ -5,7 +5,7 @@ import 'package:jael/jael.dart' deferred as jael;
 import 'package:symbol_table/symbol_table.dart' deferred as jael_symbol_table;
 
 class JaelEngine {
-  static String ext = '.jl';
+  static String ext = '.jael';
 
   static handler(
       String filePath, Map<String, dynamic> options, HandlerCallback callback) {
