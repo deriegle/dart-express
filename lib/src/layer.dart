@@ -12,7 +12,7 @@ class Layer {
   String name;
   RegExp regExp;
   List<String> parameters;
-  Map<String, dynamic> routeParams;
+  Map<String, String> routeParams;
 
   String get path => this._path ?? this.route.path;
 
@@ -27,9 +27,10 @@ class Layer {
     if (this._pathMatches(pathToCheck) &&
         this.method != null &&
         this.method.toUpperCase() == methodToCheck.toUpperCase()) {
+
       if (this.parameters.isNotEmpty) {
         final match = this.regExp.matchAsPrefix(pathToCheck);
-        this.routeParams = extract(parameters, match);
+        this.routeParams.addAll(extract(parameters, match));
       }
 
       return true;
@@ -41,8 +42,6 @@ class Layer {
   }
 
   handleRequest(Request req, Response res, Next next) {
-    req.params.addEntries(this.routeParams.entries);
-
     this.handle(req, res, next);
   }
 

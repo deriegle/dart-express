@@ -67,6 +67,8 @@ class Router {
           continue;
         }
 
+        req.params.addAll(layer.routeParams);
+
         route.stack.first.handleRequest(req, res, next);
       }
 

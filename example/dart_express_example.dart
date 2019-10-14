@@ -47,10 +47,17 @@ main() {
         'test.jl', {'template_engine': 'Jael', 'first_name': 'Thosakwe'});
   });
 
-  app.post('/post', (Request req, Response res, _) async {
-    print(req.body);
-
+  app.post('/post', (Request req, Response res, _) {
     res.send('Data from post :)');
+  });
+
+  app.get('/users/:userId/posts/:postId', (req, res, _) {
+    print(req.params);
+
+    res.render('test.jl', {
+      'template_engine': req.params['postId'],
+      'first_name': 'George',
+    });
   });
 
   app.listen(PORT, (int port) => print('Listening on port $port'));

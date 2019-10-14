@@ -5,10 +5,11 @@ import 'dart:typed_data';
 class Request extends HttpRequest {
   HttpRequest request;
   Map<String, dynamic> _body;
+  Map<String, dynamic> params;
 
-  Request(this.request);
-
-  Map<String, String> get params => request.requestedUri.queryParameters;
+  Request(this.request) {
+    this.params = Map.from(request.requestedUri.queryParameters);
+  }
 
   get body => this._body;
   set body(newBody) => this._body = newBody;
