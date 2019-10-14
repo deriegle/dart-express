@@ -5,6 +5,8 @@ import 'dart:io';
 class Response {
   HttpResponse response;
   App app;
+  bool headersSent = false;
+  Function(Response) onDoneHandler;
 
   Response(this.response, this.app);
 
@@ -49,6 +51,12 @@ class Response {
     return this.send(convert.json.encode(body));
   }
 
+  Response onDone(Function(Response) handler) {
+    this.onDoneHandler = handler(this);
+
+    return this;
+  }
+
   Response set(String headerName, dynamic headerContent) {
     this.headers.add(headerName, headerContent);
     return this;
@@ -77,6 +85,12 @@ class Response {
   }
 
   Future close() {
+    this.headersSent = true;
+
+    if (this.onDoneHandler != null) {
+      this.onDoneHandler(this);
+    }
+
     return this.response.close();
   }
 

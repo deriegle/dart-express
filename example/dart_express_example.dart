@@ -7,9 +7,11 @@ main() {
   var app = express();
 
   app.use(BodyParser.json());
+  app.use(Logger.use());
 
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
+
   app.settings.viewEngine = 'mustache';
 
   app.get('/', (req, res) {

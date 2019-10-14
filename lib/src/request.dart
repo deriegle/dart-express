@@ -9,6 +9,7 @@ class Request extends HttpRequest {
   Next _next;
   Map<String, dynamic> _body;
   Map<String, dynamic> params;
+  DateTime startTime;
 
   Request(this.request) {
     this.params = Map.from(request.requestedUri.queryParameters);
