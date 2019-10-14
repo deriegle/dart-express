@@ -27,7 +27,6 @@ class Layer {
     if (this._pathMatches(pathToCheck) &&
         this.method != null &&
         this.method.toUpperCase() == methodToCheck.toUpperCase()) {
-
       if (this.parameters.isNotEmpty) {
         final match = this.regExp.matchAsPrefix(pathToCheck);
         this.routeParams.addAll(extract(parameters, match));
