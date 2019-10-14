@@ -44,7 +44,7 @@ main() {
 
   app.get('/4', (req, res, _) {
     res.render(
-        'test.jl', {'template_engine': 'Jael', 'first_name': 'Thosakwe'});
+        'test.jael', {'template_engine': 'Jael', 'first_name': 'Thosakwe'});
   });
 
   app.post('/post', (Request req, Response res, _) {
