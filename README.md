@@ -1,8 +1,5 @@
 An express-like web server framework for Dart developers.
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
-
 ## Usage
 
 A simple usage example:
@@ -13,7 +10,7 @@ import 'package:dart_express/dart_express.dart';
 main() {
   var app = express();
 
-  app.get('/', (req, res, _) {
+  app.get('/', (req, res) {
     res.json({
       'hello': 'world',
       'test': true,
@@ -32,7 +29,7 @@ import 'package:dart_express/dart_express.dart';
 main() {
   var app = express();
 
-  app.get('/users/:userId/posts/:postId', (req, res, _) {
+  app.get('/users/:userId/posts/:postId', (req, res) {
     res.json({
       'userId': req.params['userId'],
       'postId': req.params['postId'],
@@ -53,7 +50,7 @@ main() {
 
   app.use(BodyParser.json());
 
-  app.post('/post', (req, res, _) {
+  app.post('/post', (req, res) {
     print(req.body);
 
     res.send({
@@ -79,7 +76,7 @@ main() {
   app.settings.viewsPath = 'custom_views_path';
   app.settings.viewEngine = 'mustache';
 
-  app.get('/', (req, res, _) {
+  app.get('/', (req, res) {
     res.render('index', {
       'app_name': 'My Test App',
     });
@@ -90,14 +87,16 @@ main() {
 ```
 
 ### Currently supported View Engines
+
 - Basic HTML
 - Mustache
 - Jael
 
 ### Roadmap
-- [X] Basic Routing
-- [X] Easily build Middleware
-- [X] Add & use view engines easily
+
+- [x] Basic Routing
+- [x] Easily build Middleware
+- [x] Add & use view engines easily
 - [ ] Add in-depth testing
 - [ ] Clean up imports and extract middleware to separate packages
 - [ ] Add Dart "morgan" middleware package for logging HTTP requests
