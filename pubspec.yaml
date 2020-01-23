@@ -5,7 +5,7 @@ homepage: https://github.com/deriegle/dart-express
 author: Devin Riegle <riegledevin@gmail.com>
 
 environment:
-  sdk: '>=2.3.0 <3.0.0'
+  sdk: ">=2.3.0 <3.0.0"
 
 dependencies:
   path: ^1.6.4

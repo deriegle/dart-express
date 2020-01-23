@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dart_express/dart_express.dart';
 import 'package:dart_express/src/response.dart';
 import 'package:dart_express/src/route.dart';
@@ -19,8 +21,9 @@ class Router {
   Map<dynamic, dynamic> params = const {};
   List<Layer> stack = [];
   RouterOptions options;
+  RouteMethod handleUndefinedRoute;
 
-  Router({this.options = const RouterOptions()});
+  Router({this.options = const RouterOptions(), this.handleUndefinedRoute});
 
   Route route(String path, String method) {
     var route = Route(path);
@@ -44,6 +47,7 @@ class Router {
     var self = this;
     var stack = self.stack;
     var index = 0;
+    bool hasMatched = false;
 
     req.next = () {
       String path = req.requestedUri.path;
@@ -60,6 +64,10 @@ class Router {
         route = layer.route;
 
         if (match != true) {
+          if (index == stack.length && !hasMatched) {
+            return _handleUndefinedRoute(req, res);
+          }
+
           continue;
         }
 
@@ -67,8 +75,8 @@ class Router {
           continue;
         }
 
+        hasMatched = true;
         req.params.addAll(layer.routeParams);
-
         route.stack.first.handleRequest(req, res);
       }
 
@@ -86,6 +94,14 @@ class Router {
       return layer.match(path, method);
     } catch (err) {
       return err;
+    }
+  }
+
+  _handleUndefinedRoute(Request req, Response res) {
+    if (handleUndefinedRoute == null) {
+      res.status(404).end();
+    } else {
+      handleUndefinedRoute(req, res);
     }
   }
 }

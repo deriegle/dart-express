@@ -2,37 +2,31 @@ import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
 
-class Logger {
-  static RouteMethod use([Map<String, dynamic> options = const {}]) {
-    bool immediate = options['immediate'] ?? false;
-    var skip = options['skip'] ?? false;
+enum LoggerOptions { includeImmediate }
 
+class Logger {
+  static RouteMethod use([List<LoggerOptions> options]) {
     return (Request req, Response res) {
       req.startTime = DateTime.now();
 
-      logRequest() {
-        if (skip != false) {
-          return;
-        }
-
-        var line = _formatLine(req, res);
-
-        if (line == null) {
-          return;
-        }
-        print(line);
-      }
-
-      if (immediate) {
-        logRequest();
+      if (options != null && options.contains(LoggerOptions.includeImmediate)) {
+        logRequest(req, res);
       } else {
         res.onDone((Response r) {
-          logRequest();
+          logRequest(req, r);
         });
       }
 
       req.next();
     };
+  }
+
+  static void logRequest(Request request, Response response) {
+    var line = _formatLine(request, response);
+
+    if (line != null) {
+      print(line);
+    }
   }
 
   static String _formatLine(Request req, Response res) {
