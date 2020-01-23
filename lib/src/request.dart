@@ -2,8 +2,11 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dart_express/src/route.dart';
+
 class Request extends HttpRequest {
   HttpRequest request;
+  Next _next;
   Map<String, dynamic> _body;
   Map<String, dynamic> params;
 
@@ -13,6 +16,8 @@ class Request extends HttpRequest {
 
   get body => this._body;
   set body(newBody) => this._body = newBody;
+  set next(Next next) => this._next = next;
+  get next => this._next;
 
   @override
   Future<bool> any(bool Function(Uint8List element) test) {

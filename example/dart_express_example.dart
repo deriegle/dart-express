@@ -12,7 +12,7 @@ main() {
   app.engine(JaelEngine.use());
   app.settings.viewEngine = 'mustache';
 
-  app.get('/', (req, res, _) {
+  app.get('/', (req, res) {
     res.statusCode = HttpStatus.ok;
 
     res.json({
@@ -21,43 +21,49 @@ main() {
     });
   });
 
-  app.all('/secret', (req, res, next) {
+  app.all('/secret', (req, res) {
     print('Accessing the secret section');
 
-    next();
+    req.next();
   });
 
-  app.get('/secret', (Request req, Response res, next) {
+  app.get('/secret', (req, res) {
     res.send('Secret Home Page');
   });
 
-  app.get('/2', (req, res, _) {
+  app.get('/secret/2', (req, res) {
+    res.send('Secret home page 2');
+  });
+
+  app.get('/2', (req, res) {
     res.render('index');
   });
 
-  app.get('/3', (req, res, _) {
+  app.get('/3', (req, res) {
     res.render('about', {
       'first_name': req.params['first_name'] ?? 'Devin Riegle',
       'person': req.params['person']
     });
   });
 
-  app.get('/4', (req, res, _) {
+  app.get('/4', (req, res) {
     res.render(
-        'test.jael', {'template_engine': 'Jael', 'first_name': 'Thosakwe'});
+      'test.jael',
+      {'template_engine': 'Jael', 'first_name': 'Thosakwe'},
+    );
   });
 
-  app.post('/post', (Request req, Response res, _) {
+  app.post('/post', (req, res) {
     res.send('Data from post :)');
   });
 
-  app.get('/users/:userId/posts/:postId', (req, res, _) {
+  app.get('/users/:userId/posts/:postId', (req, res) {
     print(req.params);
 
-    res.render('test.jl', {
-      'template_engine': req.params['postId'],
-      'first_name': 'George',
-    });
+    res.render(
+      'test.jael',
+      {'template_engine': req.params['postId'], 'first_name': 'George'},
+    );
   });
 
   app.listen(PORT, (int port) => print('Listening on port $port'));

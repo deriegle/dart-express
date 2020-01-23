@@ -3,7 +3,7 @@ import 'package:dart_express/dart_express.dart';
 
 class BodyParser {
   static RouteMethod json() {
-    return (Request req, Response res, Function next) {
+    return (Request req, Response res) {
       var contentType = req.headers.contentType;
 
       if (req.method == 'POST' &&
@@ -12,10 +12,10 @@ class BodyParser {
         convertBodyToJson(req).then((Map<String, dynamic> json) {
           req.body = json;
 
-          next();
+          req?.next();
         });
       } else {
-        next();
+        req?.next();
       }
     };
   }

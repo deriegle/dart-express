@@ -32,7 +32,7 @@ class Router {
     return route;
   }
 
-  Router use(Function cb) {
+  Router use(RouteMethod cb) {
     var layer = Layer('/', handle: cb, name: Middleware.name);
 
     this.stack.add(layer);
@@ -45,7 +45,7 @@ class Router {
     var stack = self.stack;
     var index = 0;
 
-    next() {
+    req.next = () {
       String path = req.requestedUri.path;
       String method = req.method;
 
@@ -69,16 +69,16 @@ class Router {
 
         req.params.addAll(layer.routeParams);
 
-        route.stack.first.handleRequest(req, res, next);
+        route.stack.first.handleRequest(req, res);
       }
 
       // Matched without a route (Initial Middleware)
       if (match && route == null) {
-        layer.handleRequest(req, res, next);
+        layer.handleRequest(req, res);
       }
-    }
+    };
 
-    next();
+    req.next();
   }
 
   matchLayer(Layer layer, String path, String method) {
