@@ -3,7 +3,7 @@ import 'package:dart_express/src/request.dart';
 import 'package:dart_express/src/response.dart';
 
 typedef Next = Function();
-typedef RouteMethod = Function(Request req, Response res, Next next);
+typedef RouteMethod = Function(Request req, Response res);
 
 class Route {
   final String path;
@@ -12,7 +12,7 @@ class Route {
 
   Route(this.path);
 
-  dispatch(Request req, Response res, Next next) {}
+  dispatch(Request req, Response res) {}
 
   delete(RouteMethod cb) {
     this._setLayer('delete', cb);

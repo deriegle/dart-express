@@ -4,7 +4,7 @@ import 'package:dart_express/src/response.dart';
 class Middleware {
   static final String name = 'EXPRESS_INIT';
 
-  static init(Request req, Response res, Function next) {
-    next();
+  static init(Request req, Response res) {
+    req?.next();
   }
 }

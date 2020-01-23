@@ -40,8 +40,8 @@ class Layer {
     return false;
   }
 
-  handleRequest(Request req, Response res, Next next) {
-    this.handle(req, res, next);
+  handleRequest(Request req, Response res) {
+    this.handle(req, res);
   }
 
   @override

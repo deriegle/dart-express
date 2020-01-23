@@ -92,7 +92,7 @@ void main() {
     test('calls the handler method with the expected values', () {
       bool called = false;
 
-      mockHandler(Request request, Response res, Function next) {
+      mockHandler(Request request, Response res) {
         called = true;
       }
 
@@ -101,7 +101,7 @@ void main() {
       var req = Request(null);
       var res = Response(null, null);
 
-      layer.handleRequest(req, res, () {});
+      layer.handleRequest(req, res);
 
       expect(called, isTrue);
     });
