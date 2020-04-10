@@ -10,7 +10,6 @@ import 'package:dart_express/src/engines/engine.dart';
 import 'package:dart_express/src/view.dart';
 import 'package:path/path.dart' as path show absolute;
 
-
 class _AppSettings {
   bool cache;
   String viewsPath;
@@ -42,12 +41,15 @@ class App {
 
   set(String key, dynamic value) {
     switch (key.toLowerCase()) {
+      case 'views engine':
       case 'view engine':
         this.settings.viewEngine = value;
         break;
       case 'views':
         this.settings.viewsPath = value;
         break;
+      default:
+        throw ArgumentError('Invalid key "${key}" for settings.');
     }
   }
 
@@ -74,20 +76,13 @@ class App {
     return this;
   }
 
-  Route delete(String path, Function cb) =>
-      buildRoute(path, cb, HTTPMethods.DELETE);
-  Route get(String path, RouteMethod cb) =>
-      buildRoute(path, cb, HTTPMethods.GET);
-  Route head(String path, RouteMethod cb) =>
-      buildRoute(path, cb, HTTPMethods.HEAD);
-  Route patch(String path, RouteMethod cb) =>
-      buildRoute(path, cb, HTTPMethods.PATCH);
-  Route post(String path, RouteMethod cb) =>
-      buildRoute(path, cb, HTTPMethods.POST);
-  Route put(String path, RouteMethod cb) =>
-      buildRoute(path, cb, HTTPMethods.PUT);
-  Route read(String path, RouteMethod cb) =>
-      buildRoute(path, cb, HTTPMethods.READ);
+  Route delete(String path, Function cb) => buildRoute(path, cb, HTTPMethods.DELETE);
+  Route get(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.GET);
+  Route head(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.HEAD);
+  Route patch(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.PATCH);
+  Route post(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.POST);
+  Route put(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.PUT);
+  Route read(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.READ);
 
   List<Route> all(String path, RouteMethod cb) {
     List<Route> routes = [];
@@ -145,10 +140,12 @@ class App {
     }
 
     if (view == null) {
-      view = View(fileName,
-          defaultEngine: this.settings.viewEngine,
-          engines: this._engines,
-          rootPath: this.settings.viewsPath);
+      view = View(
+        fileName,
+        defaultEngine: this.settings.viewEngine,
+        engines: this._engines,
+        rootPath: this.settings.viewsPath,
+      );
 
       if (view.filePath == null) {
         String dirs;
@@ -160,8 +157,7 @@ class App {
           dirs = 'directory "${view.rootPath}"';
         }
 
-        var err = Error.safeToString(
-            'Failed to lookup view "${fileName}" in views $dirs');
+        var err = Error.safeToString('Failed to lookup view "${view.name}${view.ext}" in views $dirs');
         return callback(err, null);
       }
 
