@@ -44,7 +44,9 @@ class View {
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
       var root = roots[i];
-      var loc = path.join(path.dirname(Platform.script.path), root, fileName);
+      var fullFilePath = path.join(root, fileName);
+
+      var loc = path.isAbsolute(fullFilePath) ? fullFilePath : path.absolute(fullFilePath);
 
       finalPath = this.resolve(loc);
     }
@@ -62,10 +64,9 @@ class View {
 
   bool _isFile(filePath) {
     try {
-      return File.fromUri(Uri.file(filePath)).statSync().type ==
-          FileSystemEntityType.file;
+      return File.fromUri(Uri.file(filePath)).statSync().type == FileSystemEntityType.file;
     } catch (e) {
-      print('is file failed');
+      print('${filePath} is not a file');
 
       return null;
     }

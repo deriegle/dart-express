@@ -16,3 +16,8 @@
 ## 0.2.1
  - Clean up Request & Response classes
  - Export HTTPStatus class from dart-express directly
+
+## 0.2.2
+  - Fix issue with relative paths for views
+  - Add app.set('views', './path');
+  - Add app.set('views engine', './path')
