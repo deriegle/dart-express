@@ -12,3 +12,7 @@
 - Add support for route parameters using `path_to_regexp` package.
 - Improve README to include additional documentation
 - Add `res.end()` and `res.location()` methods to Response class.
+
+## 0.2.1
+ - Clean up Request & Response classes
+ - Export HTTPStatus class from dart-express directly
