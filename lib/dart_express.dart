@@ -3,6 +3,7 @@
 /// More dartdocs go here.
 library dart_express;
 
+export 'dart:io' show HttpStatus;
 export 'src/dart_express_base.dart';
 export 'src/route.dart';
 export 'src/app.dart';

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dart_express/dart_express.dart';
 
 const int PORT = 5000;
