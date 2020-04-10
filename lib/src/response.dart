@@ -84,9 +84,7 @@ class Response {
 
   List<Cookie> get cookies => this.response.cookies;
 
-  Future<Socket> detachSocket({bool writeHeaders = true}) {
-    return this.response.detachSocket(writeHeaders: writeHeaders);
-  }
+  detachSocket({writeHeaders = true}) => this.response.detachSocket(writeHeaders: writeHeaders);
 
   Future get done => this.response.done;
 
@@ -100,21 +98,13 @@ class Response {
     return this.response.redirect(Uri.tryParse(location), status: status);
   }
 
-  void write(Object obj) {
-    return this.response.write(obj);
-  }
+  write(Object obj) => this.response.write(obj);
 
-  void writeAll(Iterable objects, [String separator = ""]) {
-    return this.response.writeAll(objects, separator);
-  }
+  writeAll(Iterable objects, [String separator = ""]) => this.response.writeAll(objects, separator);
 
-  void writeCharCode(int charCode) {
-    return this.response.writeCharCode(charCode);
-  }
+  writeCharCode(int charCode) =>this.response.writeCharCode(charCode);
 
-  void writeln([Object obj = ""]) {
-    return this.response.writeln(obj);
-  }
+  writeln([Object obj = ""]) => this.response.writeln(obj);
 
   end() => this.close();
 

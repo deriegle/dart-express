@@ -24,8 +24,7 @@ class Router {
 
   Route route(String path, String method) {
     var route = Route(path);
-    var layer =
-        Layer(path, method: method, handle: route.dispatch, route: route);
+    var layer = Layer(path, method: method, handle: (req, res) {}, route: route);
 
     this.stack.add(layer);
 
