@@ -20,4 +20,7 @@
 ## 0.2.2
   - Fix issue with relative paths for views
   - Add app.set('views', './path');
-  - Add app.set('views engine', './path')
+  - Add app.set('view engine', './path')
+
+## 0.2.3
+  - Throw error when providing an invalid setting key
