@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show HttpServer, InternetAddress, HttpRequest, Directory;
 import 'package:dart_express/src/engines/html.dart';
 import 'package:dart_express/src/middleware/init.dart';
 import 'package:dart_express/src/route.dart';
@@ -8,32 +8,47 @@ import 'package:dart_express/src/request.dart';
 import 'package:dart_express/src/http_methods.dart';
 import 'package:dart_express/src/engines/engine.dart';
 import 'package:dart_express/src/view.dart';
+import 'package:path/path.dart' as path show absolute;
 
-class AppSettings {
+
+class _AppSettings {
   bool cache;
   String viewsPath;
   String viewEngine;
 
-  AppSettings({
+  _AppSettings({
     this.cache = true,
-    this.viewsPath = 'views',
+    this.viewsPath,
     this.viewEngine = 'html',
-  });
+  }) {
+    this.viewsPath = this.viewsPath ?? path.absolute('views');
+  }
 }
 
 class App {
-  AppSettings settings;
+  _AppSettings settings;
   Map<String, dynamic> cache;
   Map<String, Engine> _engines;
   HttpServer _server;
   Router _router;
 
   App({this.settings}) {
-    this.settings = this.settings ?? AppSettings();
+    this.settings = this.settings ?? _AppSettings();
     this.cache = {};
     this._engines = {
       'html': HtmlEngine.use(),
     };
+  }
+
+  set(String key, dynamic value) {
+    switch (key.toLowerCase()) {
+      case 'view engine':
+        this.settings.viewEngine = value;
+        break;
+      case 'views':
+        this.settings.viewsPath = value;
+        break;
+    }
   }
 
   use(Function cb) {
@@ -51,7 +66,7 @@ class App {
 
     if (this._engines[engine.ext] != null) {
       throw Error.safeToString(
-          'A View engine for the ${engine.ext} extension has already defined.');
+          'A View engine for the ${engine.ext} extension has already been defined.');
     }
 
     this._engines[engine.ext] = engine;
