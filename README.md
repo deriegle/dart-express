@@ -98,7 +98,7 @@ main() {
 - [x] Basic Routing
 - [x] Easily build Middleware
 - [x] Add & use view engines easily
-- [ ] Add in-depth testing
+- [x] Add in-depth testing
 - [ ] Clean up imports and extract middleware to separate packages
 - [ ] Add Dart "morgan" middleware package for logging HTTP requests
 - [ ] Add CORS middleware package
