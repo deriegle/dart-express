@@ -52,6 +52,13 @@ class JaelEngine {
     }
   }
 
+  /// Call this method to add the JaelEngine to your app
+  ///
+  /// app.engine(JaelEngine.use());
+  ///
+  /// Set the view engine to "jael" to not require the .jael extension when rendering Jael files.
+  ///
+  /// app.set('view engine', 'jael');
   static Engine use() {
     return Engine(JaelEngine.ext, JaelEngine.handler);
   }

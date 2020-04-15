@@ -6,10 +6,10 @@ main() {
   var app = express();
 
   app.use(BodyParser.json());
-
+  app.engine(MarkdownEngine.use());
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
-  app.set('views', 'mustache');
+  app.set('views', 'views');
 
   app.get('/', (req, res) {
     res.statusCode = HttpStatus.ok;
@@ -18,6 +18,10 @@ main() {
       'hello': 'world',
       'age': 25,
     });
+  });
+
+  app.get('/example', (req, res) {
+    res.render('example.md');
   });
 
   app.all('/secret', (req, res) {

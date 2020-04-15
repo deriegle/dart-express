@@ -4,6 +4,9 @@ import 'package:dart_express/src/repositories/file_repository.dart';
 class HtmlEngine {
   static String ext = '.html';
 
+  /// Called when rendering an HTML file in the Response
+  ///
+  /// [locals] is ignored for HTML files
   static Future<String> handler(
     String filePath,
     Map<String, dynamic> locals,
@@ -21,6 +24,9 @@ class HtmlEngine {
     }
   }
 
+  /// Call this method to add the HtmlEngine to your app (This is added by default)
+  ///
+  /// app.engine(HtmlEngine.use());
   static Engine use() {
     return Engine(HtmlEngine.ext, HtmlEngine.handler);
   }

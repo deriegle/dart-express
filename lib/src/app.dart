@@ -25,42 +25,71 @@ class _AppSettings {
 }
 
 class App {
-  _AppSettings settings;
+  _AppSettings _settings;
   Map<String, dynamic> cache;
   Map<String, Engine> _engines;
   HttpServer _server;
   Router _router;
 
-  App({this.settings}) {
-    this.settings = this.settings ?? _AppSettings();
+  App() {
+    this._settings = _AppSettings();
     this.cache = {};
-    this._engines = {
-      'html': HtmlEngine.use(),
-    };
+    this._engines = {'html': HtmlEngine.use()};
   }
 
+  /// Set App configuration values
+  ///
+  /// Acceptable keys: 'views engine', 'views', and 'cache'
+  ///
+  /// Cache [Default: true]
+  ///
+  /// This key takes a boolean value to determine whether we should cache pages or not
+  ///
+  /// View Engine [Default: html]
+  ///
+  /// This key takes a string value of the extension of the default view engine you'd like to use.
+  /// For Example: Provide "jael" for Jael templates as your default
+  ///
+  /// Views [Default: ./views]
+  ///
+  /// This key takes a string value of the file path to the views folder
   set(String key, dynamic value) {
     switch (key.toLowerCase()) {
       case 'views engine':
       case 'view engine':
-        this.settings.viewEngine = value;
+        this._settings.viewEngine = value;
         break;
       case 'views':
-        this.settings.viewsPath = value;
+        this._settings.viewsPath = value;
+        break;
+      case 'cache':
+        this._settings.cache = !!value;
         break;
       default:
         throw ArgumentError('Invalid key "${key}" for settings.');
     }
   }
 
+  /// Add a middleware callback for every request using this command
+  ///
+  /// Useful for parsing JSON, form data, logging requests, etc.
   use(Function cb) {
-    this.lazyRouter();
+    this._lazyRouter();
 
     this._router.use(cb);
 
     return this;
   }
 
+  /// Adds new View Engine to App
+  ///
+  /// Examples:
+  ///
+  /// app.engine(JaelEngine.use());
+  ///
+  /// app.engine(MustacheEngine.use());
+  ///
+  /// app.engine(MarkdownEngine.use());
   App engine(Engine engine) {
     if (engine.ext == null) {
       throw Error.safeToString('Engine extension must be defined.');
@@ -76,24 +105,41 @@ class App {
     return this;
   }
 
-  Route delete(String path, Function cb) => buildRoute(path, cb, HTTPMethods.DELETE);
-  Route get(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.GET);
-  Route head(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.HEAD);
-  Route patch(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.PATCH);
-  Route post(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.POST);
-  Route put(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.PUT);
-  Route read(String path, RouteMethod cb) => buildRoute(path, cb, HTTPMethods.READ);
+  /// Handles DELETE requests to the specified path
+  Route delete(String path, Function cb) => _buildRoute(path, cb, HTTPMethods.DELETE);
 
+  /// Handles GET requests to the specified path
+  Route get(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.GET);
+
+  /// Handles HEAD requests to the specified path
+  Route head(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.HEAD);
+
+  /// Handles PATCH requests to the specified path
+  Route patch(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.PATCH);
+
+  /// Handles POST requests to the specified path
+  Route post(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.POST);
+
+  /// Handles PUT requests to the specified path
+  Route put(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.PUT);
+
+  /// Handles READ requests to the specified path
+  Route read(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.READ);
+
+  /// Handles ALL requests to the specified path
   List<Route> all(String path, RouteMethod cb) {
     List<Route> routes = [];
 
     HTTPMethods.ALL.forEach((method) {
-      routes.add(buildRoute(path, cb, method));
+      routes.add(_buildRoute(path, cb, method));
     });
 
     return routes;
   }
 
+  /// Starts the HTTP server listening on the specified port
+  ///
+  /// All Request and Response objects will be wrapped and handled by the Router
   listen(int port, [Function(int) cb]) async {
     this._server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
 
@@ -101,7 +147,7 @@ class App {
       var request = Request(req);
       var response = Response(req.response, this);
 
-      this.handle(request, response);
+      this._router.handle(request, response);
     });
 
     if (cb != null) {
@@ -109,42 +155,23 @@ class App {
     }
   }
 
-  handle(Request req, Response res) {
-    this._router.handle(req, res);
-  }
-
-  buildRoute(path, cb, method) {
-    this.lazyRouter();
-
-    var route = this._router.route(path, method);
-    route.read(cb);
-
-    return route;
-  }
-
-  lazyRouter() {
-    if (this._router == null) {
-      this._router = Router().use(Middleware.init);
-    }
-  }
-
   render(String fileName, Map<String, dynamic> options, Function callback) {
     View view;
 
-    if (this.settings.cache == null) {
-      this.settings.cache = true;
+    if (this._settings.cache == null) {
+      this._settings.cache = true;
     }
 
-    if (this.settings.cache) {
+    if (this._settings.cache) {
       view = this.cache[fileName];
     }
 
     if (view == null) {
       view = View(
         fileName,
-        defaultEngine: this.settings.viewEngine,
+        defaultEngine: this._settings.viewEngine,
         engines: this._engines,
-        rootPath: this.settings.viewsPath,
+        rootPath: this._settings.viewsPath,
       );
 
       if (view.filePath == null) {
@@ -162,12 +189,27 @@ class App {
         return callback(err, null);
       }
 
-      if (this.settings.cache) {
+      if (this._settings.cache) {
         this.cache[fileName] = view;
       }
     }
 
     this._tryRender(view, options, callback);
+  }
+
+  _buildRoute(path, cb, method) {
+    this._lazyRouter();
+
+    var route = this._router.route(path, method);
+    route.read(cb);
+
+    return route;
+  }
+
+  _lazyRouter() {
+    if (this._router == null) {
+      this._router = Router().use(Middleware.init);
+    }
   }
 
   _tryRender(View view, Map<String, dynamic> options, Function callback) {
