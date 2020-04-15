@@ -11,8 +11,12 @@ class View {
   String name;
   Engine engine;
 
-  View(this.name,
-      {this.rootPath, this.defaultEngine, Map<String, dynamic> engines}) {
+  View(
+    this.name, {
+    this.rootPath,
+    this.defaultEngine,
+    Map<String, Engine> engines,
+  }) {
     this.ext = path.extension(this.name);
 
     if (this.ext == null && this.defaultEngine == null) {
@@ -22,9 +26,7 @@ class View {
     String fileName = name;
 
     if (this.ext == null || this.ext.isEmpty) {
-      this.ext = this.defaultEngine[0] == '.'
-          ? this.defaultEngine
-          : '.${this.defaultEngine}';
+      this.ext = this.defaultEngine[0] == '.' ? this.defaultEngine : '.${this.defaultEngine}';
 
       fileName += this.ext;
     }
@@ -39,8 +41,7 @@ class View {
 
   lookup(String fileName) {
     String finalPath;
-    List<String> roots =
-        this.rootPath is List ? this.rootPath : [this.rootPath];
+    List<String> roots = this.rootPath is List ? this.rootPath : [this.rootPath];
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
       var root = roots[i];
