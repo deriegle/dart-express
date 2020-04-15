@@ -1,4 +1,4 @@
-typedef HandlerCallback = Function(Exception e, String rendered);
+typedef HandlerCallback = Function(dynamic e, String rendered);
 typedef Handler = Function(String filePath, Map<String, dynamic> locals, HandlerCallback cb);
 
 class Engine {

@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dart_express/src/repositories/file_repository.dart';
 import 'package:mustache4dart/mustache4dart.dart' deferred as mustache;
 import 'package:dart_express/src/engines/engine.dart';
