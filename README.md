@@ -1,3 +1,4 @@
+# Dart Express ![Dart CI](https://github.com/deriegle/dart-express/workflows/Dart%20CI/badge.svg?branch=master)
 An express-like web server framework for Dart developers.
 
 ## Usage
