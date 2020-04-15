@@ -24,3 +24,8 @@
 
 ## 0.2.3
   - Throw error when providing an invalid setting key
+
+## 0.2.4
+  - Add View Engine tests to ensure view rendering is working as expected
+  - Add Markdown View Engine to parse and display Markdown files
+  - Add documentation for public API and clean up interfaces
