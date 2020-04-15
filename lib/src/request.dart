@@ -11,7 +11,9 @@ class Request extends HttpRequest {
   Map<String, dynamic> params;
 
   Request(this.request) {
-    this.params = Map.from(request.requestedUri.queryParameters);
+    if (this.request != null) {
+      this.params = Map.from(request.requestedUri.queryParameters);
+    }
   }
 
   get body => this._body;
@@ -23,7 +25,8 @@ class Request extends HttpRequest {
   any(test) => this.request.any(test);
 
   @override
-  Stream<Uint8List> asBroadcastStream({onListen, onCancel}) => this.request.asBroadcastStream(onCancel: onCancel, onListen: onListen);
+  Stream<Uint8List> asBroadcastStream({onListen, onCancel}) =>
+      this.request.asBroadcastStream(onCancel: onCancel, onListen: onListen);
 
   @override
   Stream<E> asyncExpand<E>(convert) => this.request.asyncExpand<E>(convert);
@@ -72,7 +75,7 @@ class Request extends HttpRequest {
   Future<Uint8List> get first => this.request.first;
 
   @override
-  firstWhere(test, {orElse})  => this.request.firstWhere(test, orElse: orElse);
+  firstWhere(test, {orElse}) => this.request.firstWhere(test, orElse: orElse);
 
   @override
   fold<S>(initialValue, combine) => this.request.fold<S>(initialValue, combine);
@@ -81,7 +84,7 @@ class Request extends HttpRequest {
   Future forEach(void Function(Uint8List element) action) => this.request.forEach(action);
 
   @override
-  handleError(onError, {test})  => this.request.handleError(onError, test: test);
+  handleError(onError, {test}) => this.request.handleError(onError, test: test);
 
   @override
   HttpHeaders get headers => this.request.headers;
@@ -99,14 +102,14 @@ class Request extends HttpRequest {
   get last => this.request.last;
 
   @override
-  lastWhere(test, {orElse})  => this.request.lastWhere(test, orElse: orElse);
+  lastWhere(test, {orElse}) => this.request.lastWhere(test, orElse: orElse);
 
   @override
   Future<int> get length => this.request.length;
 
   @override
-  listen(onData, {onError,  onDone, cancelOnError}) => this.request.listen(onData,
-        cancelOnError: cancelOnError, onDone: onDone, onError: onError);
+  listen(onData, {onError, onDone, cancelOnError}) =>
+      this.request.listen(onData, cancelOnError: cancelOnError, onDone: onDone, onError: onError);
 
   @override
   map<S>(convert) => this.request.map<S>(convert);
@@ -154,7 +157,7 @@ class Request extends HttpRequest {
   takeWhile(test) => this.request.takeWhile(test);
 
   @override
-  timeout(timeLimit, {onTimeout})  => this.request.timeout(timeLimit, onTimeout: onTimeout);
+  timeout(timeLimit, {onTimeout}) => this.request.timeout(timeLimit, onTimeout: onTimeout);
 
   @override
   toList() => this.request.toList();

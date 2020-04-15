@@ -9,7 +9,7 @@ main() {
 
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
-  app.settings.viewEngine = 'mustache';
+  app.set('views', 'mustache');
 
   app.get('/', (req, res) {
     res.statusCode = HttpStatus.ok;
@@ -39,10 +39,8 @@ main() {
   });
 
   app.get('/3', (req, res) {
-    res.render('about', {
-      'first_name': req.params['first_name'] ?? 'Devin Riegle',
-      'person': req.params['person']
-    });
+    res.render('about',
+        {'first_name': req.params['first_name'] ?? 'Devin Riegle', 'person': req.params['person']});
   });
 
   app.get('/4', (req, res) {
