@@ -11,6 +11,8 @@ class Request extends HttpRequest {
   Map<String, dynamic> params;
 
   Request(this.request) {
+    this._next = () {};
+
     if (this.request != null) {
       this.params = Map.from(request.requestedUri.queryParameters);
     }
@@ -81,7 +83,8 @@ class Request extends HttpRequest {
   fold<S>(initialValue, combine) => this.request.fold<S>(initialValue, combine);
 
   @override
-  Future forEach(void Function(Uint8List element) action) => this.request.forEach(action);
+  Future forEach(void Function(Uint8List element) action) =>
+      this.request.forEach(action);
 
   @override
   handleError(onError, {test}) => this.request.handleError(onError, test: test);
@@ -109,7 +112,8 @@ class Request extends HttpRequest {
 
   @override
   listen(onData, {onError, onDone, cancelOnError}) =>
-      this.request.listen(onData, cancelOnError: cancelOnError, onDone: onDone, onError: onError);
+      this.request.listen(onData,
+          cancelOnError: cancelOnError, onDone: onDone, onError: onError);
 
   @override
   map<S>(convert) => this.request.map<S>(convert);
@@ -157,7 +161,8 @@ class Request extends HttpRequest {
   takeWhile(test) => this.request.takeWhile(test);
 
   @override
-  timeout(timeLimit, {onTimeout}) => this.request.timeout(timeLimit, onTimeout: onTimeout);
+  timeout(timeLimit, {onTimeout}) =>
+      this.request.timeout(timeLimit, onTimeout: onTimeout);
 
   @override
   toList() => this.request.toList();
@@ -166,7 +171,8 @@ class Request extends HttpRequest {
   toSet() => this.request.toSet();
 
   @override
-  transform<S>(streamTransformer) => this.request.transform<S>(streamTransformer);
+  transform<S>(streamTransformer) =>
+      this.request.transform<S>(streamTransformer);
 
   @override
   Uri get uri => this.request.uri;

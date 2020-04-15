@@ -6,6 +6,7 @@ main() {
   var app = express();
 
   app.use(BodyParser.json());
+  app.use(CorsMiddleware.use());
   app.engine(MarkdownEngine.use());
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
@@ -43,8 +44,10 @@ main() {
   });
 
   app.get('/3', (req, res) {
-    res.render('about',
-        {'first_name': req.params['first_name'] ?? 'Devin Riegle', 'person': req.params['person']});
+    res.render('about', {
+      'first_name': req.params['first_name'] ?? 'Devin Riegle',
+      'person': req.params['person']
+    });
   });
 
   app.get('/4', (req, res) {

@@ -10,6 +10,7 @@ export 'src/app.dart';
 export 'src/request.dart';
 export 'src/response.dart';
 export 'src/middleware/body_parser.dart';
+export 'src/middleware/cors.dart';
 export 'src/http_methods.dart';
 export 'src/engines/engine.dart';
 export 'src/engines/mustache.dart';
