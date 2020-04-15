@@ -1,4 +1,4 @@
-import 'dart:io' show HttpServer, InternetAddress, HttpRequest, Directory;
+import 'dart:io' show HttpServer, InternetAddress, HttpRequest;
 import 'package:dart_express/src/engines/html.dart';
 import 'package:dart_express/src/middleware/init.dart';
 import 'package:dart_express/src/route.dart';
@@ -157,7 +157,8 @@ class App {
           dirs = 'directory "${view.rootPath}"';
         }
 
-        var err = Error.safeToString('Failed to lookup view "${view.name}${view.ext}" in views $dirs');
+        var err =
+            Error.safeToString('Failed to lookup view "${view.name}${view.ext}" in views $dirs');
         return callback(err, null);
       }
 
