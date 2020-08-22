@@ -72,8 +72,8 @@ void main() {
       layer =
           Layer('/users/:userId/posts/:postId', route: route, method: method);
 
-      String userId = 'b33cb427-0619-479b-81bc-8c66eb5caff1';
-      String postId = 'd11ab56e-f1d0-4d13-bfe0-788a3fddcebf';
+      final userId = 'b33cb427-0619-479b-81bc-8c66eb5caff1';
+      final postId = 'd11ab56e-f1d0-4d13-bfe0-788a3fddcebf';
 
       expect(layer.match('/users/$userId/posts/$postId', method), isTrue);
       expect(layer.parameters, equals(['userId', 'postId']));
@@ -90,9 +90,9 @@ void main() {
 
   group('route handling', () {
     test('calls the handler method with the expected values', () {
-      bool called = false;
+      var called = false;
 
-      mockHandler(Request request, Response res) {
+      void mockHandler(Request request, Response res) {
         called = true;
       }
 

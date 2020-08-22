@@ -2,7 +2,7 @@ import 'package:dart_express/dart_express.dart';
 
 const int PORT = 5000;
 
-main() {
+void main() {
   var app = express();
 
   app.use(BodyParser.json());
@@ -43,8 +43,10 @@ main() {
   });
 
   app.get('/3', (req, res) {
-    res.render('about',
-        {'first_name': req.params['first_name'] ?? 'Devin Riegle', 'person': req.params['person']});
+    res.render('about', {
+      'first_name': req.params['first_name'] ?? 'Devin Riegle',
+      'person': req.params['person']
+    });
   });
 
   app.get('/4', (req, res) {

@@ -22,7 +22,7 @@ class BodyParser {
 
   static Future<Map<String, dynamic>> convertBodyToJson(request) async {
     try {
-      String content = await utf8.decoder.bind(request).join();
+      final content = await utf8.decoder.bind(request).join();
 
       return jsonDecode(content) as Map<String, dynamic>;
     } catch (e) {

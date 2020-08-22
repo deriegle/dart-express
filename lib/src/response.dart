@@ -10,105 +10,107 @@ class Response {
 
   Response send(dynamic body) {
     if (body is Map) {
-      this.json(body);
+      json(body);
     } else if (body is String) {
       if (headers.contentType == null) {
-        this.headers.add('Content-Type', 'text/plain');
+        headers.add('Content-Type', 'text/plain');
       }
 
-      this.encoding = convert.Encoding.getByName('utf-8');
-      this.write(body);
-      this.close();
+      encoding = convert.Encoding.getByName('utf-8');
+      write(body);
+      close();
     }
 
     return this;
   }
 
-  render(String viewName, [Map<String, dynamic> locals]) {
-    this.app.render(viewName, locals, (err, data) {
+  void render(String viewName, [Map<String, dynamic> locals]) {
+    app.render(viewName, locals, (err, data) {
       if (err != null) {
         print(err);
 
-        this.response.close();
+        response.close();
         return;
       }
 
-      this.html(data);
+      html(data);
     });
   }
 
   Response html(String html) {
-    this.headers.contentType = ContentType.html;
-    this.send(html);
+    headers.contentType = ContentType.html;
+    send(html);
     return this;
   }
 
   Response json(Map<String, dynamic> body) {
-    this.headers.contentType = ContentType.json;
+    headers.contentType = ContentType.json;
 
-    return this.send(convert.json.encode(body));
+    return send(convert.json.encode(body));
   }
 
   Response set(String headerName, dynamic headerContent) {
-    this.headers.add(headerName, headerContent);
+    headers.add(headerName, headerContent);
     return this;
   }
 
   Response status(int code) {
-    this.statusCode = code;
+    statusCode = code;
     return this;
   }
 
   convert.Encoding encoding;
 
   void add(List<int> data) {
-    return this.response.add(data);
+    return response.add(data);
   }
 
   void addError(Object error, [StackTrace stackTrace]) {
-    return this.response.addError(error, stackTrace);
+    return response.addError(error, stackTrace);
   }
 
-  get statusCode => this.response.statusCode;
-  set statusCode(int newCode) => this.response.statusCode = newCode;
+  int get statusCode => response.statusCode;
+  set statusCode(int newCode) => response.statusCode = newCode;
 
   Future addStream(Stream<List<int>> stream) {
-    return this.response.addStream(stream);
+    return response.addStream(stream);
   }
 
   Future close() {
-    return this.response.close();
+    return response.close();
   }
 
-  HttpConnectionInfo get connectionInfo => this.response.connectionInfo;
+  HttpConnectionInfo get connectionInfo => response.connectionInfo;
 
-  List<Cookie> get cookies => this.response.cookies;
+  List<Cookie> get cookies => response.cookies;
 
-  detachSocket({writeHeaders = true}) => this.response.detachSocket(writeHeaders: writeHeaders);
+  Future<Socket> detachSocket({writeHeaders = true}) =>
+      response.detachSocket(writeHeaders: writeHeaders);
 
-  Future get done => this.response.done;
+  Future get done => response.done;
 
   Future flush() {
-    return this.response.flush();
+    return response.flush();
   }
 
-  HttpHeaders get headers => this.response.headers;
+  HttpHeaders get headers => response.headers;
 
   Future redirect(String location, {int status = HttpStatus.movedTemporarily}) {
-    return this.response.redirect(Uri.tryParse(location), status: status);
+    return response.redirect(Uri.tryParse(location), status: status);
   }
 
-  write(Object obj) => this.response.write(obj);
+  void write(Object obj) => response.write(obj);
 
-  writeAll(Iterable objects, [String separator = ""]) => this.response.writeAll(objects, separator);
+  void writeAll(Iterable objects, [String separator = '']) =>
+      response.writeAll(objects, separator);
 
-  writeCharCode(int charCode) =>this.response.writeCharCode(charCode);
+  void writeCharCode(int charCode) => response.writeCharCode(charCode);
 
-  writeln([Object obj = ""]) => this.response.writeln(obj);
+  void writeln([Object obj = '']) => response.writeln(obj);
 
-  end() => this.close();
+  Future end() => close();
 
-  location(String path) {
-    this.headers.add('Location', path);
+  void location(String path) {
+    headers.add('Location', path);
   }
 }

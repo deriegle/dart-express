@@ -20,7 +20,7 @@ class _AppSettings {
     this.viewsPath,
     this.viewEngine = 'html',
   }) {
-    this.viewsPath = this.viewsPath ?? path.absolute('views');
+    viewsPath = viewsPath ?? path.absolute('views');
   }
 }
 
@@ -32,9 +32,9 @@ class App {
   Router _router;
 
   App() {
-    this._settings = _AppSettings();
-    this.cache = {};
-    this._engines = {'html': HtmlEngine.use()};
+    _settings = _AppSettings();
+    cache = {};
+    _engines = {'html': HtmlEngine.use()};
   }
 
   /// Set App configuration values
@@ -53,17 +53,17 @@ class App {
   /// Views [Default: ./views]
   ///
   /// This key takes a string value of the file path to the views folder
-  set(String key, dynamic value) {
+  void set(String key, dynamic value) {
     switch (key.toLowerCase()) {
       case 'views engine':
       case 'view engine':
-        this._settings.viewEngine = value;
+        _settings.viewEngine = value;
         break;
       case 'views':
-        this._settings.viewsPath = value;
+        _settings.viewsPath = value;
         break;
       case 'cache':
-        this._settings.cache = !!value;
+        _settings.cache = !!value;
         break;
       default:
         throw ArgumentError('Invalid key "${key}" for settings.');
@@ -73,10 +73,10 @@ class App {
   /// Add a middleware callback for every request using this command
   ///
   /// Useful for parsing JSON, form data, logging requests, etc.
-  use(Function cb) {
-    this._lazyRouter();
+  App use(Function cb) {
+    _lazyRouter();
 
-    this._router.use(cb);
+    _router.use(cb);
 
     return this;
   }
@@ -95,12 +95,12 @@ class App {
       throw Error.safeToString('Engine extension must be defined.');
     }
 
-    if (this._engines[engine.ext] != null) {
+    if (_engines[engine.ext] != null) {
       throw Error.safeToString(
           'A View engine for the ${engine.ext} extension has already been defined.');
     }
 
-    this._engines[engine.ext] = engine;
+    _engines[engine.ext] = engine;
 
     return this;
   }
@@ -135,7 +135,7 @@ class App {
 
   /// Handles ALL requests to the specified path
   List<Route> all(String path, RouteMethod cb) {
-    List<Route> routes = [];
+    final routes = <Route>[];
 
     HTTPMethods.ALL.forEach((method) {
       routes.add(_buildRoute(path, cb, method));
@@ -147,41 +147,40 @@ class App {
   /// Starts the HTTP server listening on the specified port
   ///
   /// All Request and Response objects will be wrapped and handled by the Router
-  listen({InternetAddress address, int port, Function(int) cb}) async {
-    this._server = await HttpServer.bind(
+  void listen({InternetAddress address, int port, Function(int) cb}) async {
+    _server = await HttpServer.bind(
       address ?? InternetAddress.loopbackIPv4,
       port,
     );
 
-    this._server.listen((HttpRequest req) {
+    _server.listen((HttpRequest req) {
       var request = Request(req);
       var response = Response(req.response, this);
 
-      this._router.handle(request, response);
+      _router.handle(request, response);
     });
 
     if (cb != null) {
-      cb(this._server.port);
+      cb(_server.port);
     }
   }
 
-  render(String fileName, Map<String, dynamic> options, Function callback) {
+  void render(
+      String fileName, Map<String, dynamic> options, Function callback) {
     View view;
 
-    if (this._settings.cache == null) {
-      this._settings.cache = true;
-    }
+    _settings.cache ??= true;
 
-    if (this._settings.cache) {
-      view = this.cache[fileName];
+    if (_settings.cache) {
+      view = cache[fileName];
     }
 
     if (view == null) {
       view = View(
         fileName,
-        defaultEngine: this._settings.viewEngine,
-        engines: this._engines,
-        rootPath: this._settings.viewsPath,
+        defaultEngine: _settings.viewEngine,
+        engines: _engines,
+        rootPath: _settings.viewsPath,
       );
 
       if (view.filePath == null) {
@@ -199,30 +198,28 @@ class App {
         return callback(err, null);
       }
 
-      if (this._settings.cache) {
-        this.cache[fileName] = view;
+      if (_settings.cache) {
+        cache[fileName] = view;
       }
     }
 
-    this._tryRender(view, options, callback);
+    _tryRender(view, options, callback);
   }
 
-  _buildRoute(path, cb, method) {
-    this._lazyRouter();
+  Route _buildRoute(path, cb, method) {
+    _lazyRouter();
 
-    var route = this._router.route(path, method);
+    final route = _router.route(path, method);
     route.read(cb);
 
     return route;
   }
 
-  _lazyRouter() {
-    if (this._router == null) {
-      this._router = Router().use(Middleware.init);
-    }
+  Router _lazyRouter() {
+    return _router ??= Router().use(Middleware.init);
   }
 
-  _tryRender(View view, Map<String, dynamic> options, Function callback) {
+  void _tryRender(View view, Map<String, dynamic> options, Function callback) {
     try {
       view.render(options, callback);
     } catch (err) {

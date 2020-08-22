@@ -5,18 +5,18 @@ import 'package:dart_express/src/engines/engine.dart';
 class MustacheEngine {
   static String ext = '.mustache';
 
-  static handler(
+  static Future<void> handler(
     String filePath,
     Map<String, dynamic> options,
     HandlerCallback callback, [
     FileRepository fileRepository = const RealFileRepository(),
   ]) async {
     try {
-      var fileContents = await fileRepository.readAsString(Uri.file(filePath));
-      var rendered = mustache.render(fileContents, options ?? {});
+      final fileContents =
+          await fileRepository.readAsString(Uri.file(filePath));
+      final rendered = mustache.render(fileContents, options ?? {});
 
-      callback(null, rendered);
-      return rendered;
+      return callback(null, rendered);
     } catch (e) {
       callback(e, null);
       return null;

@@ -23,8 +23,9 @@ class MarkdownEngine {
     FileRepository fileRepository = const RealFileRepository(),
   ]) async {
     try {
-      final String fileContents = await fileRepository.readAsString(Uri.file(filePath));
-      final String rendered = _wrapInHTMLTags(markdownToHtml(fileContents), locals);
+      final fileContents =
+          await fileRepository.readAsString(Uri.file(filePath));
+      final rendered = _wrapInHTMLTags(markdownToHtml(fileContents), locals);
       callback(null, rendered);
       return rendered;
     } catch (e) {
@@ -33,7 +34,7 @@ class MarkdownEngine {
     }
   }
 
-  static _wrapInHTMLTags(String html, Map<String, dynamic> options) {
+  static String _wrapInHTMLTags(String html, Map<String, dynamic> options) {
     return '''
     <html>
     <head>

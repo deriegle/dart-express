@@ -23,10 +23,9 @@ class Router {
   Router({this.options = const RouterOptions()});
 
   Route route(String path, String method) {
-    var route = Route(path);
-    var layer = Layer(path, method: method, handle: (req, res) {}, route: route);
+    final route = Route(path);
 
-    this.stack.add(layer);
+    stack.add(Layer(path, method: method, handle: (req, res) {}, route: route));
 
     return route;
   }
@@ -34,23 +33,23 @@ class Router {
   Router use(RouteMethod cb) {
     var layer = Layer('/', handle: cb, name: Middleware.name);
 
-    this.stack.add(layer);
+    stack.add(layer);
 
     return this;
   }
 
-  handle(Request req, Response res) {
+  void handle(Request req, Response res) {
     var self = this;
     var stack = self.stack;
     var index = 0;
 
     req.next = () {
-      String path = req.requestedUri.path;
-      String method = req.method;
+      final path = req.requestedUri.path;
+      final method = req.method;
 
       // find next matching layer
       Layer layer;
-      bool match = false;
+      var match = false;
       Route route;
 
       while (match != true && index < stack.length) {
@@ -80,7 +79,7 @@ class Router {
     req.next();
   }
 
-  matchLayer(Layer layer, String path, String method) {
+  bool matchLayer(Layer layer, String path, String method) {
     try {
       return layer.match(path, method);
     } catch (err) {

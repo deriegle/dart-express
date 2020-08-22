@@ -11,22 +11,14 @@ class Route {
 
   Route(this.path);
 
-  delete(RouteMethod cb) => this._setLayer('delete', cb);
+  void delete(RouteMethod cb) => _setLayer('delete', cb);
+  void get(RouteMethod cb) => _setLayer('get', cb);
+  void head(RouteMethod cb) => _setLayer('head', cb);
+  void patch(RouteMethod cb) => _setLayer('patch', cb);
+  void post(RouteMethod cb) => _setLayer('post', cb);
+  void put(RouteMethod cb) => _setLayer('put', cb);
+  void read(RouteMethod cb) => _setLayer('read', cb);
 
-  get(RouteMethod cb) => this._setLayer('get', cb);
-
-  head(RouteMethod cb) => this._setLayer('head', cb);
-
-  patch(RouteMethod cb) => this._setLayer('patch', cb);
-
-  post(RouteMethod cb) => this._setLayer('post', cb);
-
-  put(RouteMethod cb) => this._setLayer('put', cb);
-
-  read(RouteMethod cb) => this._setLayer('read', cb);
-
-  _setLayer(String method, RouteMethod cb) {
-    var layer = Layer(null, method: method, handle: cb, route: this);
-    this.stack.add(layer);
-  }
+  void _setLayer(String method, RouteMethod cb) =>
+      stack.add(Layer(null, method: method, handle: cb, route: this));
 }

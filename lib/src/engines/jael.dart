@@ -9,7 +9,7 @@ import 'package:symbol_table/symbol_table.dart';
 class JaelEngine {
   static String ext = '.jael';
 
-  static handler(
+  static Future<void> handler(
     String filePath,
     Map<String, dynamic> options,
     HandlerCallback callback, [
@@ -24,10 +24,12 @@ class JaelEngine {
 
       // Parse the document, of course.
       var buffer = CodeBuffer();
-      var document = jael.parseDocument(str, sourceUrl: filePath, onError: errors.add);
+      var document =
+          jael.parseDocument(str, sourceUrl: filePath, onError: errors.add);
 
       // Resolve template includes, etc.
-      document = await jael.resolve(document, fs.directory('views'), onError: errors.add);
+      document = await jael.resolve(document, fs.directory('views'),
+          onError: errors.add);
 
       // Render an error page if anything went wrong.
       if (errors.isNotEmpty) {
@@ -40,7 +42,8 @@ class JaelEngine {
       // render it.
       try {
         var scope = SymbolTable(values: options);
-        jael.Renderer().render(document, buffer, scope, strictResolution: false);
+        jael.Renderer()
+            .render(document, buffer, scope, strictResolution: false);
       } on jael.JaelError catch (e) {
         jael.Renderer.errorDocument([e], buffer..clear());
         return callback(null, buffer.toString());

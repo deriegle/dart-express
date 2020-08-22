@@ -17,46 +17,47 @@ class View {
     this.defaultEngine,
     Map<String, Engine> engines,
   }) {
-    this.ext = path.extension(this.name);
+    ext = path.extension(name);
 
-    if (this.ext == null && this.defaultEngine == null) {
+    if (ext == null && defaultEngine == null) {
       throw Error.safeToString('No default engine or extension are provided.');
     }
 
-    String fileName = name;
+    var fileName = name;
 
-    if (this.ext == null || this.ext.isEmpty) {
-      this.ext = this.defaultEngine[0] == '.' ? this.defaultEngine : '.${this.defaultEngine}';
+    if (ext == null || ext.isEmpty) {
+      ext = defaultEngine[0] == '.' ? defaultEngine : '.${defaultEngine}';
 
-      fileName += this.ext;
+      fileName += ext;
     }
 
-    this.engine = engines[this.ext] ?? HtmlEngine.use();
-    this.filePath = this.lookup(fileName);
+    engine = engines[ext] ?? HtmlEngine.use();
+    filePath = lookup(fileName);
   }
 
-  render(Map<String, dynamic> options, Function callback) {
-    this.engine.handler(this.filePath, options, callback);
-  }
+  void render(Map<String, dynamic> options, Function callback) =>
+      engine.handler(filePath, options, callback);
 
-  lookup(String fileName) {
+  String lookup(String fileName) {
     String finalPath;
-    List<String> roots = this.rootPath is List ? this.rootPath : [this.rootPath];
+    List<String> roots = rootPath is List ? rootPath : [rootPath];
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
       var root = roots[i];
       var fullFilePath = path.join(root, fileName);
 
-      var loc = path.isAbsolute(fullFilePath) ? fullFilePath : path.absolute(fullFilePath);
+      var loc = path.isAbsolute(fullFilePath)
+          ? fullFilePath
+          : path.absolute(fullFilePath);
 
-      finalPath = this.resolve(loc);
+      finalPath = resolve(loc);
     }
 
     return finalPath;
   }
 
-  resolve(filePath) {
-    if (this._exists(filePath) && this._isFile(filePath)) {
+  String resolve(filePath) {
+    if (_exists(filePath) && _isFile(filePath)) {
       return filePath;
     } else {
       return null;
@@ -65,7 +66,8 @@ class View {
 
   bool _isFile(filePath) {
     try {
-      return File.fromUri(Uri.file(filePath)).statSync().type == FileSystemEntityType.file;
+      return File.fromUri(Uri.file(filePath)).statSync().type ==
+          FileSystemEntityType.file;
     } catch (e) {
       print('${filePath} is not a file');
 
