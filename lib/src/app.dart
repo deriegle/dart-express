@@ -106,25 +106,32 @@ class App {
   }
 
   /// Handles DELETE requests to the specified path
-  Route delete(String path, Function cb) => _buildRoute(path, cb, HTTPMethods.DELETE);
+  Route delete(String path, Function cb) =>
+      _buildRoute(path, cb, HTTPMethods.DELETE);
 
   /// Handles GET requests to the specified path
-  Route get(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.GET);
+  Route get(String path, RouteMethod cb) =>
+      _buildRoute(path, cb, HTTPMethods.GET);
 
   /// Handles HEAD requests to the specified path
-  Route head(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.HEAD);
+  Route head(String path, RouteMethod cb) =>
+      _buildRoute(path, cb, HTTPMethods.HEAD);
 
   /// Handles PATCH requests to the specified path
-  Route patch(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.PATCH);
+  Route patch(String path, RouteMethod cb) =>
+      _buildRoute(path, cb, HTTPMethods.PATCH);
 
   /// Handles POST requests to the specified path
-  Route post(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.POST);
+  Route post(String path, RouteMethod cb) =>
+      _buildRoute(path, cb, HTTPMethods.POST);
 
   /// Handles PUT requests to the specified path
-  Route put(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.PUT);
+  Route put(String path, RouteMethod cb) =>
+      _buildRoute(path, cb, HTTPMethods.PUT);
 
   /// Handles READ requests to the specified path
-  Route read(String path, RouteMethod cb) => _buildRoute(path, cb, HTTPMethods.READ);
+  Route read(String path, RouteMethod cb) =>
+      _buildRoute(path, cb, HTTPMethods.READ);
 
   /// Handles ALL requests to the specified path
   List<Route> all(String path, RouteMethod cb) {
@@ -140,8 +147,8 @@ class App {
   /// Starts the HTTP server listening on the specified port
   ///
   /// All Request and Response objects will be wrapped and handled by the Router
-  listen(int port, [Function(int) cb]) async {
-    this._server = await HttpServer.bind(InternetAddress.loopbackIPv4, port);
+  listen(InternetAddress address, int port, [Function(int) cb]) async {
+    this._server = await HttpServer.bind(address, port);
 
     this._server.listen((HttpRequest req) {
       var request = Request(req);
@@ -184,8 +191,8 @@ class App {
           dirs = 'directory "${view.rootPath}"';
         }
 
-        var err =
-            Error.safeToString('Failed to lookup view "${view.name}${view.ext}" in views $dirs');
+        var err = Error.safeToString(
+            'Failed to lookup view "${view.name}${view.ext}" in views $dirs');
         return callback(err, null);
       }
 
