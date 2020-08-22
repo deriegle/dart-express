@@ -14,18 +14,26 @@
 - Add `res.end()` and `res.location()` methods to Response class.
 
 ## 0.2.1
- - Clean up Request & Response classes
- - Export HTTPStatus class from dart-express directly
+
+- Clean up Request & Response classes
+- Export HTTPStatus class from dart-express directly
 
 ## 0.2.2
-  - Fix issue with relative paths for views
-  - Add app.set('views', './path');
-  - Add app.set('view engine', './path')
+
+- Fix issue with relative paths for views
+- Add app.set('views', './path');
+- Add app.set('view engine', './path')
 
 ## 0.2.3
-  - Throw error when providing an invalid setting key
+
+- Throw error when providing an invalid setting key
 
 ## 0.2.4
-  - Add View Engine tests to ensure view rendering is working as expected
-  - Add Markdown View Engine to parse and display Markdown files
-  - Add documentation for public API and clean up interfaces
+
+- Add View Engine tests to ensure view rendering is working as expected
+- Add Markdown View Engine to parse and display Markdown files
+- Add documentation for public API and clean up interfaces
+
+## 0.3.0
+
+- Add ability to listen on address other than loopback address (Thanks @jeffmikels)

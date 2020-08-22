@@ -147,8 +147,11 @@ class App {
   /// Starts the HTTP server listening on the specified port
   ///
   /// All Request and Response objects will be wrapped and handled by the Router
-  listen(InternetAddress address, int port, [Function(int) cb]) async {
-    this._server = await HttpServer.bind(address, port);
+  listen({InternetAddress address, int port, Function(int) cb}) async {
+    this._server = await HttpServer.bind(
+      address ?? InternetAddress.loopbackIPv4,
+      port,
+    );
 
     this._server.listen((HttpRequest req) {
       var request = Request(req);
