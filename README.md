@@ -9,7 +9,7 @@ A simple usage example:
 import 'package:dart_express/dart_express.dart';
 
 main() {
-  var app = express();
+  final app = express();
 
   app.get('/', (req, res) {
     res.json({
@@ -28,7 +28,7 @@ Example with route parameters
 import 'package:dart_express/dart_express.dart';
 
 main() {
-  var app = express();
+  final app = express();
 
   app.get('/users/:userId/posts/:postId', (req, res) {
     res.json({
@@ -47,7 +47,7 @@ With Body parsing Middleware:
 import 'package:dart_express/dart_express.dart';
 
 main() {
-  var app = express();
+  final app = express();
 
   app.use(BodyParser.json());
 
@@ -69,13 +69,14 @@ Using the mustache templating engine
 import 'package:dart_express/dart_express.dart';
 
 main() {
-  var app = express();
+  final app = express();
 
   app.use(BodyParser.json());
   app.engine(MustacheEngine.use());
-
-  app.settings.viewsPath = 'custom_views_path';
-  app.settings.viewEngine = 'mustache';
+  
+  app.settings
+    ..viewsPath = 'custom_views_path'
+    ..viewEngine = 'mustache';
 
   app.get('/', (req, res) {
     res.render('index', {
@@ -95,10 +96,6 @@ main() {
 
 ### Roadmap
 
-- [x] Basic Routing
-- [x] Easily build Middleware
-- [x] Add & use view engines easily
-- [x] Add in-depth testing
 - [ ] Clean up imports and extract middleware to separate packages
 - [ ] Add Dart "morgan" middleware package for logging HTTP requests
 - [ ] Add CORS middleware package
