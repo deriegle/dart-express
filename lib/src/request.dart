@@ -7,6 +7,8 @@ class Request {
   Map<String, dynamic> params;
 
   Request(this._request) {
+    body = <String, dynamic>{};
+
     if (request != null) {
       params = Map.from(request.requestedUri.queryParameters);
     }

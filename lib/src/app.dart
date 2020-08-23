@@ -69,6 +69,16 @@ class App {
     return this;
   }
 
+  App useRouter(String path, Router router) {
+    final currentRouter = _lazyRouter();
+
+    currentRouter.stack.addAll(
+      router.stack.map((layer) => layer.withPathPrefix(path)),
+    );
+
+    return this;
+  }
+
   /// Adds new View Engine to App
   ///
   /// Examples:

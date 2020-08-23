@@ -5,10 +5,11 @@ class RouterOptions {
   final bool mergeParams;
   final bool strict;
 
-  const RouterOptions(
-      {this.caseSensitive = false,
-      this.mergeParams = false,
-      this.strict = false});
+  const RouterOptions({
+    this.caseSensitive = false,
+    this.mergeParams = false,
+    this.strict = false,
+  });
 }
 
 class Router {
@@ -31,6 +32,39 @@ class Router {
     );
 
     return route;
+  }
+
+  /// Handles DELETE requests to the specified path
+  _Route delete(String path, Function cb) =>
+      route(path, _HTTPMethods.DELETE, cb);
+
+  /// Handles GET requests to the specified path
+  _Route get(String path, RouteMethod cb) => route(path, _HTTPMethods.GET, cb);
+
+  /// Handles HEAD requests to the specified path
+  _Route head(String path, RouteMethod cb) =>
+      route(path, _HTTPMethods.HEAD, cb);
+
+  /// Handles PATCH requests to the specified path
+  _Route patch(String path, RouteMethod cb) =>
+      route(path, _HTTPMethods.PATCH, cb);
+
+  /// Handles POST requests to the specified path
+  _Route post(String path, RouteMethod cb) =>
+      route(path, _HTTPMethods.POST, cb);
+
+  /// Handles PUT requests to the specified path
+  _Route put(String path, RouteMethod cb) => route(path, _HTTPMethods.PUT, cb);
+
+  /// Handles ALL requests to the specified path
+  List<_Route> all(String path, RouteMethod cb) {
+    final routes = <_Route>[];
+
+    _HTTPMethods.ALL.forEach((method) {
+      routes.add(route(path, method, cb));
+    });
+
+    return routes;
   }
 
   Router use(RouteMethod handle) {

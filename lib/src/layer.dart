@@ -38,9 +38,29 @@ class _Layer {
 
   void handleRequest(Request req, Response res) => handle(req, res);
 
+  _Layer withPathPrefix(String pathPrefix) {
+    return _Layer(
+      _joinPath(pathPrefix, path),
+      method: method,
+      handle: handle,
+      route: route,
+      name: name,
+    );
+  }
+
+  String _joinPath(String pathPrefix, String path) {
+    if (pathPrefix.endsWith('/') && path.startsWith('/')) {
+      return pathPrefix + path.substring(1);
+    } else if (pathPrefix.endsWith('/') || path.startsWith('/')) {
+      return pathPrefix + path;
+    } else {
+      return pathPrefix + '/' + path;
+    }
+  }
+
   @override
   String toString() {
-    return 'Layer: { path: ${route.path} }';
+    return 'Layer: { path: ${path} }';
   }
 
   bool _pathMatches(String pathToCheck) {

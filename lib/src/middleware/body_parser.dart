@@ -9,7 +9,9 @@ class BodyParser {
           contentType != null &&
           contentType.mimeType == 'application/json') {
         convertBodyToJson(req).then((Map<String, dynamic> json) {
-          req.body = json;
+          if (json != null) {
+            req.body = json;
+          }
 
           req.next();
         });
