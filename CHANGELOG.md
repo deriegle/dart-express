@@ -56,3 +56,7 @@
 ## 0.5.2
 
 - Fix Body parser middleware
+
+## 0.5.3
+
+- Allow separate routers and view routes option
