@@ -19,9 +19,9 @@ class BodyParser {
     };
   }
 
-  static Future<Map<String, dynamic>> convertBodyToJson(request) async {
+  static Future<Map<String, dynamic>> convertBodyToJson(Request request) async {
     try {
-      final content = await convert.utf8.decoder.bind(request).join();
+      final content = await convert.utf8.decoder.bind(request.request).join();
 
       return convert.jsonDecode(content) as Map<String, dynamic>;
     } catch (e) {

@@ -52,3 +52,7 @@
 
 - Add basic Logger middleware
 - Fix middleware not loading issue
+
+## 0.5.2
+
+- Fix Body parser middleware
