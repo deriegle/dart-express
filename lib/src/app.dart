@@ -2,12 +2,14 @@ part of dart_express;
 
 class _AppSettings {
   bool cache;
+  bool printRoutes;
   String viewsPath;
   String viewEngine;
 
   _AppSettings({
     this.cache = true,
     String viewsPath,
+    this.printRoutes = false,
     this.viewEngine = 'html',
   }) : viewsPath = viewsPath ?? path.absolute('views');
 }
@@ -52,6 +54,11 @@ class App {
         break;
       case 'cache':
         _settings.cache = !!value;
+        break;
+      case 'print routes':
+      case 'view routes':
+      case 'show routes':
+        _settings.printRoutes = value;
         break;
       default:
         throw ArgumentError('Invalid key "${key}" for settings.');
@@ -155,6 +162,10 @@ class App {
       _router.handle(request, response);
     });
 
+    if (_settings.printRoutes) {
+      _printRoutes();
+    }
+
     if (cb != null) {
       cb(_server.port);
     }
@@ -175,6 +186,12 @@ class App {
     final view = _getViewFromFileName(fileName);
 
     view.render(locals, callback);
+  }
+
+  void _printRoutes() {
+    _router.stack.where((layer) => layer.route != null).forEach((layer) {
+      print('[${layer.method}] ${layer.path}');
+    });
   }
 
   _Route _buildRoute(String path, String method, RouteMethod cb) =>

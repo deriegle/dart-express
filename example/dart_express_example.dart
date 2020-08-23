@@ -16,6 +16,7 @@ void main() {
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
 
+  app.set('print routes', true);
   app.set('views', path.join(path.current, 'example/views'));
   app.set('view engine', 'mustache');
 
