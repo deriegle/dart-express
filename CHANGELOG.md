@@ -47,3 +47,8 @@
 ## 0.5.0
 
 - Add CORS middleware
+
+## 0.5.1
+
+- Add basic Logger middleware
+- Fix middleware not loading issue

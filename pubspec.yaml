@@ -1,6 +1,6 @@
 name: dart_express
 description: An unopinionated express-like HTTP framework built in Dart, includes the ability to render Mustache, Jael and HTML files, and simple routing.
-version: 0.5.0
+version: 0.5.1
 homepage: https://github.com/deriegle/dart-express
 
 environment:
