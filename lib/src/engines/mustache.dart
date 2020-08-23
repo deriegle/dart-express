@@ -11,6 +11,8 @@ class MustacheEngine {
     HandlerCallback callback, [
     FileRepository fileRepository = const RealFileRepository(),
   ]) async {
+    await mustache.loadLibrary();
+
     try {
       final fileContents =
           await fileRepository.readAsString(Uri.file(filePath));
