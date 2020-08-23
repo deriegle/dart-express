@@ -53,13 +53,20 @@ class CorsOptions {
 
 class CorsMiddleware {
   static RouteMethod use({
-    dynamic origin,
-    List<String> methods,
-    bool preflightContinue,
-    int optionsSuccessStatus,
-    bool credentials,
-    List<String> allowedHeaders,
-    List<String> exposedHeaders,
+    dynamic origin = '*',
+    List<String> methods = const [
+      _HTTPMethods.GET,
+      _HTTPMethods.HEAD,
+      _HTTPMethods.PUT,
+      _HTTPMethods.PATCH,
+      _HTTPMethods.POST,
+      _HTTPMethods.DELETE,
+    ],
+    bool preflightContinue = false,
+    int optionsSuccessStatus = 204,
+    bool credentials = false,
+    List<String> allowedHeaders = const <String>[],
+    List<String> exposedHeaders = const <String>[],
     int maxAge,
   }) {
     final options = CorsOptions(
@@ -83,7 +90,7 @@ class CorsMiddleware {
         headers.addAll(configureAllowedHeaders(options, req));
         headers.add(configureMaxAge(options));
         headers.add(configureExposedHeaders(options));
-        _applyHeaders(req, headers);
+        _applyHeaders(res, headers);
 
         if (options.preflightContinue) {
           req.next();
@@ -96,15 +103,17 @@ class CorsMiddleware {
         headers.addAll(configureOrigin(options, req));
         headers.add(configureCredentials(options));
         headers.add(configureExposedHeaders(options));
-        _applyHeaders(req, headers);
+        _applyHeaders(res, headers);
+
         req.next();
       }
     };
   }
 
-  static void _applyHeaders(Request req, List<MapEntry> headers) {
+  static void _applyHeaders(Response res, List<MapEntry> headers) {
     headers
-        .forEach((mapEntry) => req.headers.add(mapEntry.key, mapEntry.value));
+        .where((mapEntry) => mapEntry != null)
+        .forEach((mapEntry) => res.headers.add(mapEntry.key, mapEntry.value));
   }
 
   static bool isOriginAllowed(String origin, dynamic allowedOrigin) {
@@ -120,7 +129,7 @@ class CorsMiddleware {
     } else if (allowedOrigin is RegExp) {
       return allowedOrigin.hasMatch(origin);
     } else {
-      return !!allowedOrigin;
+      return allowedOrigin != null;
     }
   }
 

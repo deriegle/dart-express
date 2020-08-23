@@ -1,22 +1,24 @@
 import 'package:dart_express/dart_express.dart';
+import 'package:path/path.dart' as path;
 
 const int PORT = 5000;
 
 void main() {
-  var app = express();
+  final app = express();
 
   app.use(BodyParser.json());
   app.use(CorsMiddleware.use());
+  app.use(LoggerMiddleware.use(includeImmediate: true));
 
   app.engine(MarkdownEngine.use());
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
-  app.set('views', 'views');
+
+  app.set('views', path.join(path.current, 'example/views'));
+  app.set('view engine', 'mustache');
 
   app.get('/', (req, res) {
-    res.statusCode = HttpStatus.ok;
-
-    res.json({
+    res.status(200).json({
       'hello': 'world',
       'age': 25,
     });

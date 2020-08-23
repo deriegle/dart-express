@@ -10,7 +10,7 @@ class View {
 
   View(
     this.name, {
-    this.rootPath,
+    this.rootPath = '/',
     this.defaultEngine,
     Map<String, Engine> engines,
   }) {

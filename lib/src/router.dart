@@ -18,16 +18,27 @@ class Router {
 
   Router({this.options = const RouterOptions()});
 
-  Route route(String path, String method) {
+  Route route(String path, String method, RouteMethod handle) {
     final route = Route(path);
 
-    stack.add(Layer(path, method: method, handle: (req, res) {}, route: route));
+    stack.add(
+      Layer(
+        path,
+        method: method,
+        handle: handle ?? (req, res) {},
+        route: route,
+      ),
+    );
 
     return route;
   }
 
-  Router use(RouteMethod cb) {
-    var layer = Layer('/', handle: cb, name: _InitMiddleware.name);
+  Router use(RouteMethod handle) {
+    final layer = Layer(
+      '/',
+      handle: handle,
+      name: _InitMiddleware.name,
+    );
 
     stack.add(layer);
 
@@ -53,17 +64,19 @@ class Router {
         match = matchLayer(layer, path, method);
         route = layer.route;
 
-        if (match != true) {
-          continue;
-        }
-
-        if (!(route is Route)) {
+        if (!match || !(route is Route)) {
           continue;
         }
 
         req.params.addAll(layer.routeParams);
 
-        route.stack.first.handleRequest(req, res);
+        if (route.stack.isNotEmpty) {
+          route.stack.first.handleRequest(req, res);
+        } else if (layer.handle != null) {
+          layer.handleRequest(req, res);
+        } else {
+          res.status(HttpStatus.notFound).close();
+        }
       }
 
       // Matched without a route (Initial Middleware)
@@ -79,7 +92,8 @@ class Router {
     try {
       return layer.match(path, method);
     } catch (err) {
-      return err;
+      print('Error while matching route: $err');
+      return false;
     }
   }
 }

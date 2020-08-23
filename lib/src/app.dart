@@ -96,34 +96,34 @@ class App {
 
   /// Handles DELETE requests to the specified path
   Route delete(String path, Function cb) =>
-      _buildRoute(path, cb, _HTTPMethods.DELETE);
+      _buildRoute(path, _HTTPMethods.DELETE, cb);
 
   /// Handles GET requests to the specified path
   Route get(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, _HTTPMethods.GET);
+      _buildRoute(path, _HTTPMethods.GET, cb);
 
   /// Handles HEAD requests to the specified path
   Route head(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, _HTTPMethods.HEAD);
+      _buildRoute(path, _HTTPMethods.HEAD, cb);
 
   /// Handles PATCH requests to the specified path
   Route patch(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, _HTTPMethods.PATCH);
+      _buildRoute(path, _HTTPMethods.PATCH, cb);
 
   /// Handles POST requests to the specified path
   Route post(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, _HTTPMethods.POST);
+      _buildRoute(path, _HTTPMethods.POST, cb);
 
   /// Handles PUT requests to the specified path
   Route put(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, _HTTPMethods.PUT);
+      _buildRoute(path, _HTTPMethods.PUT, cb);
 
   /// Handles ALL requests to the specified path
   List<Route> all(String path, RouteMethod cb) {
     final routes = <Route>[];
 
     _HTTPMethods.ALL.forEach((method) {
-      routes.add(_buildRoute(path, cb, method));
+      routes.add(_buildRoute(path, method, cb));
     });
 
     return routes;
@@ -139,8 +139,8 @@ class App {
     );
 
     _server.listen((HttpRequest req) {
-      var request = Request(req);
-      var response = Response(req.response, this);
+      final request = Request(req);
+      final response = Response(req.response, this);
 
       _router.handle(request, response);
     });
@@ -155,28 +155,17 @@ class App {
     Map<String, dynamic> options,
     Function callback,
   ) {
-    try {
-      _settings.cache ??= true;
+    _settings.cache ??= true;
 
-      final view = _getViewFromFileName(fileName);
+    final view = _getViewFromFileName(fileName);
 
-      view.render(options, callback);
-    } catch (err) {
-      callback(err);
-    }
+    view.render(options, callback);
   }
 
-  Route _buildRoute(path, cb, method) {
-    _lazyRouter();
+  Route _buildRoute(String path, String method, RouteMethod cb) =>
+      _lazyRouter().route(path, method, cb);
 
-    final route = _router.route(path, method);
-
-    return route;
-  }
-
-  Router _lazyRouter() {
-    return _router ??= Router().use(_InitMiddleware.init);
-  }
+  Router _lazyRouter() => _router ??= Router().use(_InitMiddleware.init);
 
   View _getViewFromFileName(String fileName) {
     View view;

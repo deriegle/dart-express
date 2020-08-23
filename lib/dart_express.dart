@@ -35,9 +35,10 @@ part 'src/http_methods.dart';
 part 'src/repositories/file_repository.dart';
 
 /// Middleware
-part 'src/middleware/body_parser.dart';
 part 'src/middleware/init.dart';
+part 'src/middleware/body_parser.dart';
 part 'src/middleware/cors.dart';
+part 'src/middleware/logger.dart';
 
 /// Exceptions
 part 'src/exceptions/view_exception.dart';
