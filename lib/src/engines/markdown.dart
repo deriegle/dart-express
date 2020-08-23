@@ -20,10 +20,13 @@ class MarkdownEngine {
     HandlerCallback callback, [
     FileRepository fileRepository = const RealFileRepository(),
   ]) async {
+    await markdown.loadLibrary();
+
     try {
       final fileContents =
           await fileRepository.readAsString(Uri.file(filePath));
-      final rendered = _wrapInHTMLTags(markdownToHtml(fileContents), locals);
+      final rendered =
+          _wrapInHTMLTags(markdown.markdownToHtml(fileContents), locals);
       callback(null, rendered);
       return rendered;
     } catch (e) {
@@ -54,7 +57,5 @@ class MarkdownEngine {
   ///
   /// If you're going to use markdown as your default, you can set your default view engine using app.set('views engine', 'md').
   /// This will allow you to not use the ".md" extension when rendering your markdown files.
-  static Engine use() {
-    return Engine(MarkdownEngine.ext, MarkdownEngine.handler);
-  }
+  static Engine use() => Engine(MarkdownEngine.ext, MarkdownEngine.handler);
 }

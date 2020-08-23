@@ -8,12 +8,13 @@ import 'package:path/path.dart' as path
 import 'dart:convert' as convert;
 import 'dart:async';
 import 'dart:io';
-import 'package:code_buffer/code_buffer.dart';
+import 'package:code_buffer/code_buffer.dart' deferred as codebuffer;
 import 'package:file/local.dart';
 import 'package:jael/jael.dart' as jael;
-import 'package:jael_preprocessor/jael_preprocessor.dart' as jael;
+import 'package:jael_preprocessor/jael_preprocessor.dart'
+    deferred as jael_preprocessor;
 import 'package:symbol_table/symbol_table.dart';
-import 'package:markdown/markdown.dart';
+import 'package:markdown/markdown.dart' deferred as markdown;
 import 'package:mustache4dart/mustache4dart.dart' deferred as mustache;
 import 'package:path_to_regexp/path_to_regexp.dart';
 

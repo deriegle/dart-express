@@ -23,7 +23,5 @@ class MustacheEngine {
     }
   }
 
-  static Engine use() {
-    return Engine(MustacheEngine.ext, MustacheEngine.handler);
-  }
+  static Engine use() => Engine(MustacheEngine.ext, MustacheEngine.handler);
 }

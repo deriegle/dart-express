@@ -26,7 +26,5 @@ class HtmlEngine {
   /// Call this method to add the HtmlEngine to your app (This is added by default)
   ///
   /// app.engine(HtmlEngine.use());
-  static Engine use() {
-    return Engine(HtmlEngine.ext, HtmlEngine.handler);
-  }
+  static Engine use() => Engine(HtmlEngine.ext, HtmlEngine.handler);
 }

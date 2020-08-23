@@ -9,6 +9,9 @@ class JaelEngine {
     HandlerCallback callback, [
     FileRepository fileRepository = const RealFileRepository(),
   ]) async {
+    await jael_preprocessor.loadLibrary();
+    await codebuffer.loadLibrary();
+
     try {
       var fs = LocalFileSystem();
 
@@ -17,13 +20,16 @@ class JaelEngine {
       var errors = <jael.JaelError>[];
 
       // Parse the document, of course.
-      var buffer = CodeBuffer();
+      var buffer = codebuffer.CodeBuffer();
       var document =
           jael.parseDocument(str, sourceUrl: filePath, onError: errors.add);
 
       // Resolve template includes, etc.
-      document = await jael.resolve(document, fs.directory('views'),
-          onError: errors.add);
+      document = await jael_preprocessor.resolve(
+        document,
+        fs.directory('views'),
+        onError: errors.add,
+      );
 
       // Render an error page if anything went wrong.
       if (errors.isNotEmpty) {
@@ -35,7 +41,7 @@ class JaelEngine {
       // In case the rendering throws an error, be prepared to catch and
       // render it.
       try {
-        var scope = SymbolTable(values: options);
+        final scope = SymbolTable(values: options);
         jael.Renderer()
             .render(document, buffer, scope, strictResolution: false);
       } on jael.JaelError catch (e) {
@@ -56,7 +62,5 @@ class JaelEngine {
   /// Set the view engine to "jael" to not require the .jael extension when rendering Jael files.
   ///
   /// app.set('view engine', 'jael');
-  static Engine use() {
-    return Engine(JaelEngine.ext, JaelEngine.handler);
-  }
+  static Engine use() => Engine(JaelEngine.ext, JaelEngine.handler);
 }
