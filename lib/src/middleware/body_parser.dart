@@ -11,10 +11,10 @@ class BodyParser {
         convertBodyToJson(req).then((Map<String, dynamic> json) {
           req.body = json;
 
-          req?.next();
+          req.next();
         });
       } else {
-        req?.next();
+        req.next();
       }
     };
   }

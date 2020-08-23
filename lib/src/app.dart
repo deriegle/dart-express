@@ -175,7 +175,7 @@ class App {
   }
 
   Router _lazyRouter() {
-    return _router ??= Router().use(_Middleware.init);
+    return _router ??= Router().use(_InitMiddleware.init);
   }
 
   View _getViewFromFileName(String fileName) {

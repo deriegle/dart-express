@@ -29,7 +29,7 @@ class Layer {
       }
 
       return true;
-    } else if (name == _Middleware.name) {
+    } else if (name == _InitMiddleware.name) {
       return true;
     }
 

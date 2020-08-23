@@ -27,7 +27,7 @@ class Router {
   }
 
   Router use(RouteMethod cb) {
-    var layer = Layer('/', handle: cb, name: _Middleware.name);
+    var layer = Layer('/', handle: cb, name: _InitMiddleware.name);
 
     stack.add(layer);
 

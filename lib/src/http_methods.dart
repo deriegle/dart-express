@@ -7,6 +7,15 @@ class _HTTPMethods {
   static const HEAD = 'HEAD';
   static const PATCH = 'PATCH';
   static const PUT = 'PUT';
+  static const OPTIONS = 'OPTIONS';
 
-  static const ALL = [GET, POST, DELETE, HEAD, PATCH, PUT];
+  static const ALL = [
+    GET,
+    POST,
+    DELETE,
+    HEAD,
+    PATCH,
+    PUT,
+    OPTIONS,
+  ];
 }

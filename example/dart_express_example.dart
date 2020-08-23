@@ -6,6 +6,8 @@ void main() {
   var app = express();
 
   app.use(BodyParser.json());
+  app.use(CorsMiddleware.use());
+
   app.engine(MarkdownEngine.use());
   app.engine(MustacheEngine.use());
   app.engine(JaelEngine.use());
