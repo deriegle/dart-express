@@ -18,7 +18,7 @@ class MarkdownEngine {
     String filePath,
     Map<String, dynamic> locals,
     HandlerCallback callback, [
-    FileRepository fileRepository = const RealFileRepository(),
+    FileRepository fileRepository = const _RealFileRepository(),
   ]) async {
     await markdown.loadLibrary();
 

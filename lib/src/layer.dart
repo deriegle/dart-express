@@ -1,10 +1,10 @@
 part of dart_express;
 
-class Layer {
+class _Layer {
   final String _path;
   String method;
   RouteMethod handle;
-  Route route;
+  _Route route;
   String name;
   RegExp regExp;
   List<String> parameters;
@@ -12,7 +12,7 @@ class Layer {
 
   String get path => _path ?? route.path;
 
-  Layer(this._path, {this.method, this.handle, this.route, this.name}) {
+  _Layer(this._path, {this.method, this.handle, this.route, this.name}) {
     name = name ?? '<anonymous>';
     parameters = [];
     regExp = pathToRegExp(path, parameters: parameters);

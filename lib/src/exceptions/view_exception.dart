@@ -1,7 +1,7 @@
 part of dart_express;
 
 class _ViewException implements Error {
-  final View view;
+  final _View view;
   final String directory;
 
   _ViewException(this.view, this.directory);

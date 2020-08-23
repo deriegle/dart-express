@@ -7,7 +7,7 @@ class JaelEngine {
     String filePath,
     Map<String, dynamic> options,
     HandlerCallback callback, [
-    FileRepository fileRepository = const RealFileRepository(),
+    FileRepository fileRepository = const _RealFileRepository(),
   ]) async {
     await jael_preprocessor.loadLibrary();
     await codebuffer.loadLibrary();

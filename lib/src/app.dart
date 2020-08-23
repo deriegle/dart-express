@@ -95,32 +95,32 @@ class App {
   }
 
   /// Handles DELETE requests to the specified path
-  Route delete(String path, Function cb) =>
+  _Route delete(String path, Function cb) =>
       _buildRoute(path, _HTTPMethods.DELETE, cb);
 
   /// Handles GET requests to the specified path
-  Route get(String path, RouteMethod cb) =>
+  _Route get(String path, RouteMethod cb) =>
       _buildRoute(path, _HTTPMethods.GET, cb);
 
   /// Handles HEAD requests to the specified path
-  Route head(String path, RouteMethod cb) =>
+  _Route head(String path, RouteMethod cb) =>
       _buildRoute(path, _HTTPMethods.HEAD, cb);
 
   /// Handles PATCH requests to the specified path
-  Route patch(String path, RouteMethod cb) =>
+  _Route patch(String path, RouteMethod cb) =>
       _buildRoute(path, _HTTPMethods.PATCH, cb);
 
   /// Handles POST requests to the specified path
-  Route post(String path, RouteMethod cb) =>
+  _Route post(String path, RouteMethod cb) =>
       _buildRoute(path, _HTTPMethods.POST, cb);
 
   /// Handles PUT requests to the specified path
-  Route put(String path, RouteMethod cb) =>
+  _Route put(String path, RouteMethod cb) =>
       _buildRoute(path, _HTTPMethods.PUT, cb);
 
   /// Handles ALL requests to the specified path
-  List<Route> all(String path, RouteMethod cb) {
-    final routes = <Route>[];
+  List<_Route> all(String path, RouteMethod cb) {
+    final routes = <_Route>[];
 
     _HTTPMethods.ALL.forEach((method) {
       routes.add(_buildRoute(path, method, cb));
@@ -150,32 +150,37 @@ class App {
     }
   }
 
+  /// Render a template using the given filename and options
+  ///
+  /// Uses the extension "html" or the "view engine" default when not given an extension
+  /// You can override the default by providing an extension
+  /// Provide a Map of local variables to the template
   void render(
     String fileName,
-    Map<String, dynamic> options,
+    Map<String, dynamic> locals,
     Function callback,
   ) {
     _settings.cache ??= true;
 
     final view = _getViewFromFileName(fileName);
 
-    view.render(options, callback);
+    view.render(locals, callback);
   }
 
-  Route _buildRoute(String path, String method, RouteMethod cb) =>
+  _Route _buildRoute(String path, String method, RouteMethod cb) =>
       _lazyRouter().route(path, method, cb);
 
   Router _lazyRouter() => _router ??= Router().use(_InitMiddleware.init);
 
-  View _getViewFromFileName(String fileName) {
-    View view;
+  _View _getViewFromFileName(String fileName) {
+    _View view;
 
     if (_settings.cache) {
       view = cache[fileName];
     }
 
     if (view == null) {
-      view = View(
+      view = _View(
         fileName,
         defaultEngine: _settings.viewEngine,
         engines: _engines,

@@ -1,7 +1,5 @@
 part of dart_express;
 
-enum loggerOptions { includeImmediate }
-
 class LoggerMiddleware {
   static RouteMethod use({bool includeImmediate = false}) {
     return (Request req, Response res) {

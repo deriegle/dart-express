@@ -7,7 +7,7 @@ class MustacheEngine {
     String filePath,
     Map<String, dynamic> options,
     HandlerCallback callback, [
-    FileRepository fileRepository = const RealFileRepository(),
+    FileRepository fileRepository = const _RealFileRepository(),
   ]) async {
     await mustache.loadLibrary();
 

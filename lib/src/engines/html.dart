@@ -10,7 +10,7 @@ class HtmlEngine {
     String filePath,
     Map<String, dynamic> locals,
     HandlerCallback callback, [
-    FileRepository fileRepository = const RealFileRepository(),
+    FileRepository fileRepository = const _RealFileRepository(),
   ]) async {
     try {
       var uri = Uri.file(filePath);

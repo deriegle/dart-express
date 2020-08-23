@@ -13,16 +13,16 @@ class RouterOptions {
 
 class Router {
   Map<dynamic, dynamic> params = const {};
-  List<Layer> stack = [];
+  List<_Layer> stack = [];
   RouterOptions options;
 
   Router({this.options = const RouterOptions()});
 
-  Route route(String path, String method, RouteMethod handle) {
-    final route = Route(path);
+  _Route route(String path, String method, RouteMethod handle) {
+    final route = _Route(path);
 
     stack.add(
-      Layer(
+      _Layer(
         path,
         method: method,
         handle: handle ?? (req, res) {},
@@ -34,7 +34,7 @@ class Router {
   }
 
   Router use(RouteMethod handle) {
-    final layer = Layer(
+    final layer = _Layer(
       '/',
       handle: handle,
       name: _InitMiddleware.name,
@@ -55,16 +55,16 @@ class Router {
       final method = req.method;
 
       // find next matching layer
-      Layer layer;
+      _Layer layer;
       var match = false;
-      Route route;
+      _Route route;
 
       while (match != true && index < stack.length) {
         layer = stack[index++];
         match = matchLayer(layer, path, method);
         route = layer.route;
 
-        if (!match || !(route is Route)) {
+        if (!match || !(route is _Route)) {
           continue;
         }
 
@@ -88,7 +88,7 @@ class Router {
     req.next();
   }
 
-  bool matchLayer(Layer layer, String path, String method) {
+  bool matchLayer(_Layer layer, String path, String method) {
     try {
       return layer.match(path, method);
     } catch (err) {

@@ -3,11 +3,11 @@ part of dart_express;
 typedef Next = Function();
 typedef RouteMethod = Function(Request req, Response res);
 
-class Route {
+class _Route {
   final String path;
-  final List<Layer> stack = [];
+  final List<_Layer> stack = [];
 
-  Route(this.path);
+  _Route(this.path);
 
   void delete(RouteMethod cb) => _setLayer('delete', cb);
   void get(RouteMethod cb) => _setLayer('get', cb);
@@ -17,5 +17,5 @@ class Route {
   void put(RouteMethod cb) => _setLayer('put', cb);
 
   void _setLayer(String method, RouteMethod cb) =>
-      stack.add(Layer(null, method: method, handle: cb, route: this));
+      stack.add(_Layer(null, method: method, handle: cb, route: this));
 }

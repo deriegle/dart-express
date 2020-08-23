@@ -1,6 +1,6 @@
 part of dart_express;
 
-class View {
+class _View {
   dynamic rootPath;
   String defaultEngine;
   String filePath;
@@ -8,7 +8,7 @@ class View {
   String name;
   Engine engine;
 
-  View(
+  _View(
     this.name, {
     this.rootPath = '/',
     this.defaultEngine,
