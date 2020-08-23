@@ -1,4 +1,6 @@
-class HTTPMethods {
+part of dart_express;
+
+class _HTTPMethods {
   static const GET = 'GET';
   static const POST = 'POST';
   static const DELETE = 'DELETE';

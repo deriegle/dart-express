@@ -1,10 +1,4 @@
-import 'package:dart_express/src/engines/engine.dart';
-import 'package:code_buffer/code_buffer.dart';
-import 'package:dart_express/src/repositories/file_repository.dart';
-import 'package:file/local.dart';
-import 'package:jael/jael.dart' as jael;
-import 'package:jael_preprocessor/jael_preprocessor.dart' as jael;
-import 'package:symbol_table/symbol_table.dart';
+part of dart_express;
 
 class JaelEngine {
   static String ext = '.jael';

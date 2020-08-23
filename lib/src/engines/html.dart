@@ -1,5 +1,4 @@
-import 'package:dart_express/src/engines/engine.dart';
-import 'package:dart_express/src/repositories/file_repository.dart';
+part of dart_express;
 
 class HtmlEngine {
   static String ext = '.html';

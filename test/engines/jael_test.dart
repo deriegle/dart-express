@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/engines/jael.dart';
-import 'package:dart_express/src/repositories/file_repository.dart';
 import 'package:jael/jael.dart' as jael;
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
@@ -37,7 +35,8 @@ void main() {
 
     final mockFileRepository = MockFileRepository();
 
-    when(mockFileRepository.readAsString(Uri.file(filePath))).thenAnswer((_) async => mockJael);
+    when(mockFileRepository.readAsString(Uri.file(filePath)))
+        .thenAnswer((_) async => mockJael);
 
     await JaelEngine.handler(filePath, {}, callback, mockFileRepository);
 

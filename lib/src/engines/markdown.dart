@@ -1,6 +1,4 @@
-import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/repositories/file_repository.dart';
-import 'package:markdown/markdown.dart';
+part of dart_express;
 
 class MarkdownEngine {
   static String ext = '.md';

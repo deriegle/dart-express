@@ -1,5 +1,8 @@
+part of dart_express;
+
 typedef HandlerCallback = Function(dynamic e, String rendered);
-typedef Handler = Function(String filePath, Map<String, dynamic> locals, HandlerCallback cb);
+typedef Handler = Function(
+    String filePath, Map<String, dynamic> locals, HandlerCallback cb);
 
 class Engine {
   final String ext;

@@ -1,6 +1,4 @@
-import 'layer.dart';
-import 'package:dart_express/src/request.dart';
-import 'package:dart_express/src/response.dart';
+part of dart_express;
 
 typedef Next = Function();
 typedef RouteMethod = Function(Request req, Response res);

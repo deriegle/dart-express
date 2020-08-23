@@ -1,8 +1,4 @@
-import 'package:dart_express/src/request.dart';
-import 'package:path_to_regexp/path_to_regexp.dart';
-import 'package:dart_express/src/response.dart';
-import 'middleware/init.dart';
-import 'package:dart_express/src/route.dart';
+part of dart_express;
 
 class Layer {
   final String _path;
@@ -33,7 +29,7 @@ class Layer {
       }
 
       return true;
-    } else if (name == Middleware.name) {
+    } else if (name == _Middleware.name) {
       return true;
     }
 

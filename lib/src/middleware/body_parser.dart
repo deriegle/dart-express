@@ -1,5 +1,4 @@
-import 'dart:convert';
-import 'package:dart_express/dart_express.dart';
+part of dart_express;
 
 class BodyParser {
   static RouteMethod json() {
@@ -22,9 +21,9 @@ class BodyParser {
 
   static Future<Map<String, dynamic>> convertBodyToJson(request) async {
     try {
-      final content = await utf8.decoder.bind(request).join();
+      final content = await convert.utf8.decoder.bind(request).join();
 
-      return jsonDecode(content) as Map<String, dynamic>;
+      return convert.jsonDecode(content) as Map<String, dynamic>;
     } catch (e) {
       print(e);
 

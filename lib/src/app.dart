@@ -1,15 +1,4 @@
-import 'dart:io' show HttpServer, InternetAddress, HttpRequest;
-import 'package:dart_express/src/engines/html.dart';
-import 'package:dart_express/src/exceptions/view_exception.dart';
-import 'package:dart_express/src/middleware/init.dart';
-import 'package:dart_express/src/route.dart';
-import 'package:dart_express/src/router.dart';
-import 'package:dart_express/src/response.dart';
-import 'package:dart_express/src/request.dart';
-import 'package:dart_express/src/http_methods.dart';
-import 'package:dart_express/src/engines/engine.dart';
-import 'package:dart_express/src/view.dart';
-import 'package:path/path.dart' as path show absolute;
+part of dart_express;
 
 class _AppSettings {
   bool cache;
@@ -107,33 +96,33 @@ class App {
 
   /// Handles DELETE requests to the specified path
   Route delete(String path, Function cb) =>
-      _buildRoute(path, cb, HTTPMethods.DELETE);
+      _buildRoute(path, cb, _HTTPMethods.DELETE);
 
   /// Handles GET requests to the specified path
   Route get(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, HTTPMethods.GET);
+      _buildRoute(path, cb, _HTTPMethods.GET);
 
   /// Handles HEAD requests to the specified path
   Route head(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, HTTPMethods.HEAD);
+      _buildRoute(path, cb, _HTTPMethods.HEAD);
 
   /// Handles PATCH requests to the specified path
   Route patch(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, HTTPMethods.PATCH);
+      _buildRoute(path, cb, _HTTPMethods.PATCH);
 
   /// Handles POST requests to the specified path
   Route post(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, HTTPMethods.POST);
+      _buildRoute(path, cb, _HTTPMethods.POST);
 
   /// Handles PUT requests to the specified path
   Route put(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, HTTPMethods.PUT);
+      _buildRoute(path, cb, _HTTPMethods.PUT);
 
   /// Handles ALL requests to the specified path
   List<Route> all(String path, RouteMethod cb) {
     final routes = <Route>[];
 
-    HTTPMethods.ALL.forEach((method) {
+    _HTTPMethods.ALL.forEach((method) {
       routes.add(_buildRoute(path, cb, method));
     });
 
@@ -186,7 +175,7 @@ class App {
   }
 
   Router _lazyRouter() {
-    return _router ??= Router().use(Middleware.init);
+    return _router ??= Router().use(_Middleware.init);
   }
 
   View _getViewFromFileName(String fileName) {
@@ -214,7 +203,7 @@ class App {
           dirs = 'directory "${view.rootPath}"';
         }
 
-        throw ViewException(view, dirs);
+        throw _ViewException(view, dirs);
       }
 
       if (_settings.cache) {

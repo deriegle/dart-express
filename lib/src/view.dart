@@ -1,7 +1,4 @@
-import 'package:dart_express/src/engines/html.dart';
-import 'package:path/path.dart' as path;
-import 'dart:io';
-import 'package:dart_express/src/engines/engine.dart';
+part of dart_express;
 
 class View {
   dynamic rootPath;

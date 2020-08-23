@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/engines/mustache.dart';
-import 'package:dart_express/src/repositories/file_repository.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -41,7 +39,8 @@ void main() {
 
     final mockFileRepository = MockFileRepository();
 
-    when(mockFileRepository.readAsString(Uri.file(filePath))).thenAnswer((_) async => mockMustache);
+    when(mockFileRepository.readAsString(Uri.file(filePath)))
+        .thenAnswer((_) async => mockMustache);
 
     await MustacheEngine.handler(filePath, {}, callback, mockFileRepository);
 
@@ -62,9 +61,11 @@ void main() {
 
     final mockFileRepository = MockFileRepository();
 
-    when(mockFileRepository.readAsString(Uri.file(filePath))).thenAnswer((_) async => mockMustache);
+    when(mockFileRepository.readAsString(Uri.file(filePath)))
+        .thenAnswer((_) async => mockMustache);
 
-    await MustacheEngine.handler(filePath, {'first_name': 'Devin'}, callback, mockFileRepository);
+    await MustacheEngine.handler(
+        filePath, {'first_name': 'Devin'}, callback, mockFileRepository);
 
     expect(error, null);
     expect(rendered, contains('<html>'));
@@ -86,7 +87,8 @@ void main() {
     when(mockFileRepository.readAsString(Uri.file(filePath)))
         .thenThrow(FileSystemException('Could not find file'));
 
-    await MustacheEngine.handler(filePath, {'first_name': 'Devin'}, callback, mockFileRepository);
+    await MustacheEngine.handler(
+        filePath, {'first_name': 'Devin'}, callback, mockFileRepository);
 
     expect(error, isA<FileSystemException>());
     expect((error as FileSystemException).message, 'Could not find file');

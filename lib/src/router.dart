@@ -1,8 +1,4 @@
-import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/response.dart';
-import 'package:dart_express/src/route.dart';
-import 'package:dart_express/src/layer.dart';
-import 'package:dart_express/src/middleware/init.dart';
+part of dart_express;
 
 class RouterOptions {
   final bool caseSensitive;
@@ -31,7 +27,7 @@ class Router {
   }
 
   Router use(RouteMethod cb) {
-    var layer = Layer('/', handle: cb, name: Middleware.name);
+    var layer = Layer('/', handle: cb, name: _Middleware.name);
 
     stack.add(layer);
 

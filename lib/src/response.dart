@@ -1,6 +1,4 @@
-import 'package:dart_express/src/app.dart';
-import 'dart:convert' as convert;
-import 'dart:io';
+part of dart_express;
 
 class Response {
   HttpResponse response;

@@ -1,7 +1,6 @@
-import 'package:dart_express/src/request.dart';
-import 'package:dart_express/src/response.dart';
+part of dart_express;
 
-class Middleware {
+class _Middleware {
   static final String name = 'EXPRESS_INIT';
 
   static void init(Request req, Response res) {

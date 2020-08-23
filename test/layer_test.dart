@@ -1,9 +1,4 @@
 import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/layer.dart';
-import 'package:dart_express/src/request.dart';
-import 'package:dart_express/src/response.dart';
-import 'package:dart_express/src/route.dart';
-import 'package:dart_express/src/middleware/init.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -14,16 +9,7 @@ void main() {
     Route route;
 
     setUp(() {
-      method = HTTPMethods.GET;
-    });
-
-    test(
-        'unconditionally matches when the name of the handler is the same as the initial middleware',
-        () {
-      layer = Layer('/', name: Middleware.name, method: method);
-
-      expect(layer.match('/', method), isTrue);
-      expect(layer.match('/random_not_matching_route', method), isTrue);
+      method = 'get';
     });
 
     test('matches when the routes are the same', () {
@@ -47,8 +33,8 @@ void main() {
       route = Route('/my_route');
       layer = Layer(null, route: route, method: method);
 
-      expect(layer.match('/my_route', HTTPMethods.POST), isFalse);
-      expect(layer.match('/my_route', HTTPMethods.PUT), isFalse);
+      expect(layer.match('/my_route', 'post'), isFalse);
+      expect(layer.match('/my_route', 'put'), isFalse);
       expect(layer.match('/my_route', method), isTrue);
     });
 

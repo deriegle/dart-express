@@ -1,4 +1,4 @@
-import 'dart:io';
+part of dart_express;
 
 abstract class FileRepository {
   const FileRepository();

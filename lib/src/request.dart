@@ -1,6 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-import 'package:dart_express/src/route.dart';
+part of dart_express;
 
 class Request {
   final HttpRequest _request;

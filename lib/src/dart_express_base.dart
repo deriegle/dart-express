@@ -1,5 +1,4 @@
-import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/app.dart';
+part of dart_express;
 
 /// Creates a new instance of App
 ///

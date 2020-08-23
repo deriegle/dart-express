@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
-import 'package:dart_express/src/engines/markdown.dart';
-import 'package:dart_express/src/repositories/file_repository.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
@@ -29,7 +27,8 @@ void main() {
 
     final mockFileRepository = MockFileRepository();
 
-    when(mockFileRepository.readAsString(Uri.file(filePath))).thenAnswer((_) async => mockMarkdown);
+    when(mockFileRepository.readAsString(Uri.file(filePath)))
+        .thenAnswer((_) async => mockMarkdown);
 
     await MarkdownEngine.handler(filePath, {}, callback, mockFileRepository);
 

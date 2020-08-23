@@ -37,3 +37,8 @@
 ## 0.3.0
 
 - Add ability to listen on address other than loopback address (Thanks @jeffmikels)
+
+## 0.4.0
+
+- Add all files as part of `dart_express` library
+- Change visibility of certain classes
