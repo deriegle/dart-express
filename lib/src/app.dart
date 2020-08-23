@@ -1,5 +1,6 @@
 import 'dart:io' show HttpServer, InternetAddress, HttpRequest;
 import 'package:dart_express/src/engines/html.dart';
+import 'package:dart_express/src/exceptions/view_exception.dart';
 import 'package:dart_express/src/middleware/init.dart';
 import 'package:dart_express/src/route.dart';
 import 'package:dart_express/src/router.dart';
@@ -97,7 +98,8 @@ class App {
 
     if (_engines[engine.ext] != null) {
       throw Error.safeToString(
-          'A View engine for the ${engine.ext} extension has already been defined.');
+        'A View engine for the ${engine.ext} extension has already been defined.',
+      );
     }
 
     _engines[engine.ext] = engine;
@@ -128,10 +130,6 @@ class App {
   /// Handles PUT requests to the specified path
   Route put(String path, RouteMethod cb) =>
       _buildRoute(path, cb, HTTPMethods.PUT);
-
-  /// Handles READ requests to the specified path
-  Route read(String path, RouteMethod cb) =>
-      _buildRoute(path, cb, HTTPMethods.READ);
 
   /// Handles ALL requests to the specified path
   List<Route> all(String path, RouteMethod cb) {
@@ -166,10 +164,35 @@ class App {
   }
 
   void render(
-      String fileName, Map<String, dynamic> options, Function callback) {
-    View view;
+    String fileName,
+    Map<String, dynamic> options,
+    Function callback,
+  ) {
+    try {
+      _settings.cache ??= true;
 
-    _settings.cache ??= true;
+      final view = getViewFromFileName(fileName);
+
+      view.render(options, callback);
+    } catch (err) {
+      callback(err);
+    }
+  }
+
+  Route _buildRoute(path, cb, method) {
+    _lazyRouter();
+
+    final route = _router.route(path, method);
+
+    return route;
+  }
+
+  Router _lazyRouter() {
+    return _router ??= Router().use(Middleware.init);
+  }
+
+  View getViewFromFileName(String fileName) {
+    View view;
 
     if (_settings.cache) {
       view = cache[fileName];
@@ -193,9 +216,7 @@ class App {
           dirs = 'directory "${view.rootPath}"';
         }
 
-        var err = Error.safeToString(
-            'Failed to lookup view "${view.name}${view.ext}" in views $dirs');
-        return callback(err, null);
+        throw ViewException(view, dirs);
       }
 
       if (_settings.cache) {
@@ -203,27 +224,6 @@ class App {
       }
     }
 
-    _tryRender(view, options, callback);
-  }
-
-  Route _buildRoute(path, cb, method) {
-    _lazyRouter();
-
-    final route = _router.route(path, method);
-    route.read(cb);
-
-    return route;
-  }
-
-  Router _lazyRouter() {
-    return _router ??= Router().use(Middleware.init);
-  }
-
-  void _tryRender(View view, Map<String, dynamic> options, Function callback) {
-    try {
-      view.render(options, callback);
-    } catch (err) {
-      callback(err);
-    }
+    return view;
   }
 }

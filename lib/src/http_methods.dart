@@ -1,11 +1,10 @@
 class HTTPMethods {
-  static String GET = 'GET';
-  static String POST = 'POST';
-  static String DELETE = 'DELETE';
-  static String HEAD = 'HEAD';
-  static String PATCH = 'PATCH';
-  static String PUT = 'PUT';
-  static String READ = 'READ';
+  static const GET = 'GET';
+  static const POST = 'POST';
+  static const DELETE = 'DELETE';
+  static const HEAD = 'HEAD';
+  static const PATCH = 'PATCH';
+  static const PUT = 'PUT';
 
-  static List<String> ALL = [GET, POST, DELETE, HEAD, PATCH, PUT, READ];
+  static const ALL = [GET, POST, DELETE, HEAD, PATCH, PUT];
 }

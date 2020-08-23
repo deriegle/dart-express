@@ -17,7 +17,6 @@ class Route {
   void patch(RouteMethod cb) => _setLayer('patch', cb);
   void post(RouteMethod cb) => _setLayer('post', cb);
   void put(RouteMethod cb) => _setLayer('put', cb);
-  void read(RouteMethod cb) => _setLayer('read', cb);
 
   void _setLayer(String method, RouteMethod cb) =>
       stack.add(Layer(null, method: method, handle: cb, route: this));
