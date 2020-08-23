@@ -1,4 +1,5 @@
 # Dart Express ![Dart CI](https://github.com/deriegle/dart-express/workflows/Dart%20CI/badge.svg?branch=master)
+
 An express-like web server framework for Dart developers.
 
 ## Usage
@@ -73,7 +74,7 @@ main() {
 
   app.use(BodyParser.json());
   app.engine(MustacheEngine.use());
-  
+
   app.settings
     ..viewsPath = 'custom_views_path'
     ..viewEngine = 'mustache';
@@ -92,10 +93,5 @@ main() {
 
 - Basic HTML
 - Mustache
+- Markdown
 - Jael
-
-### Roadmap
-
-- [ ] Clean up imports and extract middleware to separate packages
-- [ ] Add Dart "morgan" middleware package for logging HTTP requests
-- [ ] Add CORS middleware package
