@@ -43,3 +43,7 @@
 - Add all files as part of `dart_express` library
 - Change visibility of certain classes
 - Defer loading of View template libraries
+
+## 0.5.0
+
+- Add CORS middleware

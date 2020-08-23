@@ -12,7 +12,14 @@ class CorsOptions {
 
   const CorsOptions({
     this.origin = '*',
-    this.methods = _HTTPMethods.ALL,
+    this.methods = const [
+      _HTTPMethods.GET,
+      _HTTPMethods.HEAD,
+      _HTTPMethods.PUT,
+      _HTTPMethods.PATCH,
+      _HTTPMethods.POST,
+      _HTTPMethods.DELETE,
+    ],
     this.preflightContinue = false,
     this.optionsSuccessStatus = 204,
     this.credentials = false,
