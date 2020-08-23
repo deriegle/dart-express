@@ -40,13 +40,13 @@ class View {
 
   String lookup(String fileName) {
     String finalPath;
-    List<String> roots = rootPath is List ? rootPath : [rootPath];
+    final List<String> roots = rootPath is List ? rootPath : [rootPath];
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
-      var root = roots[i];
-      var fullFilePath = path.join(root, fileName);
+      final root = roots[i];
+      final fullFilePath = path.join(root, fileName);
 
-      var loc = path.isAbsolute(fullFilePath)
+      final loc = path.isAbsolute(fullFilePath)
           ? fullFilePath
           : path.absolute(fullFilePath);
 

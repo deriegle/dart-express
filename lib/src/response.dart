@@ -45,7 +45,6 @@ class Response {
 
   Response json(Map<String, dynamic> body) {
     headers.contentType = ContentType.json;
-
     return send(convert.json.encode(body));
   }
 
@@ -61,56 +60,30 @@ class Response {
 
   convert.Encoding encoding;
 
-  void add(List<int> data) {
-    return response.add(data);
-  }
-
-  void addError(Object error, [StackTrace stackTrace]) {
-    return response.addError(error, stackTrace);
-  }
-
   int get statusCode => response.statusCode;
   set statusCode(int newCode) => response.statusCode = newCode;
 
-  Future addStream(Stream<List<int>> stream) {
-    return response.addStream(stream);
-  }
-
-  Future close() {
-    return response.close();
-  }
+  Future close() => response.close();
 
   HttpConnectionInfo get connectionInfo => response.connectionInfo;
 
   List<Cookie> get cookies => response.cookies;
 
-  Future<Socket> detachSocket({writeHeaders = true}) =>
-      response.detachSocket(writeHeaders: writeHeaders);
+  Future<bool> get isDone async =>
+      response.done.then((d) => true).catchError((e) => false);
 
-  Future get done => response.done;
-
-  Future flush() {
-    return response.flush();
-  }
+  Future flush() => response.flush();
 
   HttpHeaders get headers => response.headers;
 
-  Future redirect(String location, {int status = HttpStatus.movedTemporarily}) {
-    return response.redirect(Uri.tryParse(location), status: status);
-  }
+  Future redirect(
+    String location, {
+    int status = HttpStatus.movedTemporarily,
+  }) =>
+      response.redirect(Uri.tryParse(location), status: status);
 
   void write(Object obj) => response.write(obj);
-
-  void writeAll(Iterable objects, [String separator = '']) =>
-      response.writeAll(objects, separator);
-
-  void writeCharCode(int charCode) => response.writeCharCode(charCode);
-
-  void writeln([Object obj = '']) => response.writeln(obj);
+  void location(String path) => headers.add('Location', path);
 
   Future end() => close();
-
-  void location(String path) {
-    headers.add('Location', path);
-  }
 }

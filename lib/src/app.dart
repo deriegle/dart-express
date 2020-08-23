@@ -18,11 +18,9 @@ class _AppSettings {
 
   _AppSettings({
     this.cache = true,
-    this.viewsPath,
+    String viewsPath,
     this.viewEngine = 'html',
-  }) {
-    viewsPath = viewsPath ?? path.absolute('views');
-  }
+  }) : viewsPath = viewsPath ?? path.absolute('views');
 }
 
 class App {
@@ -171,7 +169,7 @@ class App {
     try {
       _settings.cache ??= true;
 
-      final view = getViewFromFileName(fileName);
+      final view = _getViewFromFileName(fileName);
 
       view.render(options, callback);
     } catch (err) {
@@ -191,7 +189,7 @@ class App {
     return _router ??= Router().use(Middleware.init);
   }
 
-  View getViewFromFileName(String fileName) {
+  View _getViewFromFileName(String fileName) {
     View view;
 
     if (_settings.cache) {
