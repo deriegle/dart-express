@@ -149,12 +149,39 @@ class App {
   /// Starts the HTTP server listening on the specified port
   ///
   /// All Request and Response objects will be wrapped and handled by the Router
-  void listen({InternetAddress address, int port, Function(int) cb}) async {
+  Future<void> listen(
+      {InternetAddress address, int port, Function(int) cb}) async {
     _server = await HttpServer.bind(
       address ?? InternetAddress.loopbackIPv4,
       port,
     );
 
+    _mapToRoutes(cb);
+  }
+
+  /// Starts the HTTPS server listening on the specified port
+  ///
+  /// All Request and Response objects will be wrapped and handled by the Router
+  ///
+  /// You can add Certifications to the [SecurityContext]
+  Future<void> listenHttps(
+      {InternetAddress address,
+      int port,
+      Function(int) cb,
+      @required SecurityContext securityContext}) async {
+    _server = await HttpServer.bindSecure(
+        address ?? InternetAddress.loopbackIPv4, port, securityContext);
+
+    _mapToRoutes(cb);
+  }
+
+  void _mapToRoutes(Function(int) cb) {
+    _server.listen((HttpRequest req) {
+      final request = Request(req);
+      final response = Response(req.response, this);
+
+      _router.handle(request, response);
+    });
     _server.listen((HttpRequest req) {
       final request = Request(req);
       final response = Response(req.response, this);

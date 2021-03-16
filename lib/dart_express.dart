@@ -3,6 +3,7 @@
 /// More dartdocs go here.
 library dart_express;
 
+import 'package:meta/meta.dart';
 import 'package:path/path.dart' as path
     show absolute, extension, join, isAbsolute;
 import 'dart:convert' as convert;
