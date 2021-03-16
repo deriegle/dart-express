@@ -183,7 +183,6 @@ class App {
 
       _router.handle(request, response);
     });
-    });
 
     if (_settings.printRoutes) {
       _printRoutes();
