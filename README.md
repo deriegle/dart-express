@@ -89,6 +89,32 @@ main() {
 }
 ```
 
+
+
+Listening to Https requests
+
+```dart
+  //listen for http requests
+  app.listen(port: 80, cb: (port) => print('listening for http on port $port'));
+
+  //assign certificate
+  var context = SecurityContext();
+  final chain = Platform.script.resolve('certificates/chain.pem').toFilePath();
+  final key = Platform.script.resolve('certificates/key.pem').toFilePath();
+
+  context.useCertificateChain(chain);
+  context.usePrivateKey(key);
+
+  //listen for https requests
+  app.listenHttps(
+    context,
+    port: 443,
+    cb: (port) => print('Listening for https on port $port'),
+  );
+```
+
+
+
 ### Currently supported View Engines
 
 - Basic HTML
