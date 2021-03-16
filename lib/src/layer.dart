@@ -60,7 +60,7 @@ class _Layer {
 
   @override
   String toString() {
-    return 'Layer: { path: ${path} }';
+    return 'Layer: { path: $path }';
   }
 
   bool _pathMatches(String pathToCheck) {

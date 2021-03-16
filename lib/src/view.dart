@@ -23,7 +23,7 @@ class _View {
     var fileName = name;
 
     if (ext == null || ext.isEmpty) {
-      ext = defaultEngine[0] == '.' ? defaultEngine : '.${defaultEngine}';
+      ext = defaultEngine[0] == '.' ? defaultEngine : '.$defaultEngine';
 
       fileName += ext;
     }
@@ -66,7 +66,7 @@ class _View {
       return File.fromUri(Uri.file(filePath)).statSync().type ==
           FileSystemEntityType.file;
     } catch (e) {
-      print('${filePath} is not a file');
+      print('$filePath is not a file');
 
       return null;
     }
