@@ -44,7 +44,7 @@ class MarkdownEngine {
     </head>
     <body>
       ${options['beforeMarkdown']}
-      ${html}
+      $html
       ${options['afterMarkdown']}
     </body>
     </html>

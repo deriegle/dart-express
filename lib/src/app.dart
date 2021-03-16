@@ -61,7 +61,7 @@ class App {
         _settings.printRoutes = value;
         break;
       default:
-        throw ArgumentError('Invalid key "${key}" for settings.');
+        throw ArgumentError('Invalid key "$key" for settings.');
     }
   }
 

@@ -7,7 +7,7 @@ class _ViewException implements Error {
   _ViewException(this.view, this.directory);
 
   String get message =>
-      'ViewException(Failed to find ${view.name}${view.ext} in ${directory})';
+      'ViewException(Failed to find ${view.name}${view.ext} in $directory)';
 
   @override
   String toString() => message;
