@@ -165,10 +165,11 @@ class App {
   ///
   /// You can add Certifications to the [SecurityContext]
   Future<void> listenHttps(
-      {InternetAddress address,
-      int port,
-      Function(int) cb,
-      @required SecurityContext securityContext}) async {
+    SecurityContext securityContext, {
+    InternetAddress address,
+    int port,
+    Function(int) cb,
+  }) async {
     _server = await HttpServer.bindSecure(
         address ?? InternetAddress.loopbackIPv4, port, securityContext);
 
@@ -182,11 +183,6 @@ class App {
 
       _router.handle(request, response);
     });
-    _server.listen((HttpRequest req) {
-      final request = Request(req);
-      final response = Response(req.response, this);
-
-      _router.handle(request, response);
     });
 
     if (_settings.printRoutes) {
