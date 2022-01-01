@@ -2,7 +2,7 @@ part of dart_express;
 
 class Request {
   final HttpRequest _request;
-  Next next = () {};
+  Next next;
   Map<String, dynamic> body;
   Map<String, dynamic> params;
 

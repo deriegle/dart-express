@@ -17,13 +17,13 @@ void main() {
 
   test('MarkdownEngine handles reading a file correctly', () async {
     final filePath = './views/index.md';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 
@@ -39,13 +39,13 @@ void main() {
 
   test('MarkdownEngine handles exceptions correctly', () async {
     final filePath = './views/index.md';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 

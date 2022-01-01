@@ -13,12 +13,12 @@ class CorsOptions {
   const CorsOptions({
     this.origin = '*',
     this.methods = const [
-      _HTTPMethods.GET,
-      _HTTPMethods.HEAD,
-      _HTTPMethods.PUT,
-      _HTTPMethods.PATCH,
-      _HTTPMethods.POST,
-      _HTTPMethods.DELETE,
+      _HTTPMethods.get,
+      _HTTPMethods.head,
+      _HTTPMethods.put,
+      _HTTPMethods.patch,
+      _HTTPMethods.post,
+      _HTTPMethods.delete,
     ],
     this.preflightContinue = false,
     this.optionsSuccessStatus = 204,
@@ -55,12 +55,12 @@ class CorsMiddleware {
   static RouteMethod use({
     dynamic origin = '*',
     List<String> methods = const [
-      _HTTPMethods.GET,
-      _HTTPMethods.HEAD,
-      _HTTPMethods.PUT,
-      _HTTPMethods.PATCH,
-      _HTTPMethods.POST,
-      _HTTPMethods.DELETE,
+      _HTTPMethods.get,
+      _HTTPMethods.head,
+      _HTTPMethods.put,
+      _HTTPMethods.patch,
+      _HTTPMethods.post,
+      _HTTPMethods.delete,
     ],
     bool preflightContinue = false,
     int optionsSuccessStatus = 204,
@@ -83,7 +83,7 @@ class CorsMiddleware {
     return (Request req, Response res) {
       final headers = <MapEntry>[];
 
-      if (req.method == _HTTPMethods.OPTIONS) {
+      if (req.method == _HTTPMethods.options) {
         headers.addAll(configureOrigin(options, req));
         headers.add(configureCredentials(options));
         headers.add(configureMethods(options));

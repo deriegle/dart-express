@@ -3,7 +3,7 @@ import 'package:path/path.dart' as path;
 import './api_routes.dart';
 import './view_routes.dart';
 
-const int PORT = 5000;
+const int port = 5000;
 
 void main() {
   final app = express();
@@ -14,7 +14,6 @@ void main() {
 
   app.engine(MarkdownEngine.use());
   app.engine(MustacheEngine.use());
-  app.engine(JaelEngine.use());
 
   app.set('print routes', true);
   app.set('views', path.join(path.current, 'example/views'));
@@ -23,5 +22,5 @@ void main() {
   app.useRouter('/api/', apiRouter());
   app.useRouter('/', viewRouter());
 
-  app.listen(port: PORT, cb: (int port) => print('Listening on port $port'));
+  app.listen(port: port, cb: (int port) => print('Listening on port $port'));
 }

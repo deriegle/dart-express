@@ -29,13 +29,13 @@ void main() {
 
   test('MustacheEngine handles reading a file correctly', () async {
     final filePath = './views/index.mustache';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 
@@ -51,13 +51,13 @@ void main() {
 
   test('MustacheEngine handles passing locals into template', () async {
     final filePath = './views/index.mustache';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 
@@ -74,13 +74,13 @@ void main() {
 
   test('MustacheEngine handles exceptions', () async {
     final filePath = './views/index.mustache';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 
