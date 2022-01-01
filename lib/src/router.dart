@@ -36,33 +36,33 @@ class Router {
 
   /// Handles DELETE requests to the specified path
   _Route delete(String path, Function cb) =>
-      route(path, _HTTPMethods.DELETE, cb);
+      route(path, _HTTPMethods.delete, cb);
 
   /// Handles GET requests to the specified path
-  _Route get(String path, RouteMethod cb) => route(path, _HTTPMethods.GET, cb);
+  _Route get(String path, RouteMethod cb) => route(path, _HTTPMethods.get, cb);
 
   /// Handles HEAD requests to the specified path
   _Route head(String path, RouteMethod cb) =>
-      route(path, _HTTPMethods.HEAD, cb);
+      route(path, _HTTPMethods.head, cb);
 
   /// Handles PATCH requests to the specified path
   _Route patch(String path, RouteMethod cb) =>
-      route(path, _HTTPMethods.PATCH, cb);
+      route(path, _HTTPMethods.patch, cb);
 
   /// Handles POST requests to the specified path
   _Route post(String path, RouteMethod cb) =>
-      route(path, _HTTPMethods.POST, cb);
+      route(path, _HTTPMethods.post, cb);
 
   /// Handles PUT requests to the specified path
-  _Route put(String path, RouteMethod cb) => route(path, _HTTPMethods.PUT, cb);
+  _Route put(String path, RouteMethod cb) => route(path, _HTTPMethods.put, cb);
 
   /// Handles ALL requests to the specified path
   List<_Route> all(String path, RouteMethod cb) {
     final routes = <_Route>[];
 
-    _HTTPMethods.ALL.forEach((method) {
+    for (final method in _HTTPMethods.all) {
       routes.add(route(path, method, cb));
-    });
+    }
 
     return routes;
   }
@@ -98,7 +98,7 @@ class Router {
         match = matchLayer(layer, path, method);
         route = layer.route;
 
-        if (!match || !(route is _Route)) {
+        if (!match || route is! _Route) {
           continue;
         }
 

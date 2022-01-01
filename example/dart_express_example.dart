@@ -3,7 +3,7 @@ import 'package:path/path.dart' as path;
 import './api_routes.dart';
 import './view_routes.dart';
 
-const int PORT = 5000;
+const int port = 5000;
 
 void main() {
   final app = express();
@@ -22,5 +22,5 @@ void main() {
   app.useRouter('/api/', apiRouter());
   app.useRouter('/', viewRouter());
 
-  app.listen(port: PORT, cb: (int port) => print('Listening on port $port'));
+  app.listen(port: port, cb: (int port) => print('Listening on port $port'));
 }

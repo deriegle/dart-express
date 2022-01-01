@@ -24,13 +24,13 @@ void main() {
 
   test('HtmlEngine handles reading a file correctly', () async {
     final filePath = './views/index.html';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 
@@ -45,13 +45,13 @@ void main() {
 
   test('HtmlEngine handles exceptions correctly', () async {
     final filePath = './views/index.html';
-    var error;
-    var rendered;
+    dynamic error;
+    String rendered;
 
-    HandlerCallback callback = (err, string) {
+    dynamic callback(dynamic err, String string) {
       error = err;
       rendered = string;
-    };
+    }
 
     final mockFileRepository = MockFileRepository();
 

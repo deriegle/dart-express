@@ -113,35 +113,35 @@ class App {
 
   /// Handles DELETE requests to the specified path
   _Route delete(String path, Function cb) =>
-      _buildRoute(path, _HTTPMethods.DELETE, cb);
+      _buildRoute(path, _HTTPMethods.delete, cb);
 
   /// Handles GET requests to the specified path
   _Route get(String path, RouteMethod cb) =>
-      _buildRoute(path, _HTTPMethods.GET, cb);
+      _buildRoute(path, _HTTPMethods.get, cb);
 
   /// Handles HEAD requests to the specified path
   _Route head(String path, RouteMethod cb) =>
-      _buildRoute(path, _HTTPMethods.HEAD, cb);
+      _buildRoute(path, _HTTPMethods.head, cb);
 
   /// Handles PATCH requests to the specified path
   _Route patch(String path, RouteMethod cb) =>
-      _buildRoute(path, _HTTPMethods.PATCH, cb);
+      _buildRoute(path, _HTTPMethods.patch, cb);
 
   /// Handles POST requests to the specified path
   _Route post(String path, RouteMethod cb) =>
-      _buildRoute(path, _HTTPMethods.POST, cb);
+      _buildRoute(path, _HTTPMethods.post, cb);
 
   /// Handles PUT requests to the specified path
   _Route put(String path, RouteMethod cb) =>
-      _buildRoute(path, _HTTPMethods.PUT, cb);
+      _buildRoute(path, _HTTPMethods.put, cb);
 
   /// Handles ALL requests to the specified path
   List<_Route> all(String path, RouteMethod cb) {
     final routes = <_Route>[];
 
-    _HTTPMethods.ALL.forEach((method) {
+    for (final method in _HTTPMethods.all) {
       routes.add(_buildRoute(path, method, cb));
-    });
+    }
 
     return routes;
   }

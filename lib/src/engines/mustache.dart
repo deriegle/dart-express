@@ -19,7 +19,7 @@ class MustacheEngine {
       return callback(null, rendered);
     } catch (e) {
       callback(e, null);
-      return null;
+      return;
     }
   }
 
