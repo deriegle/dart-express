@@ -9,7 +9,7 @@ import 'dart:convert' as convert;
 import 'dart:async';
 import 'dart:io';
 import 'package:markdown/markdown.dart' deferred as markdown;
-import 'package:mustache4dart/mustache4dart.dart' deferred as mustache;
+import 'package:mustache_template/mustache_template.dart' deferred as mustache;
 import 'package:path_to_regexp/path_to_regexp.dart';
 
 export 'dart:io' show HttpStatus;

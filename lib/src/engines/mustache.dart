@@ -14,7 +14,8 @@ class MustacheEngine {
     try {
       final fileContents =
           await fileRepository.readAsString(Uri.file(filePath));
-      final rendered = mustache.render(fileContents, options ?? {});
+      final template = mustache.Template(fileContents);
+      final rendered = template.renderString(options);
 
       return callback(null, rendered);
     } catch (e) {
