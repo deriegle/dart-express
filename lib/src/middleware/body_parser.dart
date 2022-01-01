@@ -8,7 +8,7 @@ class BodyParser {
       if (req.method == 'POST' &&
           contentType != null &&
           contentType.mimeType == 'application/json') {
-        convertBodyToJson(req).then((Map<String, dynamic> json) {
+        convertBodyToJson(req).then((Map<String, dynamic>? json) {
           if (json != null) {
             req.body = json;
           }
@@ -21,11 +21,13 @@ class BodyParser {
     };
   }
 
-  static Future<Map<String, dynamic>> convertBodyToJson(Request request) async {
+  static Future<Map<String, dynamic>?> convertBodyToJson(
+    Request request,
+  ) async {
     try {
       final content = await convert.utf8.decoder.bind(request.request).join();
 
-      return convert.jsonDecode(content) as Map<String, dynamic>;
+      return convert.jsonDecode(content) as Map<String, dynamic>?;
     } catch (e) {
       print(e);
 

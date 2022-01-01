@@ -8,7 +8,7 @@ class CorsOptions {
   final bool credentials;
   final List<String> allowedHeaders;
   final List<String> exposedHeaders;
-  final int maxAge;
+  final int? maxAge;
 
   const CorsOptions({
     this.origin = '*',
@@ -30,13 +30,13 @@ class CorsOptions {
 
   CorsOptions copyWith({
     dynamic origin,
-    List<String> methods,
-    bool preflightContinue,
-    int optionsSuccessStatus,
-    bool credentials,
-    List<String> allowedHeaders,
-    List<String> exposedHeaders,
-    int maxAge,
+    List<String>? methods,
+    bool? preflightContinue,
+    int? optionsSuccessStatus,
+    bool? credentials,
+    List<String>? allowedHeaders,
+    List<String>? exposedHeaders,
+    int? maxAge,
   }) {
     return CorsOptions(
       origin: origin ?? this.origin,
@@ -67,7 +67,7 @@ class CorsMiddleware {
     bool credentials = false,
     List<String> allowedHeaders = const <String>[],
     List<String> exposedHeaders = const <String>[],
-    int maxAge,
+    int? maxAge,
   }) {
     final options = CorsOptions(
       origin: origin,
@@ -81,7 +81,7 @@ class CorsMiddleware {
     );
 
     return (Request req, Response res) {
-      final headers = <MapEntry>[];
+      final headers = <MapEntry?>[];
 
       if (req.method == _HTTPMethods.options) {
         headers.addAll(configureOrigin(options, req));
@@ -110,13 +110,13 @@ class CorsMiddleware {
     };
   }
 
-  static void _applyHeaders(Response res, List<MapEntry> headers) {
+  static void _applyHeaders(Response res, List<MapEntry?> headers) {
     headers
         .where((mapEntry) => mapEntry != null)
-        .forEach((mapEntry) => res.headers.add(mapEntry.key, mapEntry.value));
+        .forEach((mapEntry) => res.headers.add(mapEntry!.key, mapEntry.value));
   }
 
-  static bool isOriginAllowed(String origin, dynamic allowedOrigin) {
+  static bool isOriginAllowed(String? origin, dynamic allowedOrigin) {
     if (allowedOrigin is List) {
       for (var i = 0; i < allowedOrigin.length; ++i) {
         if (isOriginAllowed(origin, allowedOrigin[i])) {
@@ -127,7 +127,7 @@ class CorsMiddleware {
     } else if (allowedOrigin is String) {
       return origin == allowedOrigin;
     } else if (allowedOrigin is RegExp) {
-      return allowedOrigin.hasMatch(origin);
+      return allowedOrigin.hasMatch(origin!);
     } else {
       return allowedOrigin != null;
     }
@@ -173,7 +173,7 @@ class CorsMiddleware {
     );
   }
 
-  static MapEntry configureCredentials(CorsOptions options) {
+  static MapEntry? configureCredentials(CorsOptions options) {
     if (options.credentials) {
       return MapEntry('Access-Control-Allow-Credentials', 'true');
     }
@@ -183,27 +183,24 @@ class CorsMiddleware {
 
   static List<MapEntry> configureAllowedHeaders(
       CorsOptions options, Request req) {
-    String allowedHeaders;
+    String? allowedHeaders;
     final headers = <MapEntry>[];
 
-    if (options.allowedHeaders == null) {
-      allowedHeaders = req.headers.value('access-control-request-headers');
-
-      headers.add(
-        MapEntry('Vary', 'Access-Control-Request-Headers'),
-      );
+    if (options.allowedHeaders.isEmpty) {
+      allowedHeaders = req.headers.value('access-control-request-headers')!;
+      headers.add(MapEntry('Vary', 'Access-Control-Request-Headers'));
     } else {
       allowedHeaders = options.allowedHeaders.join(',');
     }
 
-    if (allowedHeaders != null && allowedHeaders.isNotEmpty) {
+    if (allowedHeaders.isNotEmpty) {
       headers.add(MapEntry('Access-Control-Allow-Headers', allowedHeaders));
     }
 
     return headers;
   }
 
-  static MapEntry configureMaxAge(CorsOptions options) {
+  static MapEntry? configureMaxAge(CorsOptions options) {
     if (options.maxAge != null) {
       return MapEntry(
         'Access-Control-Max-Age',
@@ -214,17 +211,12 @@ class CorsMiddleware {
     return null;
   }
 
-  static MapEntry configureExposedHeaders(CorsOptions options) {
-    String headers;
-
-    if (headers == null) {
-      return null;
-    } else if (headers is List) {
-      headers = options.exposedHeaders.join(',');
-    }
-
-    if (headers != null && headers.isNotEmpty) {
-      return MapEntry('Access-Control-Expose-Headers', headers);
+  static MapEntry? configureExposedHeaders(CorsOptions options) {
+    if (options.exposedHeaders.isNotEmpty) {
+      return MapEntry(
+        'Access-Control-Expose-Headers',
+        options.exposedHeaders.join(','),
+      );
     }
 
     return null;

@@ -26,7 +26,7 @@ class Router {
       _Layer(
         path,
         method: method,
-        handle: handle ?? (req, res) {},
+        handle: handle,
         route: route,
       ),
     );
@@ -35,8 +35,8 @@ class Router {
   }
 
   /// Handles DELETE requests to the specified path
-  _Route delete(String path, Function cb) =>
-      route(path, _HTTPMethods.delete, cb);
+  _Route delete(String path, Function cb) => route(
+      path, _HTTPMethods.delete, cb as dynamic Function(Request, Response));
 
   /// Handles GET requests to the specified path
   _Route get(String path, RouteMethod cb) => route(path, _HTTPMethods.get, cb);
@@ -80,18 +80,18 @@ class Router {
   }
 
   void handle(Request req, Response res) {
-    var self = this;
-    var stack = self.stack;
-    var index = 0;
+    Router self = this;
+    final stack = self.stack;
+    int index = 0;
 
     req.next = () {
       final path = req.requestedUri.path;
       final method = req.method;
 
       // find next matching layer
-      _Layer layer;
+      late _Layer layer;
       var match = false;
-      _Route route;
+      _Route? route;
 
       while (match != true && index < stack.length) {
         layer = stack[index++];
@@ -106,10 +106,8 @@ class Router {
 
         if (route.stack.isNotEmpty) {
           route.stack.first.handleRequest(req, res);
-        } else if (layer.handle != null) {
-          layer.handleRequest(req, res);
         } else {
-          res.status(HttpStatus.notFound).close();
+          layer.handleRequest(req, res);
         }
       }
 

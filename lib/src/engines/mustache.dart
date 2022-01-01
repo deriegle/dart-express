@@ -5,7 +5,7 @@ class MustacheEngine {
 
   static Future<void> handler(
     String filePath,
-    Map<String, dynamic> options,
+    Map<String, dynamic>? options,
     HandlerCallback callback, [
     FileRepository fileRepository = const _RealFileRepository(),
   ]) async {

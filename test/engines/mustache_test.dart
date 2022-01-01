@@ -30,9 +30,9 @@ void main() {
   test('MustacheEngine handles reading a file correctly', () async {
     final filePath = './views/index.mustache';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }
@@ -52,9 +52,9 @@ void main() {
   test('MustacheEngine handles passing locals into template', () async {
     final filePath = './views/index.mustache';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }
@@ -75,9 +75,9 @@ void main() {
   test('MustacheEngine handles exceptions', () async {
     final filePath = './views/index.mustache';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }

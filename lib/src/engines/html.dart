@@ -6,9 +6,9 @@ class HtmlEngine {
   /// Called when rendering an HTML file in the Response
   ///
   /// [locals] is ignored for HTML files
-  static Future<String> handler(
+  static Future<String?> handler(
     String filePath,
-    Map<String, dynamic> locals,
+    Map<String, dynamic>? locals,
     HandlerCallback callback, [
     FileRepository fileRepository = const _RealFileRepository(),
   ]) async {

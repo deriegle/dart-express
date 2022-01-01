@@ -6,7 +6,7 @@ abstract class FileRepository {
   Future<String> readAsString(Uri uri);
 }
 
-class _RealFileRepository extends FileRepository {
+class _RealFileRepository implements FileRepository {
   const _RealFileRepository();
 
   @override

@@ -2,29 +2,28 @@ part of dart_express;
 
 class _View {
   dynamic rootPath;
-  String defaultEngine;
-  String filePath;
-  String ext;
+  String? defaultEngine;
+  late String ext;
   String name;
-  Engine engine;
+  late String filePath;
+  late Engine engine;
 
   _View(
     this.name, {
     this.rootPath = '/',
     this.defaultEngine,
-    Map<String, Engine> engines,
+    required Map<String, Engine> engines,
   }) {
-    ext = path.extension(name);
+    final extension = path.extension(name);
 
-    if (ext == null && defaultEngine == null) {
+    if (extension.isEmpty && defaultEngine == null) {
       throw Error.safeToString('No default engine or extension are provided.');
     }
 
     var fileName = name;
 
-    if (ext == null || ext.isEmpty) {
-      ext = defaultEngine[0] == '.' ? defaultEngine : '.$defaultEngine';
-
+    if (extension.isEmpty) {
+      ext = defaultEngine![0] == '.' ? defaultEngine! : '.$defaultEngine';
       fileName += ext;
     }
 
@@ -32,11 +31,18 @@ class _View {
     filePath = lookup(fileName);
   }
 
-  void render(Map<String, dynamic> options, Function callback) =>
-      engine.handler(filePath, options, callback);
+  void render(
+    Map<String, dynamic>? options,
+    Function callback,
+  ) =>
+      engine.handler(
+        filePath,
+        options,
+        callback as dynamic Function(dynamic, String?),
+      );
 
   String lookup(String fileName) {
-    String finalPath;
+    String? finalPath;
     final List<String> roots = rootPath is List ? rootPath : [rootPath];
 
     for (var i = 0; i < roots.length && finalPath == null; i++) {
@@ -50,18 +56,30 @@ class _View {
       finalPath = resolve(loc);
     }
 
+    if (finalPath == null) {
+      String dirs;
+
+      if (rootPath is List) {
+        dirs = 'directories "${rootPath.join(', ')}" or "${rootPath.last}"';
+      } else {
+        dirs = 'directory "$rootPath"';
+      }
+
+      throw _ViewException(name, ext, dirs);
+    }
+
     return finalPath;
   }
 
-  String resolve(filePath) {
-    if (_exists(filePath) && _isFile(filePath)) {
+  String? resolve(filePath) {
+    if (_exists(filePath) && _isFile(filePath)!) {
       return filePath;
     } else {
       return null;
     }
   }
 
-  bool _isFile(filePath) {
+  bool? _isFile(filePath) {
     try {
       return File.fromUri(Uri.file(filePath)).statSync().type ==
           FileSystemEntityType.file;

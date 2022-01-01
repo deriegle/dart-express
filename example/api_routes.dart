@@ -1,11 +1,11 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:dart_express/dart_express.dart';
-import 'package:meta/meta.dart';
 
 class User {
   final int id;
-  final String email;
+  final String? email;
 
-  User({@required this.id, @required this.email});
+  User({required this.id, required this.email});
 
   Map<String, dynamic> toJson() {
     return {
@@ -36,8 +36,8 @@ Router apiRouter() {
   });
 
   router.post('/users', (req, res) {
-    final int id = req.body['id'];
-    final String email = req.body['email']?.trim();
+    final int? id = req.body['id'];
+    final String? email = req.body['email']?.trim();
 
     if (id == null) {
       res.status(400).json({
@@ -48,7 +48,7 @@ Router apiRouter() {
       return;
     }
 
-    if (users.firstWhere((u) => u.id == id, orElse: () => null) != null) {
+    if (users.firstWhereOrNull((u) => u.id == id) != null) {
       res.status(400).json({
         'errors': [
           {'key': 'id', 'message': 'ID must be unique'}

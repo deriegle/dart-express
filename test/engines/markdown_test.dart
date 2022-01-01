@@ -18,9 +18,9 @@ void main() {
   test('MarkdownEngine handles reading a file correctly', () async {
     final filePath = './views/index.md';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }
@@ -40,9 +40,9 @@ void main() {
   test('MarkdownEngine handles exceptions correctly', () async {
     final filePath = './views/index.md';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }

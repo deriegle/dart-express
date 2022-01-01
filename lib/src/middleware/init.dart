@@ -4,6 +4,6 @@ class _InitMiddleware {
   static final String name = 'EXPRESS_INIT';
 
   static void init(Request req, Response res) {
-    req?.next();
+    req.next();
   }
 }
