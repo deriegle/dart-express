@@ -9,7 +9,6 @@ import 'dart:convert' as convert;
 import 'dart:async';
 import 'dart:io';
 import 'package:markdown/markdown.dart' deferred as markdown;
-import 'package:mustache_template/mustache_template.dart' deferred as mustache;
 import 'package:path_to_regexp/path_to_regexp.dart';
 
 export 'dart:io' show HttpStatus;
@@ -39,6 +38,5 @@ part 'src/exceptions/view_exception.dart';
 
 /// View Engines
 part 'src/engines/engine.dart';
-part 'src/engines/mustache.dart';
 part 'src/engines/html.dart';
 part 'src/engines/markdown.dart';

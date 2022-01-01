@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
+import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockFileRepository extends Mock implements FileRepository {}
+import 'html_test.mocks.dart';
 
 final mockHtml = '''
 <html>
@@ -17,6 +18,7 @@ final mockHtml = '''
 </html>
 ''';
 
+@GenerateMocks([FileRepository])
 void main() {
   test('HtmlEngine has the correct extension', () {
     expect(HtmlEngine.ext, '.html');

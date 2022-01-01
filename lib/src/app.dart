@@ -149,8 +149,11 @@ class App {
   /// Starts the HTTP server listening on the specified port
   ///
   /// All Request and Response objects will be wrapped and handled by the Router
-  Future<void> listen(
-      {InternetAddress? address, required int port, Function(int)? cb}) async {
+  Future<void> listen({
+    InternetAddress? address,
+    required int port,
+    Function(int)? cb,
+  }) async {
     _server = await HttpServer.bind(
       address ?? InternetAddress.loopbackIPv4,
       port,
