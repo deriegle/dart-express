@@ -20,21 +20,5 @@ Router viewRouter() {
     res.send('Secret Home Page');
   });
 
-  router.get('/jael', (req, res) {
-    res.render(
-      'test.jael',
-      {'template_engine': 'Jael', 'first_name': 'Thosakwe'},
-    );
-  });
-
-  router.get('/users/:userId/posts/:postId', (req, res) {
-    print(req.params);
-
-    res.render(
-      'test.jael',
-      {'template_engine': req.params['postId'], 'first_name': 'George'},
-    );
-  });
-
   return router;
 }

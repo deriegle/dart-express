@@ -14,7 +14,6 @@ void main() {
 
   app.engine(MarkdownEngine.use());
   app.engine(MustacheEngine.use());
-  app.engine(JaelEngine.use());
 
   app.set('print routes', true);
   app.set('views', path.join(path.current, 'example/views'));
