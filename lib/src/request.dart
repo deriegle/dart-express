@@ -2,23 +2,21 @@ part of dart_express;
 
 class Request {
   final HttpRequest _request;
-  Next next;
-  Map<String, dynamic> body;
-  Map<String, dynamic> params;
+  late Next next;
+  late Map<String, dynamic> body;
+  late Map<String, dynamic> params;
 
   Request(this._request) {
     body = <String, dynamic>{};
-
-    if (request != null) {
-      params = Map.from(request.requestedUri.queryParameters);
-    }
+    params = Map.from(request.requestedUri.queryParameters);
+    next = () {};
   }
 
   HttpRequest get request => _request;
 
-  X509Certificate get certificate => request.certificate;
+  X509Certificate? get certificate => request.certificate;
 
-  HttpConnectionInfo get connectionInfo => request.connectionInfo;
+  HttpConnectionInfo? get connectionInfo => request.connectionInfo;
 
   int get contentLength => request.contentLength;
 

@@ -1,31 +1,33 @@
 part of dart_express;
 
 class _Layer {
-  final String _path;
-  String method;
+  final String? _path;
+  String? method;
   RouteMethod handle;
-  _Route route;
-  String name;
-  RegExp regExp;
-  List<String> parameters;
-  Map<String, String> routeParams;
+  _Route? route;
+  String? name;
+  List<String>? parameters;
+  late Map<String, String> routeParams;
 
-  String get path => _path ?? route.path;
+  String get path => _path ?? route?.path ?? '';
+  RegExp get regExp => pathToRegExp(path, parameters: parameters);
 
-  _Layer(this._path, {this.method, this.handle, this.route, this.name}) {
-    name = name ?? '<anonymous>';
-    parameters = [];
-    regExp = pathToRegExp(path, parameters: parameters);
-    routeParams = {};
-  }
+  _Layer(
+    this._path, {
+    required this.handle,
+    this.route,
+    this.method,
+    this.name = '<anonymous>',
+  })  : parameters = [],
+        routeParams = {};
 
   bool match(String pathToCheck, String methodToCheck) {
     if (_pathMatches(pathToCheck) &&
         method != null &&
-        method.toUpperCase() == methodToCheck.toUpperCase()) {
-      if (parameters.isNotEmpty) {
-        final match = regExp.matchAsPrefix(pathToCheck);
-        routeParams.addAll(extract(parameters, match));
+        method!.toUpperCase() == methodToCheck.toUpperCase()) {
+      if (parameters!.isNotEmpty) {
+        final match = regExp.matchAsPrefix(pathToCheck)!;
+        routeParams.addAll(extract(parameters!, match));
       }
 
       return true;
@@ -64,7 +66,7 @@ class _Layer {
   }
 
   bool _pathMatches(String pathToCheck) {
-    if (route == null || path == null) {
+    if (route == null || path.isEmpty) {
       return false;
     }
 

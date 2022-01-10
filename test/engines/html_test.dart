@@ -1,10 +1,11 @@
 import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
+import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockFileRepository extends Mock implements FileRepository {}
+import 'html_test.mocks.dart';
 
 final mockHtml = '''
 <html>
@@ -17,6 +18,7 @@ final mockHtml = '''
 </html>
 ''';
 
+@GenerateMocks([FileRepository])
 void main() {
   test('HtmlEngine has the correct extension', () {
     expect(HtmlEngine.ext, '.html');
@@ -25,9 +27,9 @@ void main() {
   test('HtmlEngine handles reading a file correctly', () async {
     final filePath = './views/index.html';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }
@@ -46,9 +48,9 @@ void main() {
   test('HtmlEngine handles exceptions correctly', () async {
     final filePath = './views/index.html';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }

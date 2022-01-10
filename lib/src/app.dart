@@ -8,18 +8,18 @@ class _AppSettings {
 
   _AppSettings({
     this.cache = true,
-    String viewsPath,
+    String? viewsPath,
     this.printRoutes = false,
     this.viewEngine = 'html',
   }) : viewsPath = viewsPath ?? path.absolute('views');
 }
 
 class App {
-  _AppSettings _settings;
-  Map<String, dynamic> cache;
-  Map<String, Engine> _engines;
-  HttpServer _server;
-  Router _router;
+  late _AppSettings _settings;
+  late Map<String, _View> cache;
+  late Map<String, Engine> _engines;
+  late HttpServer _server;
+  Router? _router;
 
   App() {
     _settings = _AppSettings();
@@ -71,7 +71,7 @@ class App {
   App use(Function cb) {
     _lazyRouter();
 
-    _router.use(cb);
+    _router!.use(cb as dynamic Function(Request, Response));
 
     return this;
   }
@@ -91,18 +91,18 @@ class App {
   /// Examples:
   ///
   /// app.engine(JaelEngine.use());
-  ///
   /// app.engine(MustacheEngine.use());
-  ///
   /// app.engine(MarkdownEngine.use());
   App engine(Engine engine) {
-    if (engine.ext == null) {
-      throw Error.safeToString('Engine extension must be defined.');
+    if (engine.ext.isEmpty) {
+      throw Error.safeToString('View Engine extension must be defined.');
     }
 
-    if (_engines[engine.ext] != null) {
+    if (_engines.containsKey(engine.ext)) {
+      final existingEngine = _engines[engine.ext];
+
       throw Error.safeToString(
-        'A View engine for the ${engine.ext} extension has already been defined.',
+        'A view engine has already been defined for extension ${engine.ext}: $existingEngine',
       );
     }
 
@@ -112,8 +112,8 @@ class App {
   }
 
   /// Handles DELETE requests to the specified path
-  _Route delete(String path, Function cb) =>
-      _buildRoute(path, _HTTPMethods.delete, cb);
+  _Route delete(String path, Function cb) => _buildRoute(
+      path, _HTTPMethods.delete, cb as dynamic Function(Request, Response));
 
   /// Handles GET requests to the specified path
   _Route get(String path, RouteMethod cb) =>
@@ -149,8 +149,11 @@ class App {
   /// Starts the HTTP server listening on the specified port
   ///
   /// All Request and Response objects will be wrapped and handled by the Router
-  Future<void> listen(
-      {InternetAddress address, int port, Function(int) cb}) async {
+  Future<void> listen({
+    InternetAddress? address,
+    required int port,
+    Function(int)? cb,
+  }) async {
     _server = await HttpServer.bind(
       address ?? InternetAddress.loopbackIPv4,
       port,
@@ -166,9 +169,9 @@ class App {
   /// You can add Certifications to the [SecurityContext]
   Future<void> listenHttps(
     SecurityContext securityContext, {
-    InternetAddress address,
-    int port,
-    Function(int) cb,
+    InternetAddress? address,
+    required int port,
+    Function(int)? cb,
   }) async {
     _server = await HttpServer.bindSecure(
         address ?? InternetAddress.loopbackIPv4, port, securityContext);
@@ -176,12 +179,12 @@ class App {
     _mapToRoutes(cb);
   }
 
-  void _mapToRoutes(Function(int) cb) {
+  void _mapToRoutes(Function(int)? cb) {
     _server.listen((HttpRequest req) {
       final request = Request(req);
       final response = Response(req.response, this);
 
-      _router.handle(request, response);
+      _router!.handle(request, response);
     });
 
     if (_settings.printRoutes) {
@@ -200,18 +203,15 @@ class App {
   /// Provide a Map of local variables to the template
   void render(
     String fileName,
-    Map<String, dynamic> locals,
+    Map<String, dynamic>? locals,
     Function callback,
   ) {
-    _settings.cache ??= true;
-
     final view = _getViewFromFileName(fileName);
-
     view.render(locals, callback);
   }
 
   void _printRoutes() {
-    _router.stack.where((layer) => layer.route != null).forEach((layer) {
+    _router!.stack.where((layer) => layer.route != null).forEach((layer) {
       print('[${layer.method}] ${layer.path}');
     });
   }
@@ -222,36 +222,19 @@ class App {
   Router _lazyRouter() => _router ??= Router().use(_InitMiddleware.init);
 
   _View _getViewFromFileName(String fileName) {
-    _View view;
-
-    if (_settings.cache) {
-      view = cache[fileName];
+    if (_settings.cache && cache.containsKey(fileName)) {
+      return cache[fileName]!;
     }
 
-    if (view == null) {
-      view = _View(
-        fileName,
-        defaultEngine: _settings.viewEngine,
-        engines: _engines,
-        rootPath: _settings.viewsPath,
-      );
+    final view = _View(
+      fileName,
+      defaultEngine: _settings.viewEngine,
+      engines: _engines,
+      rootPath: _settings.viewsPath,
+    );
 
-      if (view.filePath == null) {
-        String dirs;
-
-        if (view.rootPath is List) {
-          dirs =
-              'directories "${view.rootPath.join(', ')}" or "${view.rootPath[view.rootPath.length - 1]}"';
-        } else {
-          dirs = 'directory "${view.rootPath}"';
-        }
-
-        throw _ViewException(view, dirs);
-      }
-
-      if (_settings.cache) {
-        cache[fileName] = view;
-      }
+    if (_settings.cache) {
+      cache[fileName] = view;
     }
 
     return view;

@@ -1,15 +1,17 @@
 import 'dart:io';
 
 import 'package:dart_express/dart_express.dart';
+import 'package:mockito/annotations.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 
-class MockFileRepository extends Mock implements FileRepository {}
+import 'markdown_test.mocks.dart';
 
 final mockMarkdown = '''
 # Hello, world
 ''';
 
+@GenerateMocks([FileRepository])
 void main() {
   test('HtmlEngine has the correct extension', () {
     expect(MarkdownEngine.ext, '.md');
@@ -18,9 +20,9 @@ void main() {
   test('MarkdownEngine handles reading a file correctly', () async {
     final filePath = './views/index.md';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }
@@ -40,9 +42,9 @@ void main() {
   test('MarkdownEngine handles exceptions correctly', () async {
     final filePath = './views/index.md';
     dynamic error;
-    String rendered;
+    String? rendered;
 
-    dynamic callback(dynamic err, String string) {
+    dynamic callback(dynamic err, String? string) {
       error = err;
       rendered = string;
     }

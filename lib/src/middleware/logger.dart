@@ -33,5 +33,5 @@ class LoggerMiddleware {
   }
 
   static String _getIpAddress(Request req) =>
-      req.connectionInfo.remoteAddress.address.toString();
+      req.connectionInfo!.remoteAddress.address.toString();
 }

@@ -8,7 +8,7 @@ class Response {
 
   Response send(dynamic body) {
     if (body is Map) {
-      json(body);
+      json(body as Map<String, dynamic>);
     } else if (body is String) {
       if (headers.contentType == null) {
         headers.add('Content-Type', 'text/plain');
@@ -22,7 +22,7 @@ class Response {
     return this;
   }
 
-  void render(String viewName, [Map<String, dynamic> locals]) {
+  void render(String viewName, [Map<String, dynamic>? locals]) {
     app.render(viewName, locals, (err, data) {
       if (err != null) {
         print(err);
@@ -56,14 +56,14 @@ class Response {
     return this;
   }
 
-  convert.Encoding encoding;
+  convert.Encoding? encoding;
 
   int get statusCode => response.statusCode;
   set statusCode(int newCode) => response.statusCode = newCode;
 
   Future close() => response.close();
 
-  HttpConnectionInfo get connectionInfo => response.connectionInfo;
+  HttpConnectionInfo? get connectionInfo => response.connectionInfo;
 
   List<Cookie> get cookies => response.cookies;
 
@@ -78,7 +78,7 @@ class Response {
     String location, {
     int status = HttpStatus.movedTemporarily,
   }) =>
-      response.redirect(Uri.tryParse(location), status: status);
+      response.redirect(Uri.tryParse(location)!, status: status);
 
   void write(Object obj) => response.write(obj);
   void location(String path) => headers.add('Location', path);

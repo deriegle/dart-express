@@ -14,9 +14,9 @@ class MarkdownEngine {
   /// locals['beforeMarkdown'] will be rendered at the top of the body before the markdown.
   ///
   /// locals['afterMarkdown'] will be rendered at the bottom of the body after the markdown
-  static Future<String> handler(
+  static Future<String?> handler(
     String filePath,
-    Map<String, dynamic> locals,
+    Map<String, dynamic>? locals,
     HandlerCallback callback, [
     FileRepository fileRepository = const _RealFileRepository(),
   ]) async {
@@ -25,8 +25,12 @@ class MarkdownEngine {
     try {
       final fileContents =
           await fileRepository.readAsString(Uri.file(filePath));
-      final rendered =
-          _wrapInHTMLTags(markdown.markdownToHtml(fileContents), locals);
+
+      final rendered = _wrapInHTMLTags(
+        markdown.markdownToHtml(fileContents),
+        locals ?? {},
+      );
+
       callback(null, rendered);
       return rendered;
     } catch (e) {
@@ -35,7 +39,10 @@ class MarkdownEngine {
     }
   }
 
-  static String _wrapInHTMLTags(String html, Map<String, dynamic> options) {
+  static String _wrapInHTMLTags(
+    String html,
+    Map<String, dynamic> options,
+  ) {
     return '''
     <html>
     <head>
