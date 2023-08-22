@@ -4,7 +4,7 @@ version: 0.5.3
 homepage: https://github.com/deriegle/dart-express
 
 environment:
-  sdk: ">=2.3.0 <3.0.0"
+  sdk: "<4.0.0"
 
 dependencies:
   path: ^1.6.4
