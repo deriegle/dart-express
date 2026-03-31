@@ -9,7 +9,7 @@ environment:
 dependencies:
   path: ^1.6.4
   file: ^6.0.0
-  http: ^0.13.4
+  http: ^1.0.0
   meta: ^1.7.0
   path_to_regexp: ^0.2.1
   mustache4dart: ^3.0.0-dev.0.0
